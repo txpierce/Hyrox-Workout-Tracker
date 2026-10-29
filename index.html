@@ -328,30 +328,46 @@
                     </div>
                 </div>
 
-                <!-- Running Splits & Transition Flow -->
+                <!-- Full Race Flow: Alternating Runs & Stations -->
                 <div class="border-t border-gray-800 pt-4">
                     <h3 class="text-sm font-bold text-white mb-3 text-hyrox-yellow flex items-center gap-2">
-                        <i class="fa-solid fa-person-running"></i> 2. Running Splits & Transition Flow
+                        <i class="fa-solid fa-person-running"></i> 2. Full Race Flow (Runs & Stations)
                     </h3>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs">
                             <thead class="bg-black/40 text-gray-400 uppercase text-[10px]">
                                 <tr>
-                                    <th class="p-2.5">Run Segment</th>
-                                    <th class="p-2.5">Target Pace & Cumulative Time</th>
-                                    <th class="p-2.5">Actual Pace / Time</th>
-                                    <th class="p-2.5">Transition Quality</th>
+                                    <th class="p-2.5">Race Segment</th>
+                                    <th class="p-2.5">Target Pace / Time & Cumulative</th>
+                                    <th class="p-2.5">Actual Time / Split</th>
+                                    <th class="p-2.5">Transition / Execution Quality</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-800 text-gray-300">
-                                <tr><td class="p-2.5 font-medium text-white">Run 1 (Pre-Ski)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-run1">--:--</td><td class="p-2.5"><input type="text" id="run1-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run1-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">Run 2 (Pre-Sled Push)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-run2">--:--</td><td class="p-2.5"><input type="text" id="run2-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run2-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <tr><td class="p-2.5 font-medium text-white">Run 3 (Pre-Sled Pull)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-run3">--:--</td><td class="p-2.5"><input type="text" id="run3-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run3-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">Run 4 (Pre-Burpees)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-run4">--:--</td><td class="p-2.5"><input type="text" id="run4-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run4-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <tr><td class="p-2.5 font-medium text-white">Run 5 (Pre-Row)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-run5">--:--</td><td class="p-2.5"><input type="text" id="run5-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run5-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">Run 6 (Pre-Farmers)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-run6">--:--</td><td class="p-2.5"><input type="text" id="run6-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run6-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <tr><td class="p-2.5 font-medium text-white">Run 7 (Pre-Lunges)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-run7">--:--</td><td class="p-2.5"><input type="text" id="run7-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run7-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">Run 8 (Pre-Wall Balls)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-run8">--:--</td><td class="p-2.5"><input type="text" id="run8-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run8-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <!-- Segment 1 -->
+                                <tr><td class="p-2.5 font-medium text-white">1. Run 1 (1,000m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg1">--:--</td><td class="p-2.5"><input type="text" id="seg1-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg1-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-hyrox-yellow">2. SkiErg (1,000m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg2">--:--</td><td class="p-2.5"><input type="text" id="seg2-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg2-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <!-- Segment 3 -->
+                                <tr><td class="p-2.5 font-medium text-white">3. Run 2 (1,000m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg3">--:--</td><td class="p-2.5"><input type="text" id="seg3-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg3-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-hyrox-yellow">4. Sled Push (50m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg4">--:--</td><td class="p-2.5"><input type="text" id="seg4-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg4-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <!-- Segment 5 -->
+                                <tr><td class="p-2.5 font-medium text-white">5. Run 3 (1,000m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg5">--:--</td><td class="p-2.5"><input type="text" id="seg5-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg5-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-hyrox-yellow">6. Sled Pull (50m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg6">--:--</td><td class="p-2.5"><input type="text" id="seg6-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg6-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <!-- Segment 7 -->
+                                <tr><td class="p-2.5 font-medium text-white">7. Run 4 (1,000m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg7">--:--</td><td class="p-2.5"><input type="text" id="seg7-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg7-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-hyrox-yellow">8. Burpee Broad Jumps (80m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg8">--:--</td><td class="p-2.5"><input type="text" id="seg8-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg8-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <!-- Segment 9 -->
+                                <tr><td class="p-2.5 font-medium text-white">9. Run 5 (1,000m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg9">--:--</td><td class="p-2.5"><input type="text" id="seg9-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg9-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-hyrox-yellow">10. Rowing (1,000m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg10">--:--</td><td class="p-2.5"><input type="text" id="seg10-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg10-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <!-- Segment 11 -->
+                                <tr><td class="p-2.5 font-medium text-white">11. Run 6 (1,000m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg11">--:--</td><td class="p-2.5"><input type="text" id="seg11-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg11-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-hyrox-yellow">12. Farmer Carry (200m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg12">--:--</td><td class="p-2.5"><input type="text" id="seg12-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg12-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <!-- Segment 13 -->
+                                <tr><td class="p-2.5 font-medium text-white">13. Run 7 (1,000m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg13">--:--</td><td class="p-2.5"><input type="text" id="seg13-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg13-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-hyrox-yellow">14. Sandbag Lunges (100m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg14">--:--</td><td class="p-2.5"><input type="text" id="seg14-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg14-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <!-- Segment 15 -->
+                                <tr><td class="p-2.5 font-medium text-white">15. Run 8 (1,000m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg15">--:--</td><td class="p-2.5"><input type="text" id="seg15-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg15-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-hyrox-yellow">16. Wall Balls (100 reps)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg16">--:--</td><td class="p-2.5"><input type="text" id="seg16-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg16-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -940,23 +956,29 @@
                 totalSeconds = parseFloat(goalInput) * 60;
             }
 
-            const singleRunSeconds = (totalSeconds * 0.55) / 8;
-            const runMin = Math.floor(singleRunSeconds / 60);
-            const runSec = Math.round(singleRunSeconds % 60);
-            const formattedRunPace = `${runMin}:${runSec < 10 ? '0' : ''}${runSec}`;
+            // HYROX breakdown: ~55% running (8 runs), ~45% stations (8 stations)
+            const totalRunSec = totalSeconds * 0.55;
+            const singleRunSec = totalRunSec / 8;
+            const singleStationSec = (totalSeconds * 0.45) / 8;
 
             document.getElementById('display-goal-total').innerText = goalInput;
 
-            // Calculate cumulative running time up to each run segment
-            for (let i = 1; i <= 8; i++) {
-                const targetEl = document.getElementById(`target-run${i}`);
+            let cumulativeSec = 0;
+            for (let i = 1; i <= 16; i++) {
+                const targetEl = document.getElementById(`target-seg${i}`);
                 if (targetEl) {
-                    const cumulativeSec = singleRunSeconds * i;
+                    let segTimeSec = (i % 2 !== 0) ? singleRunSec : singleStationSec;
+                    cumulativeSec += segTimeSec;
+
+                    const sMin = Math.floor(segTimeSec / 60);
+                    const sSec = Math.round(segTimeSec % 60);
+                    const formattedSeg = `${sMin}:${sSec < 10 ? '0' : ''}${sSec}`;
+
                     const cMin = Math.floor(cumulativeSec / 60);
                     const cSec = Math.round(cumulativeSec % 60);
-                    const formattedCumulative = `${cMin}:${cSec < 10 ? '0' : ''}${cSec}`;
-                    
-                    targetEl.innerText = `${formattedRunPace} (Cum: ${formattedCumulative})`;
+                    const formattedCum = `${cMin}:${cSec < 10 ? '0' : ''}${cSec}`;
+
+                    targetEl.innerText = `${formattedSeg} (Cum: ${formattedCum})`;
                 }
             }
         }
@@ -1037,7 +1059,7 @@
         }
 
         function clearSimLog() {
-            ['sim-total-time', 'sim-avg-hr', 'sim-peak-hr', 'sim-rpe', 'sim-partner-notes', 'sim-nutrition-notes', 'sim-adjustments'].forEach(id => {
+            ['sim-total-time', 'sim-avg-hr', 'sim-peak-hr', 'sim-rpe'].forEach(id => {
                 const el = document.getElementById(id);
                 if(el) el.value = '';
             });
