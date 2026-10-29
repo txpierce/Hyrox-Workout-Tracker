@@ -56,7 +56,7 @@
             <nav class="flex flex-wrap justify-center gap-1.5 bg-gray-900 p-1 rounded-lg border border-gray-800">
                 <button onclick="switchTab('dashboard')" id="btn-dashboard" class="tab-btn px-3.5 py-1.5 text-xs font-semibold rounded bg-hyrox-yellow text-black transition">Dashboard</button>
                 <button onclick="switchTab('program')" id="btn-program" class="tab-btn px-3.5 py-1.5 text-xs font-semibold rounded text-gray-300 hover:bg-gray-800 transition">11-Week Master</button>
-                <button onclick="switchTab('logger')" id="btn-logger" class="tab-btn px-3.5 py-1.5 text-xs font-semibold rounded text-gray-300 hover:bg-gray-800 transition">Daily Logger</button>
+                <button onclick="switchTab('logger')" id="btn-logger" class="tab-btn px-3.5 py-1.5 text-xs font-semibold rounded text-gray-300 hover:bg-gray-800 transition">Race Simulator</button>
                 <button onclick="switchTab('tools')" id="btn-tools" class="tab-btn px-3.5 py-1.5 text-xs font-semibold rounded text-gray-300 hover:bg-gray-800 transition">Pace & Timer</button>
                 <button onclick="switchTab('raceprep')" id="btn-raceprep" class="tab-btn px-3.5 py-1.5 text-xs font-semibold rounded text-gray-300 hover:bg-gray-800 transition">Race & Post-Log</button>
             </nav>
@@ -224,19 +224,19 @@
             </div>
         </div>
 
-        <!-- ================= TAB 3: DAILY WORKOUT LOGGER ================= -->
+        <!-- ================= TAB 3: RACE SIMULATOR LOGGER ================= -->
         <div id="tab-logger" class="tab-content space-y-6">
             <div class="bg-[#1E1E1E] border border-gray-800 rounded-xl p-5 shadow-lg">
                 <div class="flex justify-between items-center mb-4">
                     <div>
-                        <h2 class="text-xl font-bold text-white">Daily Workout & Readiness Logger</h2>
-                        <p class="text-xs text-gray-400">Log morning recovery metrics, training session vitals, station performance, and mindset.</p>
+                        <h2 class="text-xl font-bold text-white">HYROX Race Simulator & Workout Logger</h2>
+                        <p class="text-xs text-gray-400">Capture split times, station metrics, running splits, and simulation feedback under fatigue.</p>
                     </div>
                     <div class="flex gap-2">
-                        <button onclick="saveDailyLog()" class="bg-hyrox-yellow text-black px-4 py-2 rounded-lg font-bold text-xs hover:bg-yellow-400 transition flex items-center gap-1.5">
-                            <i class="fa-solid fa-floppy-disk"></i> Save Log
+                        <button onclick="saveSimLog()" class="bg-hyrox-yellow text-black px-4 py-2 rounded-lg font-bold text-xs hover:bg-yellow-400 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-floppy-disk"></i> Save Sim Log
                         </button>
-                        <button onclick="clearDailyLog()" class="bg-gray-800 text-gray-300 px-3 py-2 rounded-lg font-medium text-xs hover:bg-gray-700 transition">
+                        <button onclick="clearSimLog()" class="bg-gray-800 text-gray-300 px-3 py-2 rounded-lg font-medium text-xs hover:bg-gray-700 transition">
                             Clear
                         </button>
                     </div>
@@ -245,143 +245,196 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                     <div>
                         <label class="block text-xs font-medium text-gray-400 mb-1">Date</label>
-                        <input type="date" id="log-date" class="w-full rounded-lg p-2.5 text-sm">
+                        <input type="date" id="sim-date" class="w-full rounded-lg p-2.5 text-sm">
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-gray-400 mb-1">Phase / Week</label>
-                        <select id="log-week" class="w-full rounded-lg p-2.5 text-sm">
+                        <select id="sim-week" class="w-full rounded-lg p-2.5 text-sm bg-black border border-gray-700 text-white">
                             <option>Week 1 (Base)</option><option>Week 2 (Base)</option><option>Week 3 (Base-Build)</option><option>Week 4 (Base)</option>
-                            <option>Week 5 (Build)</option><option>Week 6 (Build)</option><option>Week 7 (Build)</option><option>Week 8 (Build)</option>
+                            <option>Week 5 (Build)</option><option selected>Week 6 (Build)</option><option>Week 7 (Build)</option><option>Week 8 (Build)</option>
                             <option>Week 9 (Peak)</option><option>Week 10 (Sharpen)</option><option>Week 11 (Taper/Race)</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-gray-400 mb-1">Athlete Name</label>
-                        <input type="text" id="log-athlete" placeholder="Athlete Name" class="w-full rounded-lg p-2.5 text-sm">
+                        <input type="text" id="sim-athlete" placeholder="Athlete Name" class="w-full rounded-lg p-2.5 text-sm">
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-gray-400 mb-1">Partner / Team Name</label>
-                        <input type="text" id="log-partner" placeholder="Partner/Team Name" class="w-full rounded-lg p-2.5 text-sm">
+                        <input type="text" id="sim-partner" placeholder="Partner/Team Name" class="w-full rounded-lg p-2.5 text-sm">
                     </div>
                 </div>
 
-                <!-- Readiness & Recovery Section -->
+                <!-- Simulation Overview & Vitals -->
                 <div class="border-t border-gray-800 pt-4 mb-6">
                     <h3 class="text-sm font-bold text-white mb-3 text-hyrox-yellow flex items-center gap-2">
-                        <i class="fa-solid fa-bed-pulse"></i> 1. Daily Readiness & Recovery
+                        <i class="fa-solid fa-stopwatch"></i> 1. Simulation Overview & Vitals
                     </h3>
-                    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 text-xs">
-                        <div>
-                            <label class="block text-gray-400 mb-1">Morning Wt</label>
-                            <input type="text" id="read-wt" placeholder="--" class="w-full rounded-lg p-2">
-                        </div>
-                        <div>
-                            <label class="block text-gray-400 mb-1">Resting HR (bpm)</label>
-                            <input type="number" id="read-rhr" placeholder="--" class="w-full rounded-lg p-2">
-                        </div>
-                        <div>
-                            <label class="block text-gray-400 mb-1">Hours Slept</label>
-                            <input type="number" step="0.5" id="read-sleep" placeholder="--" class="w-full rounded-lg p-2">
-                        </div>
-                        <div>
-                            <label class="block text-gray-400 mb-1">Sleep Quality (1–5)</label>
-                            <select id="read-sq" class="w-full rounded-lg p-2 text-xs">
-                                <option value="5">5 - Excellent</option><option value="4">4 - Good</option><option value="3" selected>3 - Fair</option><option value="2">2 - Poor</option><option value="1">1 - Terrible</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-gray-400 mb-1">Soreness (1–10)</label>
-                            <input type="number" min="1" max="10" id="read-sore" placeholder="1-10" class="w-full rounded-lg p-2">
-                        </div>
-                        <div>
-                            <label class="block text-gray-400 mb-1">Readiness (1–10)</label>
-                            <input type="number" min="1" max="10" id="read-ready" placeholder="1-10" class="w-full rounded-lg p-2">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Station & Session Logger -->
-                <div class="border-t border-gray-800 pt-4">
-                    <h3 class="text-sm font-bold text-white mb-3 text-hyrox-yellow flex items-center gap-2">
-                        <i class="fa-solid fa-dumbbell"></i> 2. Session Performance & Stations
-                    </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 text-xs">
-                        <div>
-                            <label class="block text-gray-400 mb-1">Session RPE (1–10)</label>
-                            <input type="number" min="1" max="10" id="sess-rpe" placeholder="7" class="w-full rounded-lg p-2">
-                        </div>
-                        <div>
-                            <label class="block text-gray-400 mb-1">Total Running Distance / Notes</label>
-                            <input type="text" id="sess-run" placeholder="e.g. 5km Zone 2 @ 5:30/km" class="w-full rounded-lg p-2">
-                        </div>
-                        <div>
-                            <label class="block text-gray-400 mb-1">Cardio / Ergs Completed</label>
-                            <input type="text" id="sess-erg" placeholder="e.g. SkiErg 1000m in 3:45" class="w-full rounded-lg p-2">
-                        </div>
-                    </div>
-
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs">
                             <thead class="bg-black/40 text-gray-400 uppercase text-[10px]">
                                 <tr>
-                                    <th class="p-2.5">HYROX Movement</th>
-                                    <th class="p-2.5">Target Standard</th>
-                                    <th class="p-2.5">Actual Load Used</th>
-                                    <th class="p-2.5">Reps / Distance Completed</th>
-                                    <th class="p-2.5">Perceived Effort</th>
+                                    <th class="p-2.5">Metric</th>
+                                    <th class="p-2.5">Target / Goal</th>
+                                    <th class="p-2.5">Actual Recorded</th>
+                                    <th class="p-2.5">Notes / Context</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-800 text-gray-300">
                                 <tr>
-                                    <td class="p-2.5 font-medium text-white">Sled Push</td>
-                                    <td id="log-std-push" class="p-2.5 text-gray-400">102 kg</td>
-                                    <td class="p-2.5"><input type="text" id="log-sled-push-load" placeholder="Weight used" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><input type="text" id="log-sled-push-rep" placeholder="50m completed" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><select id="log-sled-push-eff" class="p-1.5 rounded w-full text-xs"><option>Easy</option><option selected>Moderate</option><option>Hard</option></select></td>
+                                    <td class="p-2.5 font-medium text-white">Total Sim Time</td>
+                                    <td class="p-2.5 text-gray-400">Target: --:--</td>
+                                    <td class="p-2.5"><input type="text" id="sim-total-time" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td>
+                                    <td class="p-2.5 text-gray-400">Overall time including runs and stations</td>
                                 </tr>
                                 <tr class="bg-black/20">
-                                    <td class="p-2.5 font-medium text-white">Sled Pull</td>
-                                    <td id="log-std-pull" class="p-2.5 text-gray-400">78 kg</td>
-                                    <td class="p-2.5"><input type="text" id="log-sled-pull-load" placeholder="Weight used" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><input type="text" id="log-sled-pull-rep" placeholder="50m completed" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><select id="log-sled-pull-eff" class="p-1.5 rounded w-full text-xs"><option>Easy</option><option selected>Moderate</option><option>Hard</option></select></td>
+                                    <td class="p-2.5 font-medium text-white">Average Heart Rate</td>
+                                    <td class="p-2.5 text-gray-400">Target: -- bpm</td>
+                                    <td class="p-2.5"><input type="text" id="sim-avg-hr" placeholder="-- bpm" class="w-full p-1.5 rounded text-xs"></td>
+                                    <td class="p-2.5 text-gray-400">Cardiovascular load</td>
                                 </tr>
                                 <tr>
-                                    <td class="p-2.5 font-medium text-white">Burpee Broad Jump</td>
-                                    <td class="p-2.5 text-gray-400">80 m</td>
-                                    <td class="p-2.5 text-gray-400">Bodyweight</td>
-                                    <td class="p-2.5"><input type="text" id="log-bbj-rep" placeholder="Distance completed" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><select id="log-bbj-eff" class="p-1.5 rounded w-full text-xs"><option>Easy</option><option selected>Moderate</option><option>Hard</option></select></td>
+                                    <td class="p-2.5 font-medium text-white">Peak Heart Rate</td>
+                                    <td class="p-2.5 text-gray-400">Max: -- bpm</td>
+                                    <td class="p-2.5"><input type="text" id="sim-peak-hr" placeholder="-- bpm" class="w-full p-1.5 rounded text-xs"></td>
+                                    <td class="p-2.5 text-gray-400">Where did you redline?</td>
                                 </tr>
                                 <tr class="bg-black/20">
-                                    <td class="p-2.5 font-medium text-white">Farmer Carry</td>
-                                    <td id="log-std-fc" class="p-2.5 text-gray-400">2 x 16 kg</td>
-                                    <td class="p-2.5"><input type="text" id="log-fc-load" placeholder="Weight used" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><input type="text" id="log-fc-rep" placeholder="200m completed" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><select id="log-fc-eff" class="p-1.5 rounded w-full text-xs"><option>Easy</option><option selected>Moderate</option><option>Hard</option></select></td>
-                                </tr>
-                                <tr>
-                                    <td class="p-2.5 font-medium text-white">Sandbag Lunges</td>
-                                    <td id="log-std-lunge" class="p-2.5 text-gray-400">10 kg</td>
-                                    <td class="p-2.5"><input type="text" id="log-lunge-load" placeholder="Weight used" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><input type="text" id="log-lunge-rep" placeholder="100m completed" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><select id="log-lunge-eff" class="p-1.5 rounded w-full text-xs"><option>Easy</option><option selected>Moderate</option><option>Hard</option></select></td>
-                                </tr>
-                                <tr class="bg-black/20">
-                                    <td class="p-2.5 font-medium text-white">Wall Balls</td>
-                                    <td id="log-std-wb" class="p-2.5 text-gray-400">4 kg / 2.70m</td>
-                                    <td class="p-2.5"><input type="text" id="log-wb-load" placeholder="Ball weight" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><input type="text" id="log-wb-rep" placeholder="100 reps completed" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><select id="log-wb-eff" class="p-1.5 rounded w-full text-xs"><option>Easy</option><option selected>Moderate</option><option>Hard</option></select></td>
+                                    <td class="p-2.5 font-medium text-white">Overall Session RPE</td>
+                                    <td class="p-2.5 text-gray-400">Scale: 1–10</td>
+                                    <td class="p-2.5"><input type="number" min="1" max="10" id="sim-rpe" placeholder="-- / 10" class="w-full p-1.5 rounded text-xs"></td>
+                                    <td class="p-2.5 text-gray-400">Perceived exertion of the full effort</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <div class="border-t border-gray-800 pt-4 mt-4">
-                    <label class="block text-xs font-medium text-gray-400 mb-1">Session Notes & Handoff Strategy</label>
-                    <textarea id="log-notes" rows="2" placeholder="Record how transitions felt, nutrition notes, or areas to improve..." class="w-full rounded-lg p-2.5 text-sm"></textarea>
+                <!-- Running Splits & Transition Flow -->
+                <div class="border-t border-gray-800 pt-4 mb-6">
+                    <h3 class="text-sm font-bold text-white mb-3 text-hyrox-yellow flex items-center gap-2">
+                        <i class="fa-solid fa-person-running"></i> 2. Running Splits & Transition Flow
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-black/40 text-gray-400 uppercase text-[10px]">
+                                <tr>
+                                    <th class="p-2.5">Run Segment</th>
+                                    <th class="p-2.5">Target Pace / Time</th>
+                                    <th class="p-2.5">Actual Pace / Time</th>
+                                    <th class="p-2.5">Transition Quality</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-800 text-gray-300">
+                                <tr><td class="p-2.5 font-medium text-white">Run 1 (Pre-Ski)</td><td class="p-2.5 text-gray-400">--:--</td><td class="p-2.5"><input type="text" id="run1-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run1-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">Run 2 (Pre-Sled Push)</td><td class="p-2.5 text-gray-400">--:--</td><td class="p-2.5"><input type="text" id="run2-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run2-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr><td class="p-2.5 font-medium text-white">Run 3 (Pre-Sled Pull)</td><td class="p-2.5 text-gray-400">--:--</td><td class="p-2.5"><input type="text" id="run3-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run3-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">Run 4 (Pre-Burpees)</td><td class="p-2.5 text-gray-400">--:--</td><td class="p-2.5"><input type="text" id="run4-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run4-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr><td class="p-2.5 font-medium text-white">Run 5 (Pre-Row)</td><td class="p-2.5 text-gray-400">--:--</td><td class="p-2.5"><input type="text" id="run5-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run5-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">Run 6 (Pre-Farmers)</td><td class="p-2.5 text-gray-400">--:--</td><td class="p-2.5"><input type="text" id="run6-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run6-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr><td class="p-2.5 font-medium text-white">Run 7 (Pre-Lunges)</td><td class="p-2.5 text-gray-400">--:--</td><td class="p-2.5"><input type="text" id="run7-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run7-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">Run 8 (Pre-Wall Balls)</td><td class="p-2.5 text-gray-400">--:--</td><td class="p-2.5"><input type="text" id="run8-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run8-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Station Performance & Execution -->
+                <div class="border-t border-gray-800 pt-4">
+                    <h3 class="text-sm font-bold text-white mb-3 text-hyrox-yellow flex items-center gap-2">
+                        <i class="fa-solid fa-dumbbell"></i> 3. Station Performance & Execution
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-black/40 text-gray-400 uppercase text-[10px]">
+                                <tr>
+                                    <th class="p-2.5">HYROX Movement</th>
+                                    <th class="p-2.5">Standard Load</th>
+                                    <th class="p-2.5">Actual Load Used</th>
+                                    <th class="p-2.5">Rep / Distance Split Strategy</th>
+                                    <th class="p-2.5">Execution / Felt</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-800 text-gray-300">
+                                <tr>
+                                    <td class="p-2.5 font-medium text-white">SkiErg (1000m)</td>
+                                    <td class="p-2.5 text-gray-400">1000 m</td>
+                                    <td class="p-2.5"><input type="text" id="sim-ski-load" value="1000m" class="p-1.5 rounded w-full text-xs"></td>
+                                    <td class="p-2.5"><input type="text" id="sim-ski-split" placeholder="e.g., 250m splits" class="p-1.5 rounded w-full text-xs"></td>
+                                    <td class="p-2.5"><select id="sim-ski-felt" class="p-1.5 rounded w-full text-xs"><option>Smooth</option><option>Controlled</option><option>Red-lined</option></select></td>
+                                </tr>
+                                <tr class="bg-black/20">
+                                    <td class="p-2.5 font-medium text-white">Sled Push</td>
+                                    <td id="sim-std-push" class="p-2.5 text-gray-400">102 kg</td>
+                                    <td class="p-2.5"><input type="text" id="sim-push-load" placeholder="Weight used" class="p-1.5 rounded w-full text-xs"></td>
+                                    <td class="p-2.5"><input type="text" id="sim-push-split" placeholder="e.g., 4 x 12.5m" class="p-1.5 rounded w-full text-xs"></td>
+                                    <td class="p-2.5"><select id="sim-push-felt" class="p-1.5 rounded w-full text-xs"><option>Smooth</option><option>Controlled</option><option>Red-lined</option></select></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2.5 font-medium text-white">Sled Pull</td>
+                                    <td id="sim-std-pull" class="p-2.5 text-gray-400">78 kg</td>
+                                    <td class="p-2.5"><input type="text" id="sim-pull-load" placeholder="Weight used" class="p-1.5 rounded w-full text-xs"></td>
+                                    <td class="p-2.5"><input type="text" id="sim-pull-split" placeholder="e.g., 4 x 12.5m" class="p-1.5 rounded w-full text-xs"></td>
+                                    <td class="p-2.5"><select id="sim-pull-felt" class="p-1.5 rounded w-full text-xs"><option>Smooth</option><option>Controlled</option><option>Red-lined</option></select></td>
+                                </tr>
+                                <tr class="bg-black/20">
+                                    <td class="p-2.5 font-medium text-white">Burpee Broad Jump</td>
+                                    <td class="p-2.5 text-gray-400">80 m</td>
+                                    <td class="p-2.5 text-gray-400">Bodyweight</td>
+                                    <td class="p-2.5"><input type="text" id="sim-bbj-split" placeholder="e.g., 20m increments" class="p-1.5 rounded w-full text-xs"></td>
+                                    <td class="p-2.5"><select id="sim-bbj-felt" class="p-1.5 rounded w-full text-xs"><option>Smooth</option><option>Controlled</option><option>Red-lined</option></select></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2.5 font-medium text-white">Row (1000m)</td>
+                                    <td class="p-2.5 text-gray-400">1000 m</td>
+                                    <td class="p-2.5"><input type="text" id="sim-row-load" value="1000m" class="p-1.5 rounded w-full text-xs"></td>
+                                    <td class="p-2.5"><input type="text" id="sim-row-split" placeholder="e.g., 500m split" class="p-1.5 rounded w-full text-xs"></td>
+                                    <td class="p-2.5"><select id="sim-row-felt" class="p-1.5 rounded w-full text-xs"><option>Smooth</option><option>Controlled</option><option>Red-lined</option></select></td>
+                                </tr>
+                                <tr class="bg-black/20">
+                                    <td class="p-2.5 font-medium text-white">Farmer Carry</td>
+                                    <td id="sim-std-fc" class="p-2.5 text-gray-400">2 x 16 kg</td>
+                                    <td class="p-2.5"><input type="text" id="sim-fc-load" placeholder="Weight used" class="p-1.5 rounded w-full text-xs"></td>
+                                    <td class="p-2.5"><input type="text" id="sim-fc-split" placeholder="e.g., Unbroken / 1 break" class="p-1.5 rounded w-full text-xs"></td>
+                                    <td class="p-2.5"><select id="sim-fc-felt" class="p-1.5 rounded w-full text-xs"><option>Smooth</option><option>Controlled</option><option>Red-lined</option></select></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2.5 font-medium text-white">Sandbag Lunges</td>
+                                    <td id="sim-std-lunge" class="p-2.5 text-gray-400">10 kg</td>
+                                    <td class="p-2.5"><input type="text" id="sim-lunge-load" placeholder="Weight used" class="p-1.5 rounded w-full text-xs"></td>
+                                    <td class="p-2.5"><input type="text" id="sim-lunge-split" placeholder="e.g., 25m splits" class="p-1.5 rounded w-full text-xs"></td>
+                                    <td class="p-2.5"><select id="sim-lunge-felt" class="p-1.5 rounded w-full text-xs"><option>Smooth</option><option>Controlled</option><option>Red-lined</option></select></td>
+                                </tr>
+                                <tr class="bg-black/20">
+                                    <td class="p-2.5 font-medium text-white">Wall Balls</td>
+                                    <td id="sim-std-wb" class="p-2.5 text-gray-400">4 kg / 2.70m</td>
+                                    <td class="p-2.5"><input type="text" id="sim-wb-load" placeholder="Ball weight" class="p-1.5 rounded w-full text-xs"></td>
+                                    <td class="p-2.5"><input type="text" id="sim-wb-split" placeholder="e.g., Sets of 15-10" class="p-1.5 rounded w-full text-xs"></td>
+                                    <td class="p-2.5"><select id="sim-wb-felt" class="p-1.5 rounded w-full text-xs"><option>Smooth</option><option>Controlled</option><option>Red-lined</option></select></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-800 pt-4 mt-4 space-y-4">
+                    <h3 class="text-sm font-bold text-white text-hyrox-yellow flex items-center gap-2">
+                        <i class="fa-solid fa-brain"></i> 4. Strategy, Teamwork & Takeaways
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                        <div>
+                            <label class="block text-gray-400 mb-1">Partner Communication & Handoffs</label>
+                            <textarea id="sim-partner-notes" rows="2" placeholder="Did you stay connected? Did handoffs on sleds/ergs feel seamless?" class="w-full rounded-lg p-2.5 text-sm"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 mb-1">Nutrition & Fueling Test</label>
+                            <textarea id="sim-nutrition-notes" rows="2" placeholder="What gels, electrolytes, or pre-sim meals did you test?" class="w-full rounded-lg p-2.5 text-sm"></textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-400 mb-1">Key Wins & Adjustments for Next Simulation</label>
+                        <textarea id="sim-adjustments" rows="2" placeholder="Record pacing adjustments, technique takeaways, or bottlenecks..." class="w-full rounded-lg p-2.5 text-sm"></textarea>
+                    </div>
                 </div>
             </div>
         </div>
@@ -670,12 +723,12 @@
             });
             document.getElementById('standards-tbody').innerHTML = tbodyHtml;
 
-            // Update Logger Table standard labels
-            document.getElementById('log-std-push').innerText = divObj.push;
-            document.getElementById('log-std-pull').innerText = divObj.pull;
-            document.getElementById('log-std-fc').innerText = divObj.fc;
-            document.getElementById('log-std-lunge').innerText = divObj.lunge;
-            document.getElementById('log-std-wb').innerText = divObj.wb;
+            // Update Simulator Table standard labels
+            document.getElementById('sim-std-push').innerText = divObj.push;
+            document.getElementById('sim-std-pull').innerText = divObj.pull;
+            document.getElementById('sim-std-fc').innerText = divObj.fc;
+            document.getElementById('sim-std-lunge').innerText = divObj.lunge;
+            document.getElementById('sim-std-wb').innerText = divObj.wb;
 
             localStorage.setItem('hyrox_custom_settings', JSON.stringify({ raceName, raceDateVal, divisionKey }));
         }
@@ -706,7 +759,7 @@
         }
         setInterval(updateCountdown, 1000);
 
-        // 11-Week Complete Master Program Data Dictionary (All Days 1-7 for Weeks 1-11)
+        // 11-Week Complete Master Program Data Dictionary
         const programData = {
             1: {
                 title: "WEEK 1 — BASE & MOVEMENT QUALITY",
@@ -718,27 +771,17 @@
                         {name: "Sled Push", sets: 6, reps: "10 m", load: "Light-Moderate"},
                         {name: "Bike Erg Engine", sets: 6, reps: "1:00 hard / 1:00 easy", load: "Zone 3-4"}
                     ]},
-                    { day: "Day 2 - Aerobic Run", exercises: [
-                        {name: "Zone 2 Run", sets: 1, reps: "40 min", load: "Conversational Pace / Nasal Breathing"}
-                    ]},
+                    { day: "Day 2 - Aerobic Run", exercises: [{name: "Zone 2 Run", sets: 1, reps: "40 min", load: "Conversational Pace / Nasal Breathing"}]},
                     { day: "Day 3 - Upper Body Strength + Conditioning", exercises: [
                         {name: "Bench Press", sets: 4, reps: "6", load: "Moderate"},
                         {name: "Bent-Over Row", sets: 4, reps: "8", load: "Moderate"},
                         {name: "SkiErg Conditioning", sets: 4, reps: "500 m", load: "Easy-Moderate"},
                         {name: "Plank Core", sets: 3, reps: "1:00", load: "Bodyweight"}
                     ]},
-                    { day: "Day 4 - Run Intervals", exercises: [
-                        {name: "Run Intervals", sets: 6, reps: "400 m (90s rest)", load: "Controlled Hard"}
-                    ]},
-                    { day: "Day 5 - Hybrid Conditioning", exercises: [
-                        {name: "Row + Farmer Carry + Wall Balls", sets: 3, reps: "500m Row / 50m Carry / 15 WB", load: "Controlled Pace"}
-                    ]},
-                    { day: "Day 6 - HYROX Practice", exercises: [
-                        {name: "Partial Simulation", sets: 1, reps: "500m Ski / 4x10m Push / 4x10m Pull / 40m BBJ", load: "Technique Priority"}
-                    ]},
-                    { day: "Day 7 - Recovery", exercises: [
-                        {name: "Active Recovery", sets: 1, reps: "Light walking & mobility", load: "Rest"}
-                    ]}
+                    { day: "Day 4 - Run Intervals", exercises: [{name: "Run Intervals", sets: 6, reps: "400 m (90s rest)", load: "Controlled Hard"}]},
+                    { day: "Day 5 - Hybrid Conditioning", exercises: [{name: "Row + Farmer Carry + Wall Balls", sets: 3, reps: "500m Row / 50m Carry / 15 WB", load: "Controlled Pace"}]},
+                    { day: "Day 6 - HYROX Practice", exercises: [{name: "Partial Simulation", sets: 1, reps: "500m Ski / 4x10m Push / 4x10m Pull / 40m BBJ", load: "Technique Priority"}]},
+                    { day: "Day 7 - Recovery", exercises: [{name: "Active Recovery", sets: 1, reps: "Light walking & mobility", load: "Rest"}]}
                 ]
             },
             2: {
@@ -1064,24 +1107,30 @@
             document.getElementById('timer-label').innerText = "Ready";
         }
 
-        // Local Storage Saving
-        function saveDailyLog() {
-            const logData = {
-                date: document.getElementById('log-date').value,
-                week: document.getElementById('log-week').value,
-                athlete: document.getElementById('log-athlete').value,
-                partner: document.getElementById('log-partner').value,
-                readiness: document.getElementById('read-ready').value,
-                notes: document.getElementById('log-notes').value
+        // Local Storage Saving for Simulator
+        function saveSimLog() {
+            const simData = {
+                date: document.getElementById('sim-date').value,
+                week: document.getElementById('sim-week').value,
+                athlete: document.getElementById('sim-athlete').value,
+                partner: document.getElementById('sim-partner').value,
+                totalTime: document.getElementById('sim-total-time').value,
+                rpe: document.getElementById('sim-rpe').value,
+                adjustments: document.getElementById('sim-adjustments').value
             };
-            localStorage.setItem('hyrox_daily_log', JSON.stringify(logData));
-            alert('Daily workout & readiness log saved successfully!');
+            localStorage.setItem('hyrox_sim_log', JSON.stringify(simData));
+            alert('Race simulation log saved successfully!');
         }
 
-        function clearDailyLog() {
-            document.getElementById('log-notes').value = '';
-            document.getElementById('read-ready').value = '';
-            alert('Daily log fields cleared.');
+        function clearSimLog() {
+            document.getElementById('sim-total-time').value = '';
+            document.getElementById('sim-avg-hr').value = '';
+            document.getElementById('sim-peak-hr').value = '';
+            document.getElementById('sim-rpe').value = '';
+            document.getElementById('sim-partner-notes').value = '';
+            document.getElementById('sim-nutrition-notes').value = '';
+            document.getElementById('sim-adjustments').value = '';
+            alert('Simulation log fields cleared.');
         }
 
         function savePostRaceLog() {
@@ -1097,7 +1146,7 @@
         }
 
         // Initialize Settings and Dates on Load
-        document.getElementById('log-date').valueAsDate = new Date();
+        document.getElementById('sim-date').valueAsDate = new Date();
         
         const savedSettings = JSON.parse(localStorage.getItem('hyrox_custom_settings'));
         if (savedSettings) {
