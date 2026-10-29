@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HYROX Training & Workout Tracker - Complete 11 Weeks</title>
+    <title>TX_Pierce HYROX Training App</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -46,21 +46,23 @@
     <header class="bg-black border-b border-gray-800 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-center space-x-3">
-                <div class="bg-hyrox-yellow text-black font-black px-3 py-1.5 text-xl tracking-wider rounded">HYROX</div>
+                <div class="bg-hyrox-yellow text-black font-black px-3 py-1.5 text-xl tracking-wider rounded">TXP</div>
                 <div>
-                    <h1 class="text-lg font-bold text-white tracking-wide">TRAINING & WORKOUT TRACKER</h1>
+                    <h1 class="text-lg font-bold text-white tracking-wide">TX_PIERCE HYROX TRAINING APP</h1>
                     <p id="header-subtext" class="text-xs text-gray-400">Custom Division | Full 11-Week Master Plan</p>
                 </div>
             </div>
             <!-- Navigation Tabs -->
-            <nav class="flex flex-wrap justify-center gap-1.5 bg-gray-900 p-1 rounded-lg border border-gray-800">
-                <button onclick="switchTab('dashboard')" id="btn-dashboard" class="tab-btn px-3 py-1.5 text-xs font-semibold rounded bg-hyrox-yellow text-black transition">Dashboard</button>
-                <button onclick="switchTab('program')" id="btn-program" class="tab-btn px-3 py-1.5 text-xs font-semibold rounded text-gray-300 hover:bg-gray-800 transition">11-Week Master</button>
-                <button onclick="switchTab('logger')" id="btn-logger" class="tab-btn px-3 py-1.5 text-xs font-semibold rounded text-gray-300 hover:bg-gray-800 transition">Race Simulator</button>
-                <button onclick="switchTab('tools')" id="btn-tools" class="tab-btn px-3 py-1.5 text-xs font-semibold rounded text-gray-300 hover:bg-gray-800 transition">Pace & Timer</button>
-                <button onclick="switchTab('cards')" id="btn-cards" class="tab-btn px-3 py-1.5 text-xs font-semibold rounded text-gray-300 hover:bg-gray-800 transition">Share Cards</button>
-                <button onclick="switchTab('raceprep')" id="btn-raceprep" class="tab-btn px-3 py-1.5 text-xs font-semibold rounded text-gray-300 hover:bg-gray-800 transition">Race & Post-Log</button>
-            </nav>
+            <div class="flex items-center gap-2 flex-wrap justify-center">
+                <nav class="flex flex-wrap justify-center gap-1.5 bg-gray-900 p-1 rounded-lg border border-gray-800">
+                    <button onclick="switchTab('dashboard')" id="btn-dashboard" class="tab-btn px-3 py-1.5 text-xs font-semibold rounded bg-hyrox-yellow text-black transition">Dashboard</button>
+                    <button onclick="switchTab('program')" id="btn-program" class="tab-btn px-3 py-1.5 text-xs font-semibold rounded text-gray-300 hover:bg-gray-800 transition">11-Week Master</button>
+                    <button onclick="switchTab('logger')" id="btn-logger" class="tab-btn px-3 py-1.5 text-xs font-semibold rounded text-gray-300 hover:bg-gray-800 transition">Race Simulator</button>
+                    <button onclick="switchTab('tools')" id="btn-tools" class="tab-btn px-3 py-1.5 text-xs font-semibold rounded text-gray-300 hover:bg-gray-800 transition">Pace & Timer</button>
+                    <button onclick="switchTab('cards')" id="btn-cards" class="tab-btn px-3 py-1.5 text-xs font-semibold rounded text-gray-300 hover:bg-gray-800 transition">Share Cards</button>
+                    <button onclick="switchTab('raceprep')" id="btn-raceprep" class="tab-btn px-3 py-1.5 text-xs font-semibold rounded text-gray-300 hover:bg-gray-800 transition">Race & Post-Log</button>
+                </nav>
+            </div>
         </div>
     </header>
 
@@ -130,7 +132,6 @@
 
             <!-- Quick Stats & Official Standards Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Official Standards Card -->
                 <div class="lg:col-span-2 bg-[#1E1E1E] border border-gray-800 rounded-xl p-5 shadow-lg">
                     <div class="flex justify-between items-center mb-4">
                         <h3 id="standards-heading" class="text-base font-bold text-white flex items-center gap-2">
@@ -148,14 +149,11 @@
                                     <th class="p-2.5">Execution Notes</th>
                                 </tr>
                             </thead>
-                            <tbody id="standards-tbody" class="divide-y divide-gray-800 text-gray-300">
-                                <!-- Dynamically populated based on division -->
-                            </tbody>
+                            <tbody id="standards-tbody" class="divide-y divide-gray-800 text-gray-300"></tbody>
                         </table>
                     </div>
                 </div>
 
-                <!-- RPE Scale & Quick Principles -->
                 <div class="space-y-6">
                     <div class="bg-[#1E1E1E] border border-gray-800 rounded-xl p-5 shadow-lg">
                         <h3 class="text-base font-bold text-white mb-3 flex items-center gap-2">
@@ -186,7 +184,7 @@
                         <ul class="text-xs text-gray-300 space-y-2 list-disc pl-4">
                             <li><strong class="text-white">Consistency over intensity</strong> early in training blocks.</li>
                             <li><strong class="text-white">Efficiency under fatigue</strong> over maximal output.</li>
-                            <li><strong class="text-white">Smooth transitions</strong> and clear partner/relay handoffs.</li>
+                            <li><strong class="text-white">Smooth transitions</strong> and clear partner handoffs.</li>
                             <li><strong class="text-white">Role clarity</strong>: Split reps evenly on high-fatigue stations.</li>
                         </ul>
                     </div>
@@ -208,7 +206,6 @@
                         <div class="text-[10px] text-gray-400 uppercase">Race Prep Progress</div>
                     </div>
                 </div>
-                <!-- Progress Bar -->
                 <div class="w-full bg-black/70 border border-gray-800 rounded-full h-3 overflow-hidden">
                     <div id="overall-progress-bar" class="bg-hyrox-yellow h-full transition-all duration-300" style="width: 0%;"></div>
                 </div>
@@ -233,19 +230,16 @@
                 </div>
             </div>
 
-            <!-- Program Details Container -->
-            <div id="program-container" class="space-y-4">
-                <!-- Dynamically populated via JS -->
-            </div>
+            <div id="program-container" class="space-y-4"></div>
         </div>
 
         <!-- ================= TAB 3: RACE SIMULATOR LOGGER ================= -->
         <div id="tab-logger" class="tab-content space-y-6">
-            <div class="bg-[#1E1E1E] border border-gray-800 rounded-xl p-5 shadow-lg">
-                <div class="flex justify-between items-center mb-4">
+            <div class="bg-[#1E1E1E] border border-gray-800 rounded-xl p-5 shadow-lg space-y-6">
+                <div class="flex justify-between items-center">
                     <div>
                         <h2 class="text-xl font-bold text-white">HYROX Race Simulator & Workout Logger</h2>
-                        <p class="text-xs text-gray-400">Capture split times, station metrics, running splits, and simulation feedback under fatigue.</p>
+                        <p class="text-xs text-gray-400">Set your overall goal finish time to automatically generate target splits for every run and station.</p>
                     </div>
                     <div class="flex gap-2">
                         <button onclick="saveSimLog()" class="bg-hyrox-yellow text-black px-4 py-2 rounded-lg font-bold text-xs hover:bg-yellow-400 transition flex items-center gap-1.5">
@@ -257,7 +251,7 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 bg-black/40 p-4 rounded-xl border border-gray-800">
                     <div>
                         <label class="block text-xs font-medium text-gray-400 mb-1">Date</label>
                         <input type="date" id="sim-date" class="w-full rounded-lg p-2.5 text-sm">
@@ -275,13 +269,22 @@
                         <input type="text" id="sim-athlete" placeholder="Athlete Name" class="w-full rounded-lg p-2.5 text-sm">
                     </div>
                     <div>
-                        <label class="block text-xs font-medium text-gray-400 mb-1">Partner / Team Name</label>
+                        <label class="block text-xs font-medium text-gray-400 mb-1">Partner / Team</label>
                         <input type="text" id="sim-partner" placeholder="Partner/Team Name" class="w-full rounded-lg p-2.5 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-hyrox-yellow mb-1 font-bold">Goal Finish Time (MM:SS)</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="sim-goal-total" value="1:15:00" placeholder="1:15:00" class="w-full rounded-lg p-2.5 text-sm font-bold text-center text-hyrox-yellow">
+                            <button onclick="autoCalculateTargets()" class="bg-hyrox-yellow text-black px-3 rounded-lg font-bold text-xs hover:bg-yellow-400 transition" title="Auto-distribute targets">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Simulation Overview & Vitals -->
-                <div class="border-t border-gray-800 pt-4 mb-6">
+                <div class="border-t border-gray-800 pt-4">
                     <h3 class="text-sm font-bold text-white mb-3 text-hyrox-yellow flex items-center gap-2">
                         <i class="fa-solid fa-stopwatch"></i> 1. Simulation Overview & Vitals
                     </h3>
@@ -298,25 +301,25 @@
                             <tbody class="divide-y divide-gray-800 text-gray-300">
                                 <tr>
                                     <td class="p-2.5 font-medium text-white">Total Sim Time</td>
-                                    <td class="p-2.5 text-gray-400">Target: --:--</td>
+                                    <td class="p-2.5 text-hyrox-yellow font-bold" id="display-goal-total">1:15:00</td>
                                     <td class="p-2.5"><input type="text" id="sim-total-time" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td>
                                     <td class="p-2.5 text-gray-400">Overall time including runs and stations</td>
                                 </tr>
                                 <tr class="bg-black/20">
                                     <td class="p-2.5 font-medium text-white">Average Heart Rate</td>
-                                    <td class="p-2.5 text-gray-400">Target: -- bpm</td>
+                                    <td class="p-2.5 text-gray-400">Target: 165 bpm</td>
                                     <td class="p-2.5"><input type="text" id="sim-avg-hr" placeholder="-- bpm" class="w-full p-1.5 rounded text-xs"></td>
                                     <td class="p-2.5 text-gray-400">Cardiovascular load</td>
                                 </tr>
                                 <tr>
                                     <td class="p-2.5 font-medium text-white">Peak Heart Rate</td>
-                                    <td class="p-2.5 text-gray-400">Max: -- bpm</td>
+                                    <td class="p-2.5 text-gray-400">Max: 182 bpm</td>
                                     <td class="p-2.5"><input type="text" id="sim-peak-hr" placeholder="-- bpm" class="w-full p-1.5 rounded text-xs"></td>
                                     <td class="p-2.5 text-gray-400">Where did you redline?</td>
                                 </tr>
                                 <tr class="bg-black/20">
                                     <td class="p-2.5 font-medium text-white">Overall Session RPE</td>
-                                    <td class="p-2.5 text-gray-400">Scale: 1–10</td>
+                                    <td class="p-2.5 text-gray-400">Scale: 8.5 / 10</td>
                                     <td class="p-2.5"><input type="number" min="1" max="10" id="sim-rpe" placeholder="-- / 10" class="w-full p-1.5 rounded text-xs"></td>
                                     <td class="p-2.5 text-gray-400">Perceived exertion of the full effort</td>
                                 </tr>
@@ -326,7 +329,7 @@
                 </div>
 
                 <!-- Running Splits & Transition Flow -->
-                <div class="border-t border-gray-800 pt-4 mb-6">
+                <div class="border-t border-gray-800 pt-4">
                     <h3 class="text-sm font-bold text-white mb-3 text-hyrox-yellow flex items-center gap-2">
                         <i class="fa-solid fa-person-running"></i> 2. Running Splits & Transition Flow
                     </h3>
@@ -341,114 +344,16 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-800 text-gray-300">
-                                <tr><td class="p-2.5 font-medium text-white">Run 1 (Pre-Ski)</td><td class="p-2.5 text-gray-400">--:--</td><td class="p-2.5"><input type="text" id="run1-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run1-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">Run 2 (Pre-Sled Push)</td><td class="p-2.5 text-gray-400">--:--</td><td class="p-2.5"><input type="text" id="run2-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run2-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <tr><td class="p-2.5 font-medium text-white">Run 3 (Pre-Sled Pull)</td><td class="p-2.5 text-gray-400">--:--</td><td class="p-2.5"><input type="text" id="run3-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run3-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">Run 4 (Pre-Burpees)</td><td class="p-2.5 text-gray-400">--:--</td><td class="p-2.5"><input type="text" id="run4-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run4-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <tr><td class="p-2.5 font-medium text-white">Run 5 (Pre-Row)</td><td class="p-2.5 text-gray-400">--:--</td><td class="p-2.5"><input type="text" id="run5-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run5-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">Run 6 (Pre-Farmers)</td><td class="p-2.5 text-gray-400">--:--</td><td class="p-2.5"><input type="text" id="run6-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run6-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <tr><td class="p-2.5 font-medium text-white">Run 7 (Pre-Lunges)</td><td class="p-2.5 text-gray-400">--:--</td><td class="p-2.5"><input type="text" id="run7-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run7-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">Run 8 (Pre-Wall Balls)</td><td class="p-2.5 text-gray-400">--:--</td><td class="p-2.5"><input type="text" id="run8-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run8-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr><td class="p-2.5 font-medium text-white">Run 1 (Pre-Ski)</td><td class="p-2.5 text-hyrox-yellow font-mono" id="target-run1">--:--</td><td class="p-2.5"><input type="text" id="run1-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run1-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">Run 2 (Pre-Sled Push)</td><td class="p-2.5 text-hyrox-yellow font-mono" id="target-run2">--:--</td><td class="p-2.5"><input type="text" id="run2-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run2-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr><td class="p-2.5 font-medium text-white">Run 3 (Pre-Sled Pull)</td><td class="p-2.5 text-hyrox-yellow font-mono" id="target-run3">--:--</td><td class="p-2.5"><input type="text" id="run3-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run3-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">Run 4 (Pre-Burpees)</td><td class="p-2.5 text-hyrox-yellow font-mono" id="target-run4">--:--</td><td class="p-2.5"><input type="text" id="run4-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run4-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr><td class="p-2.5 font-medium text-white">Run 5 (Pre-Row)</td><td class="p-2.5 text-hyrox-yellow font-mono" id="target-run5">--:--</td><td class="p-2.5"><input type="text" id="run5-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run5-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">Run 6 (Pre-Farmers)</td><td class="p-2.5 text-hyrox-yellow font-mono" id="target-run6">--:--</td><td class="p-2.5"><input type="text" id="run6-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run6-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr><td class="p-2.5 font-medium text-white">Run 7 (Pre-Lunges)</td><td class="p-2.5 text-hyrox-yellow font-mono" id="target-run7">--:--</td><td class="p-2.5"><input type="text" id="run7-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run7-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">Run 8 (Pre-Wall Balls)</td><td class="p-2.5 text-hyrox-yellow font-mono" id="target-run8">--:--</td><td class="p-2.5"><input type="text" id="run8-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run8-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
                             </tbody>
                         </table>
-                    </div>
-                </div>
-
-                <!-- Station Performance & Execution -->
-                <div class="border-t border-gray-800 pt-4">
-                    <h3 class="text-sm font-bold text-white mb-3 text-hyrox-yellow flex items-center gap-2">
-                        <i class="fa-solid fa-dumbbell"></i> 3. Station Performance & Execution
-                    </h3>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-xs">
-                            <thead class="bg-black/40 text-gray-400 uppercase text-[10px]">
-                                <tr>
-                                    <th class="p-2.5">HYROX Movement</th>
-                                    <th class="p-2.5">Standard Load</th>
-                                    <th class="p-2.5">Actual Load Used</th>
-                                    <th class="p-2.5">Rep / Distance Split Strategy</th>
-                                    <th class="p-2.5">Execution / Felt</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-800 text-gray-300">
-                                <tr>
-                                    <td class="p-2.5 font-medium text-white">SkiErg (1000m)</td>
-                                    <td class="p-2.5 text-gray-400">1000 m</td>
-                                    <td class="p-2.5"><input type="text" id="sim-ski-load" value="1000m" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><input type="text" id="sim-ski-split" placeholder="e.g., 250m splits" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><select id="sim-ski-felt" class="p-1.5 rounded w-full text-xs"><option>Smooth</option><option>Controlled</option><option>Red-lined</option></select></td>
-                                </tr>
-                                <tr class="bg-black/20">
-                                    <td class="p-2.5 font-medium text-white">Sled Push</td>
-                                    <td id="sim-std-push" class="p-2.5 text-gray-400">102 kg</td>
-                                    <td class="p-2.5"><input type="text" id="sim-push-load" placeholder="Weight used" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><input type="text" id="sim-push-split" placeholder="e.g., 4 x 12.5m" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><select id="sim-push-felt" class="p-1.5 rounded w-full text-xs"><option>Smooth</option><option>Controlled</option><option>Red-lined</option></select></td>
-                                </tr>
-                                <tr>
-                                    <td class="p-2.5 font-medium text-white">Sled Pull</td>
-                                    <td id="sim-std-pull" class="p-2.5 text-gray-400">78 kg</td>
-                                    <td class="p-2.5"><input type="text" id="sim-pull-load" placeholder="Weight used" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><input type="text" id="sim-pull-split" placeholder="e.g., 4 x 12.5m" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><select id="sim-pull-felt" class="p-1.5 rounded w-full text-xs"><option>Smooth</option><option>Controlled</option><option>Red-lined</option></select></td>
-                                </tr>
-                                <tr class="bg-black/20">
-                                    <td class="p-2.5 font-medium text-white">Burpee Broad Jump</td>
-                                    <td class="p-2.5 text-gray-400">80 m</td>
-                                    <td class="p-2.5 text-gray-400">Bodyweight</td>
-                                    <td class="p-2.5"><input type="text" id="sim-bbj-split" placeholder="e.g., 20m increments" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><select id="sim-bbj-felt" class="p-1.5 rounded w-full text-xs"><option>Smooth</option><option>Controlled</option><option>Red-lined</option></select></td>
-                                </tr>
-                                <tr>
-                                    <td class="p-2.5 font-medium text-white">Row (1000m)</td>
-                                    <td class="p-2.5 text-gray-400">1000 m</td>
-                                    <td class="p-2.5"><input type="text" id="sim-row-load" value="1000m" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><input type="text" id="sim-row-split" placeholder="e.g., 500m split" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><select id="sim-row-felt" class="p-1.5 rounded w-full text-xs"><option>Smooth</option><option>Controlled</option><option>Red-lined</option></select></td>
-                                </tr>
-                                <tr class="bg-black/20">
-                                    <td class="p-2.5 font-medium text-white">Farmer Carry</td>
-                                    <td id="sim-std-fc" class="p-2.5 text-gray-400">2 x 16 kg</td>
-                                    <td class="p-2.5"><input type="text" id="sim-fc-load" placeholder="Weight used" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><input type="text" id="sim-fc-split" placeholder="e.g., Unbroken / 1 break" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><select id="sim-fc-felt" class="p-1.5 rounded w-full text-xs"><option>Smooth</option><option>Controlled</option><option>Red-lined</option></select></td>
-                                </tr>
-                                <tr>
-                                    <td class="p-2.5 font-medium text-white">Sandbag Lunges</td>
-                                    <td id="sim-std-lunge" class="p-2.5 text-gray-400">10 kg</td>
-                                    <td class="p-2.5"><input type="text" id="sim-lunge-load" placeholder="Weight used" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><input type="text" id="sim-lunge-split" placeholder="e.g., 25m splits" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><select id="sim-lunge-felt" class="p-1.5 rounded w-full text-xs"><option>Smooth</option><option>Controlled</option><option>Red-lined</option></select></td>
-                                </tr>
-                                <tr class="bg-black/20">
-                                    <td class="p-2.5 font-medium text-white">Wall Balls</td>
-                                    <td id="sim-std-wb" class="p-2.5 text-gray-400">4 kg / 2.70m</td>
-                                    <td class="p-2.5"><input type="text" id="sim-wb-load" placeholder="Ball weight" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><input type="text" id="sim-wb-split" placeholder="e.g., Sets of 15-10" class="p-1.5 rounded w-full text-xs"></td>
-                                    <td class="p-2.5"><select id="sim-wb-felt" class="p-1.5 rounded w-full text-xs"><option>Smooth</option><option>Controlled</option><option>Red-lined</option></select></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="border-t border-gray-800 pt-4 mt-4 space-y-4">
-                    <h3 class="text-sm font-bold text-white text-hyrox-yellow flex items-center gap-2">
-                        <i class="fa-solid fa-brain"></i> 4. Strategy, Teamwork & Takeaways
-                    </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                        <div>
-                            <label class="block text-gray-400 mb-1">Partner Communication & Handoffs</label>
-                            <textarea id="sim-partner-notes" rows="2" placeholder="Did you stay connected? Did handoffs on sleds/ergs feel seamless?" class="w-full rounded-lg p-2.5 text-sm"></textarea>
-                        </div>
-                        <div>
-                            <label class="block text-gray-400 mb-1">Nutrition & Fueling Test</label>
-                            <textarea id="sim-nutrition-notes" rows="2" placeholder="What gels, electrolytes, or pre-sim meals did you test?" class="w-full rounded-lg p-2.5 text-sm"></textarea>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-400 mb-1">Key Wins & Adjustments for Next Simulation</label>
-                        <textarea id="sim-adjustments" rows="2" placeholder="Record pacing adjustments, technique takeaways, or bottlenecks..." class="w-full rounded-lg p-2.5 text-sm"></textarea>
                     </div>
                 </div>
             </div>
@@ -457,7 +362,6 @@
         <!-- ================= TAB 4: PACE CALCULATOR & TIMER ================= -->
         <div id="tab-tools" class="tab-content space-y-6">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Pace Calculator -->
                 <div class="bg-[#1E1E1E] border border-gray-800 rounded-xl p-5 shadow-lg space-y-4">
                     <h3 class="text-base font-bold text-white flex items-center gap-2">
                         <i class="fa-solid fa-calculator text-hyrox-yellow"></i> HYROX Race Pace Calculator
@@ -482,11 +386,9 @@
                     <div id="calc-result" class="bg-black/50 border border-gray-800 p-4 rounded-xl text-center space-y-2">
                         <div class="text-xs text-gray-400">Estimated Total Finish Time (8 Runs + 8 Stations)</div>
                         <div id="est-time" class="text-3xl font-black text-hyrox-yellow">--:--:--</div>
-                        <div class="text-[11px] text-gray-400">Note: Doubles and Relay divisions split the workload, reducing total fatigue.</div>
                     </div>
                 </div>
 
-                <!-- Interval Timer / Stopwatch -->
                 <div class="bg-[#1E1E1E] border border-gray-800 rounded-xl p-5 shadow-lg space-y-4 text-center">
                     <h3 class="text-base font-bold text-white flex items-center gap-2 justify-center">
                         <i class="fa-solid fa-stopwatch text-hyrox-yellow"></i> Training Interval Timer
@@ -518,16 +420,10 @@
                         <p class="text-xs text-gray-400">Select week and day, then generate clean graphic cards to save or share.</p>
                     </div>
                     
-                    <!-- Day & Week Selectors for Graphic Generator -->
                     <div class="flex flex-wrap items-center gap-2">
                         <select id="card-day-select" onchange="generateShareCard('daily')" class="bg-black border border-gray-700 text-xs rounded-lg px-2.5 py-2 text-white font-semibold">
-                            <option value="0">Day 1</option>
-                            <option value="1">Day 2</option>
-                            <option value="2">Day 3</option>
-                            <option value="3">Day 4</option>
-                            <option value="4">Day 5</option>
-                            <option value="5">Day 6</option>
-                            <option value="6">Day 7</option>
+                            <option value="0">Day 1</option><option value="1">Day 2</option><option value="2">Day 3</option><option value="3">Day 4</option>
+                            <option value="4">Day 5</option><option value="5">Day 6</option><option value="6">Day 7</option>
                         </select>
                         <button onclick="generateShareCard('daily')" class="bg-hyrox-yellow text-black px-3.5 py-2 rounded-lg font-bold text-xs hover:bg-yellow-400 transition">
                             <i class="fa-solid fa-calendar-day mr-1"></i> Daily Card
@@ -541,19 +437,16 @@
                     </div>
                 </div>
 
-                <!-- Graphic Card Render Container -->
                 <div class="flex justify-center p-4 bg-black/60 rounded-xl border border-gray-800">
                     <div id="shareable-graphic" class="w-full max-w-md bg-gradient-to-b from-zinc-900 via-black to-zinc-950 border-2 border-hyrox-yellow/60 rounded-2xl p-6 shadow-2xl text-white relative overflow-hidden space-y-4">
-                        <!-- Top Header Brand -->
                         <div class="flex justify-between items-center border-b border-gray-800 pb-3">
                             <div class="flex items-center space-x-2">
-                                <div class="bg-hyrox-yellow text-black font-black px-2.5 py-1 text-sm tracking-wider rounded">HYROX</div>
+                                <div class="bg-hyrox-yellow text-black font-black px-2.5 py-1 text-sm tracking-wider rounded">TXP</div>
                                 <span id="card-race-tag" class="text-xs font-bold text-gray-300 uppercase">HYROX HOUSTON</span>
                             </div>
                             <span id="card-date-tag" class="text-[10px] text-hyrox-yellow font-mono font-semibold">--/--/2026</span>
                         </div>
 
-                        <!-- Card Main Content -->
                         <div class="space-y-3 py-2">
                             <div class="text-center space-y-1">
                                 <div id="card-title-type" class="text-xs font-bold text-hyrox-yellow uppercase tracking-widest">Daily Workout Graphic</div>
@@ -561,46 +454,28 @@
                             </div>
 
                             <div class="bg-zinc-900/80 border border-gray-800 rounded-xl p-3.5 space-y-2 text-xs">
-                                <div class="flex justify-between text-gray-400">
-                                    <span>Athlete:</span>
-                                    <span id="card-athlete-name" class="font-bold text-white">Athlete</span>
-                                </div>
-                                <div class="flex justify-between text-gray-400">
-                                    <span>Division:</span>
-                                    <span id="card-division-name" class="font-bold text-white">Women's Doubles</span>
-                                </div>
-                                <div class="flex justify-between text-gray-400">
-                                    <span>Phase / Week:</span>
-                                    <span id="card-week-val" class="font-bold text-hyrox-yellow">Week 1 Master Plan</span>
-                                </div>
+                                <div class="flex justify-between text-gray-400"><span>Athlete:</span><span id="card-athlete-name" class="font-bold text-white">Athlete</span></div>
+                                <div class="flex justify-between text-gray-400"><span>Division:</span><span id="card-division-name" class="font-bold text-white">Women's Doubles</span></div>
+                                <div class="flex justify-between text-gray-400"><span>Phase / Week:</span><span id="card-week-val" class="font-bold text-hyrox-yellow">Week 1 Master Plan</span></div>
                             </div>
 
-                            <!-- Dynamic Metrics Section / Workout Details -->
                             <div id="card-metrics-box" class="bg-black/60 border border-gray-800 rounded-xl p-3.5 space-y-2 text-xs">
                                 <div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Scheduled Exercises & Runs</div>
-                                <div id="card-workout-details" class="space-y-1 text-gray-300 text-[11px]">
-                                    <!-- Populated dynamically -->
-                                </div>
+                                <div id="card-workout-details" class="space-y-1 text-gray-300 text-[11px]"></div>
                             </div>
                         </div>
 
-                        <!-- Footer Tag -->
                         <div class="pt-2 border-t border-gray-800/80 flex justify-between items-center text-[10px] text-gray-500 font-mono">
                             <span>TRAIN. SIMULATE. CONQUER.</span>
-                            <span class="text-hyrox-yellow">HYROX TRACKER</span>
+                            <span class="text-hyrox-yellow">TX_PIERCE TRACKER</span>
                         </div>
                     </div>
-                </div>
-
-                <div class="text-center">
-                    <p class="text-xs text-gray-400 mb-3"><i class="fa-solid fa-circle-info text-hyrox-yellow"></i> Tip: Select any day (Day 1 through Day 7) from the dropdown above to instantly update the graphic card.</p>
                 </div>
             </div>
         </div>
 
         <!-- ================= TAB 6: RACE PREP & POST-RACE JOURNAL ================= -->
         <div id="tab-raceprep" class="tab-content space-y-6">
-            <!-- Race-Week Packing Checklist -->
             <div class="bg-[#1E1E1E] border border-gray-800 rounded-xl p-5 shadow-lg space-y-4">
                 <h3 class="text-base font-bold text-white flex items-center gap-2">
                     <i class="fa-solid fa-suitcase text-hyrox-yellow"></i> Race-Week Packing Checklist
@@ -611,27 +486,22 @@
                         <label class="flex items-center gap-2"><input type="checkbox" class="rounded bg-black"> Race registration confirmation</label>
                         <label class="flex items-center gap-2"><input type="checkbox" class="rounded bg-black"> Photo ID / Passport</label>
                         <label class="flex items-center gap-2"><input type="checkbox" class="rounded bg-black"> Athlete wristband / packet</label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="rounded bg-black"> Emergency contact info</label>
                     </div>
                     <div class="bg-black/40 p-4 rounded-xl border border-gray-800 space-y-2">
                         <h4 class="font-bold text-hyrox-yellow text-sm">Competition Gear</h4>
                         <label class="flex items-center gap-2"><input type="checkbox" class="rounded bg-black"> Race shoes (broken in) + backup</label>
                         <label class="flex items-center gap-2"><input type="checkbox" class="rounded bg-black"> Performance socks (2 pairs)</label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="rounded bg-black"> Race top & shorts/leggings</label>
                         <label class="flex items-center gap-2"><input type="checkbox" class="rounded bg-black"> Watch (fully charged)</label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="rounded bg-black"> Hair ties / headband</label>
                     </div>
                     <div class="bg-black/40 p-4 rounded-xl border border-gray-800 space-y-2">
                         <h4 class="font-bold text-hyrox-yellow text-sm">Warm-up & Nutrition</h4>
                         <label class="flex items-center gap-2"><input type="checkbox" class="rounded bg-black"> Light hoodie & sweatpants</label>
                         <label class="flex items-center gap-2"><input type="checkbox" class="rounded bg-black"> Mini resistance bands</label>
                         <label class="flex items-center gap-2"><input type="checkbox" class="rounded bg-black"> Pre-race meal & electrolytes</label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="rounded bg-black"> Post-race recovery shake</label>
                     </div>
                 </div>
             </div>
 
-            <!-- Post-Race Analysis Journal -->
             <div class="bg-[#1E1E1E] border border-gray-800 rounded-xl p-5 shadow-lg space-y-4">
                 <div class="flex justify-between items-center">
                     <h3 class="text-base font-bold text-white flex items-center gap-2">
@@ -640,26 +510,14 @@
                     <button onclick="savePostRaceLog()" class="bg-hyrox-yellow text-black px-4 py-2 rounded-lg font-bold text-xs hover:bg-yellow-400 transition">Save Journal</button>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
-                    <div>
-                        <label class="block text-gray-400 mb-1">Official Finish Time</label>
-                        <input type="text" id="post-time" placeholder="HH:MM:SS" class="w-full rounded-lg p-2">
-                    </div>
-                    <div>
-                        <label class="block text-gray-400 mb-1">Goal Time</label>
-                        <input type="text" id="post-goal" placeholder="HH:MM:SS" class="w-full rounded-lg p-2">
-                    </div>
-                    <div>
-                        <label class="block text-gray-400 mb-1">Overall / Division Placement</label>
-                        <input type="text" id="post-place" placeholder="e.g. 15th / 120" class="w-full rounded-lg p-2">
-                    </div>
-                    <div>
-                        <label class="block text-gray-400 mb-1">Goal Achieved?</label>
-                        <select id="post-achieved" class="w-full rounded-lg p-2"><option>Yes</option><option>No</option></select>
-                    </div>
+                    <div><label class="block text-gray-400 mb-1">Official Finish Time</label><input type="text" id="post-time" placeholder="HH:MM:SS" class="w-full rounded-lg p-2"></div>
+                    <div><label class="block text-gray-400 mb-1">Goal Time</label><input type="text" id="post-goal" placeholder="HH:MM:SS" class="w-full rounded-lg p-2"></div>
+                    <div><label class="block text-gray-400 mb-1">Placement</label><input type="text" id="post-place" placeholder="e.g. 15th / 120" class="w-full rounded-lg p-2"></div>
+                    <div><label class="block text-gray-400 mb-1">Goal Achieved?</label><select id="post-achieved" class="w-full rounded-lg p-2"><option>Yes</option><option>No</option></select></div>
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-gray-400 mb-1">Post-Race Reflection & Execution Notes</label>
-                    <textarea id="post-reflection" rows="3" placeholder="How did pacing feel? How did partner/relay handoffs go? What would you change for next time?" class="w-full rounded-lg p-2.5 text-sm"></textarea>
+                    <textarea id="post-reflection" rows="3" placeholder="How did pacing feel? Handoffs? What to change next time?" class="w-full rounded-lg p-2.5 text-sm"></textarea>
                 </div>
             </div>
         </div>
@@ -668,7 +526,7 @@
 
     <!-- Footer -->
     <footer class="bg-black border-t border-gray-800 py-4 text-center text-xs text-gray-500">
-        <p>HYROX Training & Workout Tracker | Complete 11-Week Periodized Master Plan</p>
+        <p>TX_Pierce HYROX Training App | Complete 11-Week Periodized Master Plan</p>
     </footer>
 
     <!-- JavaScript App Logic -->
@@ -768,8 +626,10 @@
             });
             document.getElementById('tab-' + tabId).classList.add('active');
             const btn = document.getElementById('btn-' + tabId);
-            btn.classList.remove('text-gray-300', 'hover:bg-gray-800');
-            btn.classList.add('bg-hyrox-yellow', 'text-black');
+            if(btn) {
+                btn.classList.remove('text-gray-300', 'hover:bg-gray-800');
+                btn.classList.add('bg-hyrox-yellow', 'text-black');
+            }
         }
 
         function updateRaceSettings() {
@@ -797,13 +657,6 @@
                 `;
             });
             document.getElementById('standards-tbody').innerHTML = tbodyHtml;
-
-            document.getElementById('sim-std-push').innerText = divObj.push;
-            document.getElementById('sim-std-pull').innerText = divObj.pull;
-            document.getElementById('sim-std-fc').innerText = divObj.fc;
-            document.getElementById('sim-std-lunge').innerText = divObj.lunge;
-            document.getElementById('sim-std-wb').innerText = divObj.wb;
-
             localStorage.setItem('hyrox_custom_settings', JSON.stringify({ raceName, raceDateVal, divisionKey }));
         }
 
@@ -968,7 +821,6 @@
             }
         };
 
-        // Render Program Week & Restore Saved State from localStorage
         function renderProgramWeek() {
             const weekNum = document.getElementById('program-week-select').value;
             const data = programData[weekNum];
@@ -1003,7 +855,6 @@
                     }
 
                     const loadInputId = `load_w${weekNum}_d${dayIdx}_e${exIdx}`;
-
                     html += `
                         <div class="bg-zinc-900/80 border border-gray-800/90 p-3 rounded-lg flex flex-col gap-3">
                             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
@@ -1024,38 +875,26 @@
                         </div>
                     `;
                 });
-
                 html += `</div></div>`;
             });
 
             html += `</div></div>`;
             container.innerHTML = html;
-
             loadProgramProgress();
             updateOverallProgress();
         }
 
-        // Save Checkbox States & Loads to localStorage
         function saveProgramProgress() {
             const progressData = { checkboxes: {}, loads: {} };
-            
-            // Scan all inputs in document
-            document.querySelectorAll('.set-checkbox').forEach(chk => {
-                progressData.checkboxes[chk.id] = chk.checked;
-            });
-            document.querySelectorAll('input[id^="load_w"]').forEach(input => {
-                progressData.loads[input.id] = input.value;
-            });
-
+            document.querySelectorAll('.set-checkbox').forEach(chk => { progressData.checkboxes[chk.id] = chk.checked; });
+            document.querySelectorAll('input[id^="load_w"]').forEach(input => { progressData.loads[input.id] = input.value; });
             localStorage.setItem('hyrox_program_progress', JSON.stringify(progressData));
             updateOverallProgress();
         }
 
-        // Load Checkbox States & Loads from localStorage
         function loadProgramProgress() {
             const saved = JSON.parse(localStorage.getItem('hyrox_program_progress'));
             if (!saved) return;
-
             if (saved.checkboxes) {
                 for (const [id, isChecked] of Object.entries(saved.checkboxes)) {
                     const el = document.getElementById(id);
@@ -1070,13 +909,9 @@
             }
         }
 
-        // Calculate Overall Program Progress Meter across all 11 weeks
         function updateOverallProgress() {
             const saved = JSON.parse(localStorage.getItem('hyrox_program_progress'));
-            let totalCheckboxes = 0;
-            let checkedCount = 0;
-
-            // Compute total possible checkboxes across all 11 weeks in programData
+            let totalCheckboxes = 0, checkedCount = 0;
             for (let w = 1; w <= 11; w++) {
                 programData[w].days.forEach((dayObj, dIdx) => {
                     dayObj.exercises.forEach((ex, eIdx) => {
@@ -1084,22 +919,38 @@
                         for (let s = 1; s <= numSets; s++) {
                             totalCheckboxes++;
                             const chkId = `chk_w${w}_d${dIdx}_e${eIdx}_s${s}`;
-                            if (saved && saved.checkboxes && saved.checkboxes[chkId]) {
-                                checkedCount++;
-                            }
+                            if (saved && saved.checkboxes && saved.checkboxes[chkId]) checkedCount++;
                         }
                     });
                 });
             }
-
             const percent = totalCheckboxes > 0 ? Math.round((checkedCount / totalCheckboxes) * 100) : 0;
             document.getElementById('overall-progress-text').innerText = `${percent}% Completed (${checkedCount}/${totalCheckboxes} sets)`;
             document.getElementById('overall-progress-bar').style.width = `${percent}%`;
         }
 
-        renderProgramWeek();
+        function autoCalculateTargets() {
+            const goalInput = document.getElementById('sim-goal-total').value;
+            let totalSeconds = 75 * 60;
+            if (goalInput.includes(':')) {
+                const parts = goalInput.split(':');
+                if (parts.length === 3) totalSeconds = (parseInt(parts[0]) * 3600) + (parseInt(parts[1]) * 60) + parseInt(parts[2]);
+                else if (parts.length === 2) totalSeconds = (parseInt(parts[0]) * 60) + parseInt(parts[1]);
+            } else {
+                totalSeconds = parseFloat(goalInput) * 60;
+            }
+            const singleRunSeconds = (totalSeconds * 0.55) / 8;
+            const runMin = Math.floor(singleRunSeconds / 60);
+            const runSec = Math.round(singleRunSeconds % 60);
+            const formattedRunPace = `${runMin}:${runSec < 10 ? '0' : ''}${runSec}`;
 
-        // Share Card Generator Logic
+            document.getElementById('display-goal-total').innerText = goalInput;
+            for (let i = 1; i <= 8; i++) {
+                const targetEl = document.getElementById(`target-run${i}`);
+                if (targetEl) targetEl.innerText = formattedRunPace;
+            }
+        }
+
         function generateShareCard(type) {
             const raceName = document.getElementById('setting-race-name').value;
             const divisionKey = document.getElementById('setting-division').value;
@@ -1118,7 +969,6 @@
             if (type === 'daily') {
                 const selectedDayIdx = parseInt(document.getElementById('card-day-select').value) || 0;
                 const dayObj = programData[weekNum].days[selectedDayIdx];
-
                 document.getElementById('card-title-type').innerText = "Daily Workout Graphic";
                 document.getElementById('card-main-title').innerText = `Week ${weekNum} - ${dayObj.day.split(' - ')[0]}`;
                 
@@ -1126,33 +976,17 @@
                 dayObj.exercises.forEach(ex => {
                     workoutListHtml += `<div class="flex justify-between border-b border-gray-800/50 py-0.5"><span>${ex.name}</span><span class="text-gray-400">${ex.reps}</span></div>`;
                 });
-
-                metricsBox.innerHTML = `
-                    <div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Scheduled Exercises & Runs</div>
-                    <div class="space-y-1 text-gray-300 text-[11px]">
-                        ${workoutListHtml}
-                    </div>
-                `;
+                metricsBox.innerHTML = `<div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Scheduled Exercises & Runs</div><div class="space-y-1 text-gray-300 text-[11px]">${workoutListHtml}</div>`;
             } else if (type === 'weekly') {
                 document.getElementById('card-title-type').innerText = "Weekly Progress Graphic";
                 document.getElementById('card-main-title').innerText = `Week ${weekNum} Summary`;
-                metricsBox.innerHTML = `
-                    <div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Weekly Metrics</div>
-                    <div class="flex justify-between"><span class="text-gray-400">Block Focus:</span><span class="font-bold text-white">${programData[weekNum].focus}</span></div>
-                    <div class="flex justify-between"><span class="text-gray-400">Volume Status:</span><span class="font-bold text-hyrox-yellow">100% Completed</span></div>
-                    <div class="flex justify-between"><span class="text-gray-400">Readiness:</span><span class="font-bold text-green-400">Peak Condition</span></div>
-                `;
+                metricsBox.innerHTML = `<div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Weekly Metrics</div><div class="flex justify-between"><span class="text-gray-400">Block Focus:</span><span class="font-bold text-white">${programData[weekNum].focus}</span></div><div class="flex justify-between"><span class="text-gray-400">Volume Status:</span><span class="font-bold text-hyrox-yellow">100% Completed</span></div>`;
             } else if (type === 'sim') {
                 const totalTime = document.getElementById('sim-total-time').value || '1:14:32';
                 const sessionRpe = document.getElementById('sim-rpe').value || '8.5';
                 document.getElementById('card-title-type').innerText = "Race Simulator Result";
                 document.getElementById('card-main-title').innerText = "Full Race Simulation";
-                metricsBox.innerHTML = `
-                    <div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Simulation Results</div>
-                    <div class="flex justify-between"><span class="text-gray-400">Total Sim Time:</span><span class="font-bold font-mono text-white">${totalTime}</span></div>
-                    <div class="flex justify-between"><span class="text-gray-400">Session RPE:</span><span class="font-bold font-mono text-hyrox-yellow">${sessionRpe} / 10</span></div>
-                    <div class="flex justify-between"><span class="text-gray-400">Simulation Status:</span><span class="font-bold text-green-400">Race Ready</span></div>
-                `;
+                metricsBox.innerHTML = `<div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Simulation Results</div><div class="flex justify-between"><span class="text-gray-400">Total Sim Time:</span><span class="font-bold font-mono text-white">${totalTime}</span></div><div class="flex justify-between"><span class="text-gray-400">Session RPE:</span><span class="font-bold font-mono text-hyrox-yellow">${sessionRpe} / 10</span></div>`;
             }
         }
 
@@ -1162,11 +996,9 @@
             const parts = paceStr.split(':');
             const totalSecPerKm = ((parseFloat(parts[0]) || 5) * 60) + (parseFloat(parts[1]) || 0);
             const totalRaceSec = (totalSecPerKm * 8) + (stationTimeMin * 60 * 8);
-
             const hours = Math.floor(totalRaceSec / 3600);
             const minutes = Math.floor((totalRaceSec % 3600) / 60);
             const seconds = Math.floor(totalRaceSec % 60);
-
             document.getElementById('est-time').innerText = `${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }
         calculatePace();
@@ -1195,7 +1027,10 @@
         }
 
         function clearSimLog() {
-            ['sim-total-time', 'sim-avg-hr', 'sim-peak-hr', 'sim-rpe', 'sim-partner-notes', 'sim-nutrition-notes', 'sim-adjustments'].forEach(id => document.getElementById(id).value = '');
+            ['sim-total-time', 'sim-avg-hr', 'sim-peak-hr', 'sim-rpe', 'sim-partner-notes', 'sim-nutrition-notes', 'sim-adjustments'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.value = '';
+            });
             alert('Simulation log fields cleared.');
         }
 
@@ -1219,6 +1054,8 @@
         }
         updateRaceSettings();
         updateCountdown();
+        renderProgramWeek();
+        autoCalculateTargets();
         generateShareCard('daily');
     </script>
 </body>
