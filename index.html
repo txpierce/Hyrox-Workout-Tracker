@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HYROX Houston Training & Workout Tracker (Women's Doubles)</title>
+    <title>HYROX Training & Workout Tracker</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -45,8 +45,8 @@
             <div class="flex items-center space-x-3">
                 <div class="bg-hyrox-yellow text-black font-black px-3 py-1.5 text-xl tracking-wider rounded">HYROX</div>
                 <div>
-                    <h1 class="text-lg font-bold text-white tracking-wide">HOUSTON TRAINING & TRACKER</h1>
-                    <p class="text-xs text-gray-400">Women's Doubles | Jan 12 – Mar 29, 2026</p>
+                    <h1 class="text-lg font-bold text-white tracking-wide">TRAINING & WORKOUT TRACKER</h1>
+                    <p id="header-subtext" class="text-xs text-gray-400">Custom Division | Interactive Setup</p>
                 </div>
             </div>
             <!-- Navigation Tabs -->
@@ -61,7 +61,39 @@
     </header>
 
     <!-- Main Container -->
-    <main class="max-w-7xl mx-auto px-4 py-6 w-full flex-grow">
+    <main class="max-w-7xl mx-auto px-4 py-6 w-full flex-grow space-y-6">
+
+        <!-- ================= CUSTOMIZATION CONTROL BAR ================= -->
+        <div class="bg-gradient-to-r from-zinc-900 to-black border border-hyrox-yellow/40 rounded-xl p-4 shadow-xl flex flex-col lg:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-sliders text-hyrox-yellow text-lg"></i>
+                <div>
+                    <h3 class="text-sm font-bold text-white uppercase tracking-wider">Race Customization Settings</h3>
+                    <p class="text-[11px] text-gray-400">Tailor your event name, race date, and division standards instantly.</p>
+                </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+                <div class="flex flex-col">
+                    <label class="text-[10px] text-gray-400 uppercase font-semibold mb-1">Race Name</label>
+                    <input type="text" id="setting-race-name" value="HYROX Houston" onchange="updateRaceSettings()" class="rounded px-2.5 py-1.5 text-xs font-bold">
+                </div>
+                <div class="flex flex-col">
+                    <label class="text-[10px] text-gray-400 uppercase font-semibold mb-1">Race Date</label>
+                    <input type="date" id="setting-race-date" value="2026-03-29" onchange="updateRaceSettings()" class="rounded px-2.5 py-1.5 text-xs font-bold">
+                </div>
+                <div class="flex flex-col">
+                    <label class="text-[10px] text-gray-400 uppercase font-semibold mb-1">Competition Division</label>
+                    <select id="setting-division" onchange="updateRaceSettings()" class="rounded px-2.5 py-1.5 text-xs font-bold bg-[#1E1E1E] text-white">
+                        <option value="mens">Men's Open / Pro</option>
+                        <option value="mens-double">Men's Doubles</option>
+                        <option value="womens">Women's Open / Pro</option>
+                        <option value="womens-double" selected>Women's Doubles</option>
+                        <option value="mix-double">Mixed Doubles</option>
+                        <option value="group-4">Group of 4 (Relay)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
 
         <!-- ================= TAB 1: DASHBOARD ================= -->
         <div id="tab-dashboard" class="tab-content active space-y-6">
@@ -69,8 +101,8 @@
             <div class="bg-gradient-to-r from-gray-900 via-zinc-900 to-black border border-yellow-500/30 rounded-xl p-6 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
                 <div>
                     <span class="bg-hyrox-yellow/10 text-hyrox-yellow border border-hyrox-yellow/30 text-xs px-2.5 py-1 rounded-full font-bold uppercase tracking-wider">Target Race</span>
-                    <h2 class="text-2xl font-black text-white mt-2">HYROX HOUSTON (Women's Doubles)</h2>
-                    <p class="text-sm text-gray-400 mt-1">March 29, 2026 | 11-Week Periodized Program</p>
+                    <h2 id="display-race-title" class="text-2xl font-black text-white mt-2">HYROX HOUSTON (Women's Doubles)</h2>
+                    <p id="display-race-date-sub" class="text-sm text-gray-400 mt-1">March 29, 2026 | 11-Week Periodized Program</p>
                 </div>
                 <div class="grid grid-cols-4 gap-3 text-center">
                     <div class="bg-black/60 border border-gray-800 px-3 py-2 rounded-lg">
@@ -97,8 +129,8 @@
                 <!-- Official Standards Card -->
                 <div class="lg:col-span-2 bg-[#1E1E1E] border border-gray-800 rounded-xl p-5 shadow-lg">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-base font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-scale-balanced text-hyrox-yellow"></i> Official Women's Open / Doubles Standards
+                        <h3 id="standards-heading" class="text-base font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-scale-balanced text-hyrox-yellow"></i> Official Division Standards
                         </h3>
                         <span class="text-xs bg-gray-800 text-gray-300 px-2.5 py-1 rounded">Season 2026/27</span>
                     </div>
@@ -112,15 +144,8 @@
                                     <th class="p-2.5">Execution Notes</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-gray-800 text-gray-300">
-                                <tr><td class="p-2.5 font-medium text-white">1. SkiErg</td><td class="p-2.5">1,000 m</td><td class="p-2.5">Damper 6</td><td class="p-2.5 text-gray-400">Feet remain on platform.</td></tr>
-                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">2. Sled Push</td><td class="p-2.5">50 m (4x12.5m)</td><td class="p-2.5">102 kg (~225 lb)</td><td class="p-2.5 text-gray-400">Total load incl. sled.</td></tr>
-                                <tr><td class="p-2.5 font-medium text-white">3. Sled Pull</td><td class="p-2.5">50 m (4x12.5m)</td><td class="p-2.5">78 kg (~172 lb)</td><td class="p-2.5 text-gray-400">Must remain in racer's box.</td></tr>
-                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">4. Burpee Broad Jump</td><td class="p-2.5">80 m</td><td class="p-2.5">Bodyweight</td><td class="p-2.5 text-gray-400">Chest touches ground.</td></tr>
-                                <tr><td class="p-2.5 font-medium text-white">5. Rowing</td><td class="p-2.5">1,000 m</td><td class="p-2.5">Damper 6</td><td class="p-2.5 text-gray-400">Feet strapped in.</td></tr>
-                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">6. Farmer Carry</td><td class="p-2.5">200 m</td><td class="p-2.5">2 x 16 kg (~35 lb)</td><td class="p-2.5 text-gray-400">Kettlebells at sides.</td></tr>
-                                <tr><td class="p-2.5 font-medium text-white">7. Sandbag Lunges</td><td class="p-2.5">100 m</td><td class="p-2.5">10 kg (~22 lb)</td><td class="p-2.5 text-gray-400">Trailing knee touches ground.</td></tr>
-                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">8. Wall Balls</td><td class="p-2.5">100 reps</td><td class="p-2.5">4 kg (~9 lb) @ 2.70m</td><td class="p-2.5 text-gray-400">Hip crease below knee.</td></tr>
+                            <tbody id="standards-tbody" class="divide-y divide-gray-800 text-gray-300">
+                                <!-- Dynamically populated based on division -->
                             </tbody>
                         </table>
                     </div>
@@ -153,11 +178,11 @@
                     </div>
 
                     <div class="bg-gradient-to-br from-zinc-900 to-black border border-gray-800 rounded-xl p-5 shadow-lg">
-                        <h3 class="text-sm font-bold text-white mb-2 uppercase tracking-wide text-hyrox-yellow">Doubles Core Principles</h3>
+                        <h3 class="text-sm font-bold text-white mb-2 uppercase tracking-wide text-hyrox-yellow">Core Training Principles</h3>
                         <ul class="text-xs text-gray-300 space-y-2 list-disc pl-4">
                             <li><strong class="text-white">Consistency over intensity</strong> early in training blocks.</li>
                             <li><strong class="text-white">Efficiency under fatigue</strong> over maximal output.</li>
-                            <li><strong class="text-white">Smooth transitions</strong> and clear partner handoffs.</li>
+                            <li><strong class="text-white">Smooth transitions</strong> and clear partner/relay handoffs.</li>
                             <li><strong class="text-white">Role clarity</strong>: Split reps evenly on high-fatigue stations.</li>
                         </ul>
                     </div>
@@ -175,17 +200,17 @@
                 <div class="flex items-center gap-3 w-full md:w-auto">
                     <label class="text-xs text-gray-300 font-medium">Select Week:</label>
                     <select id="program-week-select" onchange="renderProgramWeek()" class="bg-black border border-gray-700 text-sm rounded-lg px-3 py-1.5 text-white font-semibold">
-                        <option value="1">Week 1: Jan 12–18 (Base & Movement Quality)</option>
-                        <option value="2">Week 2: Jan 19–25 (Base Progression)</option>
-                        <option value="3">Week 3: Jan 26–Feb 1 (Early Events Emphasis)</option>
-                        <option value="4">Week 4: Feb 2–8 (Threshold & Sled Focus)</option>
-                        <option value="5">Week 5: Feb 9–15 (Build Phase - Sleds + Ski)</option>
-                        <option value="6">Week 6: Feb 16–22 (Build Phase - Burpee + Row)</option>
-                        <option value="7">Week 7: Feb 23–Mar 1 (Build Phase - Sleds + Carry)</option>
-                        <option value="8">Week 8: Mar 2–8 (Late-Race Events Focus)</option>
-                        <option value="9">Week 9: Mar 9–15 (Peak - Full Sim)</option>
-                        <option value="10">Week 10: Mar 16–22 (Sharp/Fast Partial Sim)</option>
-                        <option value="11">Week 11: Mar 23–29 (Taper & Race Execution)</option>
+                        <option value="1">Week 1: Base & Movement Quality</option>
+                        <option value="2">Week 2: Base Progression</option>
+                        <option value="3">Week 3: Early Events Emphasis</option>
+                        <option value="4">Week 4: Threshold & Sled Focus</option>
+                        <option value="5">Week 5: Build Phase - Sleds + Ski</option>
+                        <option value="6">Week 6: Build Phase - Burpee + Row</option>
+                        <option value="7">Week 7: Build Phase - Sleds + Carry</option>
+                        <option value="8">Week 8: Late-Race Events Focus</option>
+                        <option value="9">Week 9: Peak - Full Sim</option>
+                        <option value="10">Week 10: Sharp/Fast Partial Sim</option>
+                        <option value="11">Week 11: Taper & Race Execution</option>
                     </select>
                 </div>
             </div>
@@ -232,8 +257,8 @@
                         <input type="text" id="log-athlete" placeholder="Athlete Name" class="w-full rounded-lg p-2.5 text-sm">
                     </div>
                     <div>
-                        <label class="block text-xs font-medium text-gray-400 mb-1">Partner Name (Doubles)</label>
-                        <input type="text" id="log-partner" placeholder="Partner Name" class="w-full rounded-lg p-2.5 text-sm">
+                        <label class="block text-xs font-medium text-gray-400 mb-1">Partner / Team Name</label>
+                        <input type="text" id="log-partner" placeholder="Partner/Team Name" class="w-full rounded-lg p-2.5 text-sm">
                     </div>
                 </div>
 
@@ -297,7 +322,7 @@
                             <thead class="bg-black/40 text-gray-400 uppercase text-[10px]">
                                 <tr>
                                     <th class="p-2.5">HYROX Movement</th>
-                                    <th class="p-2.5">Target Load / Standard</th>
+                                    <th class="p-2.5">Target Standard</th>
                                     <th class="p-2.5">Actual Load Used</th>
                                     <th class="p-2.5">Reps / Distance Completed</th>
                                     <th class="p-2.5">Perceived Effort</th>
@@ -306,14 +331,14 @@
                             <tbody class="divide-y divide-gray-800 text-gray-300">
                                 <tr>
                                     <td class="p-2.5 font-medium text-white">Sled Push</td>
-                                    <td class="p-2.5 text-gray-400">102 kg (~225 lb)</td>
+                                    <td id="log-std-push" class="p-2.5 text-gray-400">102 kg</td>
                                     <td class="p-2.5"><input type="text" id="log-sled-push-load" placeholder="Weight used" class="p-1.5 rounded w-full text-xs"></td>
                                     <td class="p-2.5"><input type="text" id="log-sled-push-rep" placeholder="50m completed" class="p-1.5 rounded w-full text-xs"></td>
                                     <td class="p-2.5"><select id="log-sled-push-eff" class="p-1.5 rounded w-full text-xs"><option>Easy</option><option selected>Moderate</option><option>Hard</option></select></td>
                                 </tr>
                                 <tr class="bg-black/20">
                                     <td class="p-2.5 font-medium text-white">Sled Pull</td>
-                                    <td class="p-2.5 text-gray-400">78 kg (~172 lb)</td>
+                                    <td id="log-std-pull" class="p-2.5 text-gray-400">78 kg</td>
                                     <td class="p-2.5"><input type="text" id="log-sled-pull-load" placeholder="Weight used" class="p-1.5 rounded w-full text-xs"></td>
                                     <td class="p-2.5"><input type="text" id="log-sled-pull-rep" placeholder="50m completed" class="p-1.5 rounded w-full text-xs"></td>
                                     <td class="p-2.5"><select id="log-sled-pull-eff" class="p-1.5 rounded w-full text-xs"><option>Easy</option><option selected>Moderate</option><option>Hard</option></select></td>
@@ -327,21 +352,21 @@
                                 </tr>
                                 <tr class="bg-black/20">
                                     <td class="p-2.5 font-medium text-white">Farmer Carry</td>
-                                    <td class="p-2.5 text-gray-400">2 x 16 kg (~35 lb)</td>
+                                    <td id="log-std-fc" class="p-2.5 text-gray-400">2 x 16 kg</td>
                                     <td class="p-2.5"><input type="text" id="log-fc-load" placeholder="Weight used" class="p-1.5 rounded w-full text-xs"></td>
                                     <td class="p-2.5"><input type="text" id="log-fc-rep" placeholder="200m completed" class="p-1.5 rounded w-full text-xs"></td>
                                     <td class="p-2.5"><select id="log-fc-eff" class="p-1.5 rounded w-full text-xs"><option>Easy</option><option selected>Moderate</option><option>Hard</option></select></td>
                                 </tr>
                                 <tr>
                                     <td class="p-2.5 font-medium text-white">Sandbag Lunges</td>
-                                    <td class="p-2.5 text-gray-400">10 kg (~22 lb)</td>
+                                    <td id="log-std-lunge" class="p-2.5 text-gray-400">10 kg</td>
                                     <td class="p-2.5"><input type="text" id="log-lunge-load" placeholder="Weight used" class="p-1.5 rounded w-full text-xs"></td>
                                     <td class="p-2.5"><input type="text" id="log-lunge-rep" placeholder="100m completed" class="p-1.5 rounded w-full text-xs"></td>
                                     <td class="p-2.5"><select id="log-lunge-eff" class="p-1.5 rounded w-full text-xs"><option>Easy</option><option selected>Moderate</option><option>Hard</option></select></td>
                                 </tr>
                                 <tr class="bg-black/20">
                                     <td class="p-2.5 font-medium text-white">Wall Balls</td>
-                                    <td class="p-2.5 text-gray-400">4 kg / 2.70m</td>
+                                    <td id="log-std-wb" class="p-2.5 text-gray-400">4 kg / 2.70m</td>
                                     <td class="p-2.5"><input type="text" id="log-wb-load" placeholder="Ball weight" class="p-1.5 rounded w-full text-xs"></td>
                                     <td class="p-2.5"><input type="text" id="log-wb-rep" placeholder="100 reps completed" class="p-1.5 rounded w-full text-xs"></td>
                                     <td class="p-2.5"><select id="log-wb-eff" class="p-1.5 rounded w-full text-xs"><option>Easy</option><option selected>Moderate</option><option>Hard</option></select></td>
@@ -352,7 +377,7 @@
                 </div>
 
                 <div class="border-t border-gray-800 pt-4 mt-4">
-                    <label class="block text-xs font-medium text-gray-400 mb-1">Session Notes & Partner Handoff Strategy</label>
+                    <label class="block text-xs font-medium text-gray-400 mb-1">Session Notes & Handoff Strategy</label>
                     <textarea id="log-notes" rows="2" placeholder="Record how transitions felt, nutrition notes, or areas to improve..." class="w-full rounded-lg p-2.5 text-sm"></textarea>
                 </div>
             </div>
@@ -386,7 +411,7 @@
                     <div id="calc-result" class="bg-black/50 border border-gray-800 p-4 rounded-xl text-center space-y-2">
                         <div class="text-xs text-gray-400">Estimated Total Finish Time (8 Runs + 8 Stations)</div>
                         <div id="est-time" class="text-3xl font-black text-hyrox-yellow">--:--:--</div>
-                        <div class="text-[11px] text-gray-400">Note: Doubles splits workload, reducing total station fatigue.</div>
+                        <div class="text-[11px] text-gray-400">Note: Doubles and Relay divisions split the workload, reducing total fatigue.</div>
                     </div>
                 </div>
 
@@ -416,7 +441,7 @@
             <!-- Race-Week Packing Checklist -->
             <div class="bg-[#1E1E1E] border border-gray-800 rounded-xl p-5 shadow-lg space-y-4">
                 <h3 class="text-base font-bold text-white flex items-center gap-2">
-                    <i class="fa-solid fa-suitcase text-hyrox-yellow"></i> HYROX Houston Race-Week Packing Checklist
+                    <i class="fa-solid fa-suitcase text-hyrox-yellow"></i> Race-Week Packing Checklist
                 </h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
                     <div class="bg-black/40 p-4 rounded-xl border border-gray-800 space-y-2">
@@ -448,7 +473,7 @@
             <div class="bg-[#1E1E1E] border border-gray-800 rounded-xl p-5 shadow-lg space-y-4">
                 <div class="flex justify-between items-center">
                     <h3 class="text-base font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-medal text-hyrox-yellow"></i> Post-Race Analysis Journal (March 29)
+                        <i class="fa-solid fa-medal text-hyrox-yellow"></i> Post-Race Analysis Journal
                     </h3>
                     <button onclick="savePostRaceLog()" class="bg-hyrox-yellow text-black px-4 py-2 rounded-lg font-bold text-xs hover:bg-yellow-400 transition">Save Journal</button>
                 </div>
@@ -472,7 +497,7 @@
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-gray-400 mb-1">Post-Race Reflection & Execution Notes</label>
-                    <textarea id="post-reflection" rows="3" placeholder="How did pacing feel? How did partner handoffs go? What would you change for next time?" class="w-full rounded-lg p-2.5 text-sm"></textarea>
+                    <textarea id="post-reflection" rows="3" placeholder="How did pacing feel? How did partner/relay handoffs go? What would you change for next time?" class="w-full rounded-lg p-2.5 text-sm"></textarea>
                 </div>
             </div>
         </div>
@@ -481,11 +506,123 @@
 
     <!-- Footer -->
     <footer class="bg-black border-t border-gray-800 py-4 text-center text-xs text-gray-500">
-        <p>HYROX Houston Training & Workout Tracker | Built for Women's Doubles Success</p>
+        <p>HYROX Training & Workout Tracker | Customizable Division & Race Planner</p>
     </footer>
 
     <!-- JavaScript App Logic -->
     <script>
+        // Division Standards Data Dictionary
+        const divisionStandards = {
+            'mens': {
+                name: "Men's Open / Pro Standards",
+                push: "152 kg (~335 lb)",
+                pull: "103 kg (~227 lb)",
+                fc: "2 x 24 kg (~53 lb)",
+                lunge: "20 kg (~45 lb)",
+                wb: "6 kg (~14 lb) @ 3.00m",
+                tableRows: [
+                    {s: "1. SkiErg", d: "1,000 m", l: "Damper 6", n: "Feet remain on platform."},
+                    {s: "2. Sled Push", d: "50 m", l: "152 kg (~335 lb)", n: "Total load incl. sled."},
+                    {s: "3. Sled Pull", d: "50 m", l: "103 kg (~227 lb)", n: "Must remain in racer's box."},
+                    {s: "4. Burpee Broad Jump", d: "80 m", l: "Bodyweight", n: "Chest touches ground."},
+                    {s: "5. Rowing", d: "1,000 m", l: "Damper 6", n: "Feet strapped in."},
+                    {s: "6. Farmer Carry", d: "200 m", l: "2 x 24 kg (~53 lb)", n: "Kettlebells at sides."},
+                    {s: "7. Sandbag Lunges", d: "100 m", l: "20 kg (~45 lb)", n: "Trailing knee touches ground."},
+                    {s: "8. Wall Balls", d: "100 reps", l: "6 kg @ 3.00m", n: "Hip crease below knee."}
+                ]
+            },
+            'mens-double': {
+                name: "Men's Doubles Standards",
+                push: "152 kg (~335 lb)",
+                pull: "103 kg (~227 lb)",
+                fc: "2 x 24 kg (~53 lb)",
+                lunge: "20 kg (~45 lb)",
+                wb: "6 kg (~14 lb) @ 3.00m",
+                tableRows: [
+                    {s: "1. SkiErg", d: "1,000 m", l: "Damper 6 (Split)", n: "Partner relay split."},
+                    {s: "2. Sled Push", d: "50 m", l: "152 kg (~335 lb)", n: "Shared workload."},
+                    {s: "3. Sled Pull", d: "50 m", l: "103 kg (~227 lb)", n: "Shared workload."},
+                    {s: "4. Burpee Broad Jump", d: "80 m", l: "Bodyweight", n: "Alternate lengths."},
+                    {s: "5. Rowing", d: "1,000 m", l: "Damper 6 (Split)", n: "Partner relay split."},
+                    {s: "6. Farmer Carry", d: "200 m", l: "2 x 24 kg (~53 lb)", n: "Carry simultaneously or relay."},
+                    {s: "7. Sandbag Lunges", d: "100 m", l: "20 kg (~45 lb)", n: "Share distance."},
+                    {s: "8. Wall Balls", d: "100 reps", l: "6 kg @ 3.00m", n: "Split total reps."}
+                ]
+            },
+            'womens': {
+                name: "Women's Open / Pro Standards",
+                push: "102 kg (~225 lb)",
+                pull: "78 kg (~172 lb)",
+                fc: "2 x 16 kg (~35 lb)",
+                lunge: "10 kg (~22 lb)",
+                wb: "4 kg (~9 lb) @ 2.70m",
+                tableRows: [
+                    {s: "1. SkiErg", d: "1,000 m", l: "Damper 6", n: "Feet remain on platform."},
+                    {s: "2. Sled Push", d: "50 m", l: "102 kg (~225 lb)", n: "Total load incl. sled."},
+                    {s: "3. Sled Pull", d: "50 m", l: "78 kg (~172 lb)", n: "Must remain in racer's box."},
+                    {s: "4. Burpee Broad Jump", d: "80 m", l: "Bodyweight", n: "Chest touches ground."},
+                    {s: "5. Rowing", d: "1,000 m", l: "Damper 6", n: "Feet strapped in."},
+                    {s: "6. Farmer Carry", d: "200 m", l: "2 x 16 kg (~35 lb)", n: "Kettlebells at sides."},
+                    {s: "7. Sandbag Lunges", d: "100 m", l: "10 kg (~22 lb)", n: "Trailing knee touches ground."},
+                    {s: "8. Wall Balls", d: "100 reps", l: "4 kg @ 2.70m", n: "Hip crease below knee."}
+                ]
+            },
+            'womens-double': {
+                name: "Women's Doubles Standards",
+                push: "102 kg (~225 lb)",
+                pull: "78 kg (~172 lb)",
+                fc: "2 x 16 kg (~35 lb)",
+                lunge: "10 kg (~22 lb)",
+                wb: "4 kg (~9 lb) @ 2.70m",
+                tableRows: [
+                    {s: "1. SkiErg", d: "1,000 m", l: "Damper 6 (Split)", n: "Partner relay split."},
+                    {s: "2. Sled Push", d: "50 m", l: "102 kg (~225 lb)", n: "Shared workload."},
+                    {s: "3. Sled Pull", d: "50 m", l: "78 kg (~172 lb)", n: "Shared workload."},
+                    {s: "4. Burpee Broad Jump", d: "80 m", l: "Bodyweight", n: "Alternate lengths."},
+                    {s: "5. Rowing", d: "1,000 m", l: "Damper 6 (Split)", n: "Partner relay split."},
+                    {s: "6. Farmer Carry", d: "200 m", l: "2 x 16 kg (~35 lb)", n: "Carry simultaneously or relay."},
+                    {s: "7. Sandbag Lunges", d: "100 m", l: "10 kg (~22 lb)", n: "Share distance."},
+                    {s: "8. Wall Balls", d: "100 reps", l: "4 kg @ 2.70m", n: "Split total reps."}
+                ]
+            },
+            'mix-double': {
+                name: "Mixed Doubles Standards",
+                push: "152 kg (~335 lb)",
+                pull: "103 kg (~227 lb)",
+                fc: "2 x 20 kg (~44 lb)",
+                lunge: "15 kg (~33 lb)",
+                wb: "6 kg (~14 lb) @ 3.00m",
+                tableRows: [
+                    {s: "1. SkiErg", d: "1,000 m", l: "Damper 6 (Split)", n: "Partner relay split."},
+                    {s: "2. Sled Push", d: "50 m", l: "152 kg (~335 lb)", n: "Shared workload."},
+                    {s: "3. Sled Pull", d: "50 m", l: "103 kg (~227 lb)", n: "Shared workload."},
+                    {s: "4. Burpee Broad Jump", d: "80 m", l: "Bodyweight", n: "Alternate lengths."},
+                    {s: "5. Rowing", d: "1,000 m", l: "Damper 6 (Split)", n: "Partner relay split."},
+                    {s: "6. Farmer Carry", d: "200 m", l: "2 x 20 kg (~44 lb)", n: "Shared carry weights."},
+                    {s: "7. Sandbag Lunges", d: "100 m", l: "15 kg (~33 lb)", n: "Shared distance."},
+                    {s: "8. Wall Balls", d: "100 reps", l: "6 kg @ 3.00m", n: "Split total reps."}
+                ]
+            },
+            'group-4': {
+                name: "Group of 4 / Relay Standards",
+                push: "152 kg (~335 lb)",
+                pull: "103 kg (~227 lb)",
+                fc: "2 x 24 kg (~53 lb)",
+                lunge: "20 kg (~45 lb)",
+                wb: "6 kg (~14 lb) @ 3.00m",
+                tableRows: [
+                    {s: "1. SkiErg", d: "1,000 m", l: "Relay Split", n: "4 members share runs & stations."},
+                    {s: "2. Sled Push", d: "50 m", l: "Team Load", n: "Relay execution."},
+                    {s: "3. Sled Pull", d: "50 m", l: "Team Load", n: "Relay execution."},
+                    {s: "4. Burpee Broad Jump", d: "80 m", l: "Bodyweight", n: "Team rotation."},
+                    {s: "5. Rowing", d: "1,000 m", l: "Relay Split", n: "Team rotation."},
+                    {s: "6. Farmer Carry", d: "200 m", l: "Team Weight", n: "Team rotation."},
+                    {s: "7. Sandbag Lunges", d: "100 m", l: "Team Weight", n: "Team rotation."},
+                    {s: "8. Wall Balls", d: "100 reps", l: "Team Standard", n: "Team rotation."}
+                ]
+            }
+        };
+
         // Tab Switching
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -499,9 +636,52 @@
             btn.classList.add('bg-hyrox-yellow', 'text-black');
         }
 
-        // Countdown Timer to HYROX Houston (March 29, 2026)
+        // Update Dynamic Race Settings & Standards
+        function updateRaceSettings() {
+            const raceName = document.getElementById('setting-race-name').value;
+            const raceDateVal = document.getElementById('setting-race-date').value;
+            const divisionKey = document.getElementById('setting-division').value;
+
+            const divObj = divisionStandards[divisionKey];
+
+            // Update Dashboard header
+            document.getElementById('display-race-title').innerText = `${raceName.toUpperCase()} (${divObj.name.replace(' Standards', '')})`;
+            
+            const dateFormatted = raceDateVal ? new Date(raceDateVal + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'TBD';
+            document.getElementById('display-race-date-sub').innerText = `${dateFormatted} | 11-Week Periodized Program`;
+            document.getElementById('header-subtext').innerText = `${divObj.name.replace(' Standards', '')} | ${raceName}`;
+
+            // Update Standards Heading & Table
+            document.getElementById('standards-heading.innerHTML').innerHTML = `<i class="fa-solid fa-scale-balanced text-hyrox-yellow"></i> Official ${divObj.name}`;
+            
+            let tbodyHtml = '';
+            divObj.tableRows.forEach((row, idx) => {
+                tbodyHtml += `
+                    <tr class="${idx % 2 === 1 ? 'bg-black/20' : ''}">
+                        <td class="p-2.5 font-medium text-white">${row.s}</td>
+                        <td class="p-2.5">${row.d}</td>
+                        <td class="p-2.5">${row.l}</td>
+                        <td class="p-2.5 text-gray-400">${row.n}</td>
+                    </tr>
+                `;
+            });
+            document.getElementById('standards-tbody').innerHTML = tbodyHtml;
+
+            // Update Logger Table standard labels
+            document.getElementById('log-std-push').innerText = divObj.push;
+            document.getElementById('log-std-pull').innerText = divObj.pull;
+            document.getElementById('log-std-fc').innerText = divObj.fc;
+            document.getElementById('log-std-lunge').innerText = divObj.lunge;
+            document.getElementById('log-std-wb').innerText = divObj.wb;
+
+            // Save preferences to localStorage
+            localStorage.setItem('hyrox_custom_settings', JSON.stringify({ raceName, raceDateVal, divisionKey }));
+        }
+
+        // Countdown Timer
         function updateCountdown() {
-            const raceDate = new Date('2026-03-29T08:00:00').getTime();
+            const raceDateVal = document.getElementById('setting-race-date').value || '2026-03-29';
+            const raceDate = new Date(raceDateVal + 'T08:00:00').getTime();
             const now = new Date().getTime();
             const diff = raceDate - now;
 
@@ -523,12 +703,11 @@
             }
         }
         setInterval(updateCountdown, 1000);
-        updateCountdown();
 
         // 11-Week Program Data & Rendering
         const programData = {
             1: {
-                title: "WEEK 1 — BASE & MOVEMENT QUALITY (Jan 12–18)",
+                title: "WEEK 1 — BASE & MOVEMENT QUALITY",
                 focus: "Aerobic capacity, foundational strength, movement quality.",
                 days: [
                     { day: "Day 1 - Lower Strength + Engine", exercises: "Back Squat (4x6 @ 70%), Reverse Lunge (3x10/leg), Sled Push (6x10m light-mod). Engine: Bike Erg 1:00 hard x 6 / 1:00 easy." },
@@ -541,7 +720,7 @@
                 ]
             },
             2: {
-                title: "WEEK 2 — BASE PROGRESSION (Jan 19–25)",
+                title: "WEEK 2 — BASE PROGRESSION",
                 focus: "Progressive volume increase, building aerobic base.",
                 days: [
                     { day: "Day 1 - Lower Strength + Engine", exercises: "Back Squat (4x6 +5-10lb), Reverse Lunge (3x10/leg), Sled Push (6x12.5m). Engine: Bike Erg 1:00 hard x 7." },
@@ -554,7 +733,7 @@
                 ]
             },
             3: {
-                title: "WEEK 3 — EARLY EVENTS EMPHASIS (Jan 26–Feb 1)",
+                title: "WEEK 3 — EARLY EVENTS EMPHASIS",
                 focus: "Mastering early race stations and running cadence.",
                 days: [
                     { day: "Day 1 - Lower Strength + Engine", exercises: "Back Squat, Reverse Lunge, Sled Push. Bike Erg intervals." },
@@ -567,7 +746,7 @@
                 ]
             },
             4: {
-                title: "WEEK 4 — THRESHOLD RUN & SLED FOCUS (Feb 2–8)",
+                title: "WEEK 4 — THRESHOLD RUN & SLED FOCUS",
                 focus: "Introducing threshold running and heavier sled loads.",
                 days: [
                     { day: "Day 1 - Lower Strength", exercises: "Heavy Squats & Sled Push (Progressing toward race weight)." },
@@ -580,7 +759,7 @@
                 ]
             },
             5: {
-                title: "WEEK 5 — BUILD PHASE: SLEDS + SKI (Feb 9–15)",
+                title: "WEEK 5 — BUILD PHASE: SLEDS + SKI",
                 focus: "Density, heavier loads, fatigue tolerance.",
                 days: [
                     { day: "Day 1 - Lower Strength", exercises: "Back Squat & Heavy Sleds." },
@@ -593,7 +772,7 @@
                 ]
             },
             6: {
-                title: "WEEK 6 — BUILD PHASE: BURPEE + ROW (Feb 16–22)",
+                title: "WEEK 6 — BUILD PHASE: BURPEE + ROW",
                 focus: "Mid-race stamina and burpee efficiency under fatigue.",
                 days: [
                     { day: "Day 1 - Lower Strength", exercises: "Squats & Lunges." },
@@ -606,7 +785,7 @@
                 ]
             },
             7: {
-                title: "WEEK 7 — BUILD PHASE: SLEDS + CARRY (Feb 23–Mar 1)",
+                title: "WEEK 7 — BUILD PHASE: SLEDS + CARRY",
                 focus: "Farmer carry grip endurance and heavy sled resilience.",
                 days: [
                     { day: "Day 1 - Lower Strength", exercises: "Heavy Squats & Lunges." },
@@ -619,7 +798,7 @@
                 ]
             },
             8: {
-                title: "WEEK 8 — LATE-RACE EVENTS FOCUS (Mar 2–8)",
+                title: "WEEK 8 — LATE-RACE EVENTS FOCUS",
                 focus: "Lunges and wall balls under severe cumulative fatigue.",
                 days: [
                     { day: "Day 1 - Lower Strength", exercises: "Lunges & Wall Ball simulation." },
@@ -632,7 +811,7 @@
                 ]
             },
             9: {
-                title: "WEEK 9 — PEAK & FULL SIMULATION (Mar 9–15)",
+                title: "WEEK 9 — PEAK & FULL SIMULATION",
                 focus: "Full dress rehearsal simulation under exact race conditions.",
                 days: [
                     { day: "Day 1 - Reduced Strength", exercises: "Light maintenance squats." },
@@ -645,7 +824,7 @@
                 ]
             },
             10: {
-                title: "WEEK 10 — SHARPENING & PARTIAL SIM (Mar 16–22)",
+                title: "WEEK 10 — SHARPENING & PARTIAL SIM",
                 focus: "Sharpening speed, nervous system activation, reducing accumulated fatigue.",
                 days: [
                     { day: "Day 1 - Light Strength", exercises: "Mobility and light squats." },
@@ -658,8 +837,8 @@
                 ]
             },
             11: {
-                title: "WEEK 11 — TAPER & RACE EXECUTION (Mar 23–29)",
-                focus: "Shedding fatigue, ensuring complete freshness for HYROX Houston.",
+                title: "WEEK 11 — TAPER & RACE EXECUTION",
+                focus: "Shedding fatigue, ensuring complete freshness for race day.",
                 days: [
                     { day: "Day 1 - Easy Run + Light Work", exercises: "20 min easy jog + mobility." },
                     { day: "Day 2 - OFF", exercises: "Complete rest." },
@@ -667,7 +846,7 @@
                     { day: "Day 4 - OFF", exercises: "Complete rest." },
                     { day: "Day 5 - OFF", exercises: "Complete rest." },
                     { day: "Day 6 - Pre-Race Activation", exercises: "10 min shakeout run + light dynamic stretches." },
-                    { day: "Day 7 - RACE DAY (March 29)", exercises: "HYROX HOUSTON — Women's Doubles Execution!" }
+                    { day: "Day 7 - RACE DAY", exercises: "RACE DAY — Division Execution!" }
                 ]
             }
         };
@@ -690,7 +869,7 @@
                 html += `
                     <div class="bg-black/40 border border-gray-800 p-3 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
                         <div class="w-full md:w-1/3">
-                            <span class="text-xs font-bold text-hyroxyellow text-yellow-400">${d.day}</span>
+                            <span class="text-xs font-bold text-yellow-400">${d.day}</span>
                         </div>
                         <div class="w-full md:w-2/3 flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
                             <span class="text-xs text-gray-300">${d.exercises}</span>
@@ -704,12 +883,11 @@
             container.innerHTML = html;
         }
 
-        // Initialize program view on load
         renderProgramWeek();
 
         // Pace Calculator Logic
         function calculatePace() {
-            const paceStr = document.getElementById('calc-pace').value; // e.g. "5:00"
+            const paceStr = document.getElementById('calc-pace').value;
             const stationTimeMin = parseFloat(document.getElementById('calc-station-time').value) || 4.5;
             
             const parts = paceStr.split(':');
@@ -717,11 +895,8 @@
             const secPerKm = parseFloat(parts[1]) || 0;
             const totalSecPerKm = (minPerKm * 60) + secPerKm;
 
-            // 8 runs of 1km = 8km total running
             const totalRunSec = totalSecPerKm * 8;
-            // 8 stations
             const totalStationSec = stationTimeMin * 60 * 8;
-
             const totalRaceSec = totalRunSec + totalStationSec;
 
             const hours = Math.floor(totalRaceSec / 3600);
@@ -759,7 +934,7 @@
             document.getElementById('timer-label').innerText = "Ready";
         }
 
-        // Local Storage Saving for Daily Logger & Post Race
+        // Local Storage Saving
         function saveDailyLog() {
             const logData = {
                 date: document.getElementById('log-date').value,
@@ -782,11 +957,21 @@
                 reflection: document.getElementById('post-reflection').value
             };
             localStorage.setItem('hyrox_post_race', JSON.stringify(postData));
-            alert('Post-race journal saved successfully! Congratulations on conquering HYROX Houston!');
+            alert('Post-race journal saved successfully!');
         }
 
-        // Set default date to today
+        // Initialize Settings and Dates on Load
         document.getElementById('log-date').valueAsDate = new Date();
+        
+        // Load saved settings if present
+        const savedSettings = JSON.parse(localStorage.getItem('hyrox_custom_settings'));
+        if (savedSettings) {
+            document.getElementById('setting-race-name').value = savedSettings.raceName || 'HYROX Houston';
+            document.getElementById('setting-race-date').value = savedSettings.raceDateVal || '2026-03-29';
+            document.getElementById('setting-division').value = savedSettings.divisionKey || 'womens-double';
+        }
+        updateRaceSettings();
+        updateCountdown();
     </script>
 </body>
 </html>
