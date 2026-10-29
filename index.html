@@ -54,11 +54,12 @@
             </div>
             <!-- Navigation Tabs -->
             <nav class="flex flex-wrap justify-center gap-1.5 bg-gray-900 p-1 rounded-lg border border-gray-800">
-                <button onclick="switchTab('dashboard')" id="btn-dashboard" class="tab-btn px-3.5 py-1.5 text-xs font-semibold rounded bg-hyrox-yellow text-black transition">Dashboard</button>
-                <button onclick="switchTab('program')" id="btn-program" class="tab-btn px-3.5 py-1.5 text-xs font-semibold rounded text-gray-300 hover:bg-gray-800 transition">11-Week Master</button>
-                <button onclick="switchTab('logger')" id="btn-logger" class="tab-btn px-3.5 py-1.5 text-xs font-semibold rounded text-gray-300 hover:bg-gray-800 transition">Race Simulator</button>
-                <button onclick="switchTab('tools')" id="btn-tools" class="tab-btn px-3.5 py-1.5 text-xs font-semibold rounded text-gray-300 hover:bg-gray-800 transition">Pace & Timer</button>
-                <button onclick="switchTab('raceprep')" id="btn-raceprep" class="tab-btn px-3.5 py-1.5 text-xs font-semibold rounded text-gray-300 hover:bg-gray-800 transition">Race & Post-Log</button>
+                <button onclick="switchTab('dashboard')" id="btn-dashboard" class="tab-btn px-3 py-1.5 text-xs font-semibold rounded bg-hyrox-yellow text-black transition">Dashboard</button>
+                <button onclick="switchTab('program')" id="btn-program" class="tab-btn px-3 py-1.5 text-xs font-semibold rounded text-gray-300 hover:bg-gray-800 transition">11-Week Master</button>
+                <button onclick="switchTab('logger')" id="btn-logger" class="tab-btn px-3 py-1.5 text-xs font-semibold rounded text-gray-300 hover:bg-gray-800 transition">Race Simulator</button>
+                <button onclick="switchTab('tools')" id="btn-tools" class="tab-btn px-3 py-1.5 text-xs font-semibold rounded text-gray-300 hover:bg-gray-800 transition">Pace & Timer</button>
+                <button onclick="switchTab('cards')" id="btn-cards" class="tab-btn px-3 py-1.5 text-xs font-semibold rounded text-gray-300 hover:bg-gray-800 transition">Share Cards</button>
+                <button onclick="switchTab('raceprep')" id="btn-raceprep" class="tab-btn px-3 py-1.5 text-xs font-semibold rounded text-gray-300 hover:bg-gray-800 transition">Race & Post-Log</button>
             </nav>
         </div>
     </header>
@@ -492,7 +493,97 @@
             </div>
         </div>
 
-        <!-- ================= TAB 5: RACE PREP & POST-RACE JOURNAL ================= -->
+        <!-- ================= TAB 5: SHARE & EXPORT CARDS (NEW!) ================= -->
+        <div id="tab-cards" class="tab-content space-y-6">
+            <div class="bg-[#1E1E1E] border border-gray-800 rounded-xl p-5 shadow-lg space-y-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-image text-hyrox-yellow"></i> Shareable Workout & Race Graphics
+                        </h2>
+                        <p class="text-xs text-gray-400">Generate clean graphic cards of your daily training, weekly progress, or completed race simulator to save or share.</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="generateShareCard('daily')" class="bg-hyrox-yellow text-black px-4 py-2 rounded-lg font-bold text-xs hover:bg-yellow-400 transition">
+                            <i class="fa-solid fa-calendar-day mr-1"></i> Daily Workout Card
+                        </button>
+                        <button onclick="generateShareCard('weekly')" class="bg-zinc-800 text-white px-4 py-2 rounded-lg font-bold text-xs hover:bg-zinc-700 transition border border-gray-700">
+                            <i class="fa-solid fa-calendar-week mr-1"></i> Weekly Progress
+                        </button>
+                        <button onclick="generateShareCard('sim')" class="bg-zinc-800 text-white px-4 py-2 rounded-lg font-bold text-xs hover:bg-zinc-700 transition border border-gray-700">
+                            <i class="fa-solid fa-medal mr-1"></i> Race Sim Summary
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Graphic Card Render Container -->
+                <div class="flex justify-center p-4 bg-black/60 rounded-xl border border-gray-800">
+                    <!-- The actual card styled like an Instagram/Social Story graphic -->
+                    <div id="shareable-graphic" class="w-full max-w-md bg-gradient-to-b from-zinc-900 via-black to-zinc-950 border-2 border-hyrox-yellow/60 rounded-2xl p-6 shadow-2xl text-white relative overflow-hidden space-y-4">
+                        <!-- Top Header Brand -->
+                        <div class="flex justify-between items-center border-b border-gray-800 pb-3">
+                            <div class="flex items-center space-x-2">
+                                <div class="bg-hyrox-yellow text-black font-black px-2.5 py-1 text-sm tracking-wider rounded">HYROX</div>
+                                <span id="card-race-tag" class="text-xs font-bold text-gray-300 uppercase">HYROX HOUSTON</span>
+                            </div>
+                            <span id="card-date-tag" class="text-[10px] text-hyrox-yellow font-mono font-semibold">--/--/2026</span>
+                        </div>
+
+                        <!-- Card Main Content -->
+                        <div class="space-y-3 py-2">
+                            <div class="text-center space-y-1">
+                                <div id="card-title-type" class="text-xs font-bold text-hyrox-yellow uppercase tracking-widest">Daily Workout Summary</div>
+                                <h3 id="card-main-title" class="text-lg font-black tracking-wide">Women's Doubles Training</h3>
+                            </div>
+
+                            <div class="bg-zinc-900/80 border border-gray-800 rounded-xl p-3.5 space-y-2 text-xs">
+                                <div class="flex justify-between text-gray-400">
+                                    <span>Athlete:</span>
+                                    <span id="card-athlete-name" class="font-bold text-white">Athlete</span>
+                                </div>
+                                <div class="flex justify-between text-gray-400">
+                                    <span>Division:</span>
+                                    <span id="card-division-name" class="font-bold text-white">Women's Doubles</span>
+                                </div>
+                                <div class="flex justify-between text-gray-400">
+                                    <span>Phase / Week:</span>
+                                    <span id="card-week-val" class="font-bold text-hyrox-yellow">Week 6 (Build)</span>
+                                </div>
+                            </div>
+
+                            <!-- Dynamic Metrics Section -->
+                            <div id="card-metrics-box" class="bg-black/60 border border-gray-800 rounded-xl p-3.5 space-y-2 text-xs">
+                                <div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Key Performance Metrics</div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Total Sim Time:</span>
+                                    <span id="card-metric-1" class="font-bold font-mono text-white">--:--:--</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Overall Session RPE:</span>
+                                    <span id="card-metric-2" class="font-bold font-mono text-hyrox-yellow">-- / 10</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Status:</span>
+                                    <span id="card-metric-3" class="font-bold text-green-400">Completed & Logged</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer Tag -->
+                        <div class="pt-2 border-t border-gray-800/80 flex justify-between items-center text-[10px] text-gray-500 font-mono">
+                            <span>TRAIN. SIMULATE. CONQUER.</span>
+                            <span class="text-hyrox-yellow">HYROX TRACKER</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <p class="text-xs text-gray-400 mb-3"><i class="fa-solid fa-circle-info text-hyrox-yellow"></i> Tip: You can take a screenshot of the graphic card above or copy the details to share with your coach and training partner.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 6: RACE PREP & POST-RACE JOURNAL ================= -->
         <div id="tab-raceprep" class="tab-content space-y-6">
             <!-- Race-Week Packing Checklist -->
             <div class="bg-[#1E1E1E] border border-gray-800 rounded-xl p-5 shadow-lg space-y-4">
@@ -1030,7 +1121,6 @@
                         `;
                     }
 
-                    // Mobile-friendly stacked card layout for each exercise
                     html += `
                         <div class="bg-zinc-900/80 border border-gray-800/90 p-3 rounded-lg flex flex-col gap-3">
                             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
@@ -1060,6 +1150,54 @@
         }
 
         renderProgramWeek();
+
+        // Share Card Generator Logic
+        function generateShareCard(type) {
+            const raceName = document.getElementById('setting-race-name').value;
+            const divisionKey = document.getElementById('setting-division').value;
+            const divName = divisionStandards[divisionKey].name.replace(' Standards', '');
+            const athleteName = document.getElementById('sim-athlete').value || 'Athlete';
+            const weekNum = document.getElementById('program-week-select').value;
+            
+            document.getElementById('card-race-tag').innerText = raceName.toUpperCase();
+            document.getElementById('card-date-tag').innerText = new Date().toLocaleDateString();
+            document.getElementById('card-athlete-name').innerText = athleteName;
+            document.getElementById('card-division-name').innerText = divName;
+            document.getElementById('card-week-val').innerText = `Week ${weekNum} Master Plan`;
+
+            const metricsBox = document.getElementById('card-metrics-box');
+
+            if (type === 'daily') {
+                document.getElementById('card-title-type').innerText = "Daily Workout Graphic";
+                document.getElementById('card-main-title').innerText = "Daily Training Complete";
+                metricsBox.innerHTML = `
+                    <div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Workout Status</div>
+                    <div class="flex justify-between"><span class="text-gray-400">Program Week:</span><span class="font-bold text-white">Week ${weekNum}</span></div>
+                    <div class="flex justify-between"><span class="text-gray-400">Completion:</span><span class="font-bold text-hyrox-yellow">Logged & Checked</span></div>
+                    <div class="flex justify-between"><span class="text-gray-400">Focus:</span><span class="font-bold text-green-400">Strength & Engine</span></div>
+                `;
+            } else if (type === 'weekly') {
+                document.getElementById('card-title-type').innerText = "Weekly Progress Graphic";
+                document.getElementById('card-main-title').innerText = `Week ${weekNum} Summary`;
+                metricsBox.innerHTML = `
+                    <div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Weekly Metrics</div>
+                    <div class="flex justify-between"><span class="text-gray-400">Block Phase:</span><span class="font-bold text-white">Periodized Master</span></div>
+                    <div class="flex justify-between"><span class="text-gray-400">Volume Status:</span><span class="font-bold text-hyrox-yellow">100% Completed</span></div>
+                    <div class="flex justify-between"><span class="text-gray-400">Readiness:</span><span class="font-bold text-green-400">Peak Condition</span></div>
+                `;
+            } else if (type === 'sim') {
+                const totalTime = document.getElementById('sim-total-time').value || '1:14:32';
+                const sessionRpe = document.getElementById('sim-rpe').value || '8.5';
+                document.getElementById('card-title-type').innerText = "Race Simulator Result";
+                document.getElementById('card-main-title').innerText = "Full Race Simulation";
+                metricsBox.innerHTML = `
+                    <div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Simulation Results</div>
+                    <div class="flex justify-between"><span class="text-gray-400">Total Sim Time:</span><span class="font-bold font-mono text-white">${totalTime}</span></div>
+                    <div class="flex justify-between"><span class="text-gray-400">Session RPE:</span><span class="font-bold font-mono text-hyrox-yellow">${sessionRpe} / 10</span></div>
+                    <div class="flex justify-between"><span class="text-gray-400">Simulation Status:</span><span class="font-bold text-green-400">Race Ready</span></div>
+                `;
+            }
+        }
 
         // Pace Calculator Logic
         function calculatePace() {
@@ -1159,6 +1297,7 @@
         }
         updateRaceSettings();
         updateCountdown();
+        generateShareCard('daily');
     </script>
 </body>
 </html>
