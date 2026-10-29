@@ -410,6 +410,15 @@
                         </div>
                     </div>
 
+                    <!-- Live Estimated Finish Time Card -->
+                    <div class="bg-gradient-to-r from-zinc-900 via-black to-zinc-900 border border-hyrox-yellow/50 p-4 rounded-xl flex justify-between items-center">
+                        <div>
+                            <div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Estimated Finish Time (Staying on Pace)</div>
+                            <div class="text-[10px] text-hyrox-yellow">Projected based on completed segments vs target pace</div>
+                        </div>
+                        <div id="coach-est-finish" class="text-3xl font-black font-mono text-hyrox-yellow">--:--:--</div>
+                    </div>
+
                     <!-- Coach Controls -->
                     <div class="flex flex-wrap items-center gap-3">
                         <button onclick="startCoachLiveRace()" class="bg-green-600 hover:bg-green-500 text-white px-5 py-2.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5">
@@ -423,7 +432,7 @@
                     </div>
 
                     <!-- Live Split Log Table -->
-                    <div class="overflow-x-auto max-h-72 overflow-y-auto border border-gray-800 rounded-lg">
+                    <div class="overflow-x-auto max-h-64 overflow-y-auto border border-gray-800 rounded-lg">
                         <table class="w-full text-left text-xs">
                             <thead class="bg-black/60 text-gray-400 uppercase text-[10px] sticky top-0">
                                 <tr>
@@ -1039,6 +1048,62 @@
         let currentSegIndex = 0; // 0 to 15
         let coachSplitsLog = [];
 
+        // Helper to get goal goal duration in seconds from the calculator/goal field
+        function getGoalTotalSeconds() {
+            const goalInput = document.getElementById('sim-goal-total').value || "1:15:00";
+            let totalSeconds = 75 * 60;
+            if (goalInput.includes(':')) {
+                const parts = goalInput.split(':');
+                if (parts.length === 3) totalSeconds = (parseInt(parts[0]) * 3600) + (parseInt(parts[1]) * 60) + parseInt(parts[2]);
+                else if (parts.length === 2) totalSeconds = (parseInt(parts[0]) * 60) + parseInt(parts[1]);
+            } else {
+                totalSeconds = parseFloat(goalInput) * 60;
+            }
+            return totalSeconds;
+        }
+
+        function updateLiveEstFinish() {
+            if (currentSegIndex === 0 && totalElapsedSec === 0) {
+                document.getElementById('coach-est-finish').innerText = document.getElementById('sim-goal-total').value || "--:--:--";
+                return;
+            }
+
+            // Calculate standard target duration for completed segments vs remaining
+            const goalTotalSec = getGoalTotalSeconds();
+            const totalRunSec = goalTotalSec * 0.55;
+            const singleRunSec = totalRunSec / 8;
+            const singleStationSec = (goalTotalSec * 0.45) / 8;
+
+            let targetCompletedSec = 0;
+            let targetRemainingSec = 0;
+
+            for (let i = 0; i < 16; i++) {
+                const segDuration = (i % 2 === 0) ? singleRunSec : singleStationSec;
+                if (i < currentSegIndex) {
+                    targetCompletedSec += segDuration;
+                } else {
+                    targetRemainingSec += segDuration;
+                }
+            }
+
+            // If currently partway through a segment, add elapsed portion of current segment to actual completed time
+            const actualCompletedSec = totalElapsedSec;
+            
+            // If targetCompletedSec is 0 (just started), avoid division by zero
+            let projectedTotalSec = goalTotalSec;
+            if (targetCompletedSec > 0 && currentSegIndex > 0) {
+                const paceRatio = actualCompletedSec / targetCompletedSec;
+                projectedTotalSec = actualCompletedSec + (targetRemainingSec * paceRatio);
+            }
+
+            const th = Math.floor(projectedTotalSec / 3600);
+            const tm = Math.floor((projectedTotalSec % 3600) / 60);
+            const ts = Math.round(projectedTotalSec % 60);
+            const formattedProj = `${th > 0 ? th + ':' : ''}${tm.toString().padStart(2,'0')}:${ts.toString().padStart(2,'0')}`;
+            
+            document.getElementById('coach-est-finish').innerText = formattedProj;
+        }
+
         function startCoachLiveRace() {
             if (coachTimerInterval) return;
             document.getElementById('coach-active-badge').innerText = "LIVE RACING";
@@ -1052,12 +1117,14 @@
                 const th = Math.floor(totalElapsedSec / 3600);
                 const tm = Math.floor((totalElapsedSec % 3600) / 60);
                 const ts = totalElapsedSec % 60;
-                document.getElementById('coach-total-timer').innerText = `${th.toString().padStart(2,'0')}:${tm.toString().padStart(2,'0')}:${ts.toString().padStart(2,'0')}`;
+                document.getElementById('coach-total-timer').innerText = `${th > 0 ? th + ':' : ''}${tm.toString().padStart(2,'0')}:${ts.toString().padStart(2,'0')}`;
 
                 // Format Segment
                 const sm = Math.floor(segElapsedSec / 60);
                 const ss = segElapsedSec % 60;
                 document.getElementById('coach-seg-timer').innerText = `${sm.toString().padStart(2,'0')}:${ss.toString().padStart(2,'0')}`;
+
+                updateLiveEstFinish();
             }, 1000);
         }
 
@@ -1095,6 +1162,7 @@
             }
 
             renderCoachLiveTable();
+            updateLiveEstFinish();
         }
 
         function renderCoachLiveTable() {
@@ -1135,6 +1203,7 @@
             document.getElementById('coach-current-segment').innerText = `Segment 1: ${segmentNamesList[0]}`;
             document.getElementById('coach-active-badge').innerText = "Ready to Start";
             document.getElementById('coach-active-badge').className = "bg-hyrox-yellow/20 text-hyrox-yellow border border-hyrox-yellow/40 text-[10px] px-2.5 py-1 rounded-full font-bold uppercase";
+            document.getElementById('coach-est-finish').innerText = document.getElementById('sim-goal-total').value || "--:--:--";
             renderCoachLiveTable();
         }
 
@@ -1232,6 +1301,7 @@
         renderProgramWeek();
         autoCalculateTargets();
         generateShareCard('daily');
+        document.getElementById('coach-est-finish').innerText = document.getElementById('sim-goal-total').value || "1:15:00";
     </script>
 </body>
 </html>
