@@ -338,20 +338,20 @@
                             <thead class="bg-black/40 text-gray-400 uppercase text-[10px]">
                                 <tr>
                                     <th class="p-2.5">Run Segment</th>
-                                    <th class="p-2.5">Target Pace / Time</th>
+                                    <th class="p-2.5">Target Pace & Cumulative Time</th>
                                     <th class="p-2.5">Actual Pace / Time</th>
                                     <th class="p-2.5">Transition Quality</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-800 text-gray-300">
-                                <tr><td class="p-2.5 font-medium text-white">Run 1 (Pre-Ski)</td><td class="p-2.5 text-hyrox-yellow font-mono" id="target-run1">--:--</td><td class="p-2.5"><input type="text" id="run1-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run1-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">Run 2 (Pre-Sled Push)</td><td class="p-2.5 text-hyrox-yellow font-mono" id="target-run2">--:--</td><td class="p-2.5"><input type="text" id="run2-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run2-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <tr><td class="p-2.5 font-medium text-white">Run 3 (Pre-Sled Pull)</td><td class="p-2.5 text-hyrox-yellow font-mono" id="target-run3">--:--</td><td class="p-2.5"><input type="text" id="run3-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run3-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">Run 4 (Pre-Burpees)</td><td class="p-2.5 text-hyrox-yellow font-mono" id="target-run4">--:--</td><td class="p-2.5"><input type="text" id="run4-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run4-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <tr><td class="p-2.5 font-medium text-white">Run 5 (Pre-Row)</td><td class="p-2.5 text-hyrox-yellow font-mono" id="target-run5">--:--</td><td class="p-2.5"><input type="text" id="run5-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run5-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">Run 6 (Pre-Farmers)</td><td class="p-2.5 text-hyrox-yellow font-mono" id="target-run6">--:--</td><td class="p-2.5"><input type="text" id="run6-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run6-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <tr><td class="p-2.5 font-medium text-white">Run 7 (Pre-Lunges)</td><td class="p-2.5 text-hyrox-yellow font-mono" id="target-run7">--:--</td><td class="p-2.5"><input type="text" id="run7-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run7-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">Run 8 (Pre-Wall Balls)</td><td class="p-2.5 text-hyrox-yellow font-mono" id="target-run8">--:--</td><td class="p-2.5"><input type="text" id="run8-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run8-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr><td class="p-2.5 font-medium text-white">Run 1 (Pre-Ski)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-run1">--:--</td><td class="p-2.5"><input type="text" id="run1-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run1-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">Run 2 (Pre-Sled Push)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-run2">--:--</td><td class="p-2.5"><input type="text" id="run2-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run2-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr><td class="p-2.5 font-medium text-white">Run 3 (Pre-Sled Pull)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-run3">--:--</td><td class="p-2.5"><input type="text" id="run3-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run3-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">Run 4 (Pre-Burpees)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-run4">--:--</td><td class="p-2.5"><input type="text" id="run4-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run4-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr><td class="p-2.5 font-medium text-white">Run 5 (Pre-Row)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-run5">--:--</td><td class="p-2.5"><input type="text" id="run5-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run5-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">Run 6 (Pre-Farmers)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-run6">--:--</td><td class="p-2.5"><input type="text" id="run6-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run6-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr><td class="p-2.5 font-medium text-white">Run 7 (Pre-Lunges)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-run7">--:--</td><td class="p-2.5"><input type="text" id="run7-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run7-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr class="bg-black/20"><td class="p-2.5 font-medium text-white">Run 8 (Pre-Wall Balls)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-run8">--:--</td><td class="p-2.5"><input type="text" id="run8-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="run8-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -939,15 +939,25 @@
             } else {
                 totalSeconds = parseFloat(goalInput) * 60;
             }
+
             const singleRunSeconds = (totalSeconds * 0.55) / 8;
             const runMin = Math.floor(singleRunSeconds / 60);
             const runSec = Math.round(singleRunSeconds % 60);
             const formattedRunPace = `${runMin}:${runSec < 10 ? '0' : ''}${runSec}`;
 
             document.getElementById('display-goal-total').innerText = goalInput;
+
+            // Calculate cumulative running time up to each run segment
             for (let i = 1; i <= 8; i++) {
                 const targetEl = document.getElementById(`target-run${i}`);
-                if (targetEl) targetEl.innerText = formattedRunPace;
+                if (targetEl) {
+                    const cumulativeSec = singleRunSeconds * i;
+                    const cMin = Math.floor(cumulativeSec / 60);
+                    const cSec = Math.round(cumulativeSec % 60);
+                    const formattedCumulative = `${cMin}:${cSec < 10 ? '0' : ''}${cSec}`;
+                    
+                    targetEl.innerText = `${formattedRunPace} (Cum: ${formattedCumulative})`;
+                }
             }
         }
 
