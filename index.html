@@ -105,7 +105,7 @@
                 <div>
                     <span class="bg-hyrox-yellow/10 text-hyrox-yellow border border-hyrox-yellow/30 text-xs px-2.5 py-1 rounded-full font-bold uppercase tracking-wider">Target Race</span>
                     <h2 id="display-race-title" class="text-2xl font-black text-white mt-2">HYROX HOUSTON (Women's Doubles)</h2>
-                    <p id="display-race-date-sub" class="text-sm text-gray-400 mt-1">March 29, 2026 | 11-Week Periodized Program</p>
+                    <p id="display-race-date-sub" class="text-sm text-gray-400 mt-1">March 29, 2026 | 11-Week Periodized Program[cite: 8]</p>
                 </div>
                 <div class="grid grid-cols-4 gap-3 text-center">
                     <div class="bg-black/60 border border-gray-800 px-3 py-2 rounded-lg">
@@ -273,15 +273,15 @@
                     <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 text-xs">
                         <div>
                             <label class="block text-gray-400 mb-1">Morning Wt (lb/kg)</label>
-                            <input type="text" id="read-wt" placeholder="--">
+                            <input type="text" id="read-wt" placeholder="--" class="w-full rounded-lg p-2">
                         </div>
                         <div>
                             <label class="block text-gray-400 mb-1">Resting HR (bpm)</label>
-                            <input type="number" id="read-rhr" placeholder="--">
+                            <input type="number" id="read-rhr" placeholder="--" class="w-full rounded-lg p-2">
                         </div>
                         <div>
                             <label class="block text-gray-400 mb-1">Hours Slept</label>
-                            <input type="number" step="0.5" id="read-sleep" placeholder="--">
+                            <input type="number" step="0.5" id="read-sleep" placeholder="--" class="w-full rounded-lg p-2">
                         </div>
                         <div>
                             <label class="block text-gray-400 mb-1">Sleep Quality (1–5)</label>
@@ -291,11 +291,11 @@
                         </div>
                         <div>
                             <label class="block text-gray-400 mb-1">Soreness (1–10)</label>
-                            <input type="number" min="1" max="10" id="read-sore" placeholder="1-10">
+                            <input type="number" min="1" max="10" id="read-sore" placeholder="1-10" class="w-full rounded-lg p-2">
                         </div>
                         <div>
                             <label class="block text-gray-400 mb-1">Readiness (1–10)</label>
-                            <input type="number" min="1" max="10" id="read-ready" placeholder="1-10">
+                            <input type="number" min="1" max="10" id="read-ready" placeholder="1-10" class="w-full rounded-lg p-2">
                         </div>
                     </div>
                 </div>
@@ -308,15 +308,15 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 text-xs">
                         <div>
                             <label class="block text-gray-400 mb-1">Session RPE (1–10)</label>
-                            <input type="number" min="1" max="10" id="sess-rpe" placeholder="7">
+                            <input type="number" min="1" max="10" id="sess-rpe" placeholder="7" class="w-full rounded-lg p-2">
                         </div>
                         <div>
                             <label class="block text-gray-400 mb-1">Total Running Distance / Notes</label>
-                            <input type="text" id="sess-run" placeholder="e.g. 5km Zone 2 @ 5:30/km">
+                            <input type="text" id="sess-run" placeholder="e.g. 5km Zone 2 @ 5:30/km" class="w-full rounded-lg p-2">
                         </div>
                         <div>
                             <label class="block text-gray-400 mb-1">Cardio / Ergs Completed</label>
-                            <input type="text" id="sess-erg" placeholder="e.g. SkiErg 1000m in 3:45">
+                            <input type="text" id="sess-erg" placeholder="e.g. SkiErg 1000m in 3:45" class="w-full rounded-lg p-2">
                         </div>
                     </div>
 
@@ -648,10 +648,10 @@
             const divObj = divisionStandards[divisionKey];
 
             // Update Dashboard header
-            document.getElementById('display-race-title').innerText = `raceName.toUpperCase()({divObj.name.replace(' Standards', '')})`;
+            document.getElementById('display-race-title').innerText = `${raceName.toUpperCase()} (${divObj.name.replace(' Standards', '')})`;
             
             const dateFormatted = raceDateVal ? new Date(raceDateVal + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'TBD';
-            document.getElementById('display-race-date-sub').innerText = `${dateFormatted} | 11-Week Periodized Program`;
+            document.getElementById('display-race-date-sub').innerText = `${dateFormatted} | 11-Week Periodized Program[cite: 8]`;
             document.getElementById('header-subtext').innerText = `${divObj.name.replace(' Standards', '')} | ${raceName}`;
 
             // Update Standards Heading & Table
@@ -933,10 +933,9 @@
                 `;
 
                 dayObj.exercises.forEach((ex, exIdx) => {
-                    // Generate set check boxes
                     let setsHtml = '';
                     for(let s = 1; s <= (ex.sets || 1); s++) {
-                        const checkboxId = `chk_wweekNumd{dayIdx}_eexIdxs{s}`;
+                        const checkboxId = `chk_w${weekNum}_d${dayIdx}_e${exIdx}_s${s}`;
                         setsHtml += `
                             <label class="cursor-pointer inline-flex items-center">
                                 <input type="checkbox" class="set-checkbox hidden" id="${checkboxId}">
@@ -991,7 +990,7 @@
             const minutes = Math.floor((totalRaceSec % 3600) / 60);
             const seconds = Math.floor(totalRaceSec % 60);
 
-            const formattedTime = `hours.toString().padStart(2,'0'):{minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            const formattedTime = `${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             document.getElementById('est-time').innerText = formattedTime;
         }
         calculatePace();
@@ -1006,7 +1005,7 @@
                 secondsElapsed++;
                 const m = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
                 const s = (secondsElapsed % 60).toString().padStart(2, '0');
-                document.getElementById('timer-display').innerText = `m:{s}`;
+                document.getElementById('timer-display').innerText = `${m}:${s}`;
             }, 1000);
         }
         function pauseTimer() {
@@ -1036,6 +1035,12 @@
             alert('Daily workout & readiness log saved successfully!');
         }
 
+        function clearDailyLog() {
+            document.getElementById('log-notes').value = '';
+            document.getElementById('read-ready').value = '';
+            alert('Daily log fields cleared.');
+        }
+
         function savePostRaceLog() {
             const postData = {
                 time: document.getElementById('post-time').value,
@@ -1063,5 +1068,3 @@
     </script>
 </body>
 </html>
-
-
