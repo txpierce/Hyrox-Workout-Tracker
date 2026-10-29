@@ -35,6 +35,9 @@
         input:focus, select:focus, textarea:focus {
             border-color: #FFCC00; outline: none; ring: 2px; ring-color: #FFCC00;
         }
+        .set-checkbox:checked + span {
+            background-color: #FFCC00; color: #000; border-color: #FFCC00; text-decoration: line-through;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between">
@@ -195,7 +198,7 @@
             <div class="bg-[#1E1E1E] border border-gray-800 rounded-xl p-5 shadow-lg flex flex-col md:flex-row justify-between items-center gap-4">
                 <div>
                     <h2 class="text-xl font-bold text-white">11-Week Master Training Program</h2>
-                    <p class="text-xs text-gray-400">Explore weekly phases, daily breakdown, prescribed loads, and log actual weights used.</p>
+                    <p class="text-xs text-gray-400">Log your actual working weights and check off completed sets for every session.</p>
                 </div>
                 <div class="flex items-center gap-3 w-full md:w-auto">
                     <label class="text-xs text-gray-300 font-medium">Select Week:</label>
@@ -704,149 +707,206 @@
         }
         setInterval(updateCountdown, 1000);
 
-        // 11-Week Program Data & Rendering
+        // 11-Week Program Data & Detailed Set/Weight Logging Structure
         const programData = {
             1: {
                 title: "WEEK 1 — BASE & MOVEMENT QUALITY",
                 focus: "Aerobic capacity, foundational strength, movement quality.",
                 days: [
-                    { day: "Day 1 - Lower Strength + Engine", exercises: "Back Squat (4x6 @ 70%), Reverse Lunge (3x10/leg), Sled Push (6x10m light-mod). Engine: Bike Erg 1:00 hard x 6 / 1:00 easy." },
-                    { day: "Day 2 - Aerobic Run", exercises: "40 min Zone 2 Run (conversational pace, nasal breathing priority)." },
-                    { day: "Day 3 - Upper Strength + Ski", exercises: "Bench Press (4x6), Bent-Over Row (4x8), SkiErg Conditioning (4x500m), Plank (3x1:00)." },
-                    { day: "Day 4 - Run Intervals", exercises: "6 x 400m Run (Controlled hard, 90s rest)." },
-                    { day: "Day 5 - Hybrid Circuit", exercises: "3 Rounds (Not for time): 500m Row, 50m Farmer Carry, 15 Wall Balls." },
-                    { day: "Day 6 - HYROX Practice (Saturday)", exercises: "Technique Partial Simulation: 500m Ski, 4x10m Push, 4x10m Pull, 40m Burpee Broad Jump." },
-                    { day: "Day 7 - Recovery", exercises: "Light walking, mobility work, sleep priority." }
+                    { day: "Day 1 - Lower Strength + Engine", exercises: [
+                        {name: "Back Squat", sets: 4, reps: "6", load: "Moderate (70% 1RM)"},
+                        {name: "Reverse Lunge", sets: 3, reps: "10/leg", load: "DBs Moderate"},
+                        {name: "Sled Push", sets: 6, reps: "10 m", load: "Light-Moderate"},
+                        {name: "Bike Erg Engine", sets: 6, reps: "1:00 hard / 1:00 easy", load: "Zone 3-4"}
+                    ]},
+                    { day: "Day 2 - Aerobic Run", exercises: [
+                        {name: "Zone 2 Run", sets: 1, reps: "40 min", load: "Conversational Pace / Nasal Breathing"}
+                    ]},
+                    { day: "Day 3 - Upper Strength + Ski", exercises: [
+                        {name: "Bench Press", sets: 4, reps: "6", load: "Moderate"},
+                        {name: "Bent-Over Row", sets: 4, reps: "8", load: "Moderate"},
+                        {name: "SkiErg Conditioning", sets: 4, reps: "500 m", load: "Easy-Moderate"},
+                        {name: "Plank Core", sets: 3, reps: "1:00", load: "Bodyweight"}
+                    ]},
+                    { day: "Day 4 - Run Intervals", exercises: [
+                        {name: "Run Intervals", sets: 6, reps: "400 m (90s rest)", load: "Controlled Hard"}
+                    ]},
+                    { day: "Day 5 - Hybrid Conditioning", exercises: [
+                        {name: "Row + Farmer Carry + Wall Balls", sets: 3, reps: "500m Row / 50m Carry / 15 WB", load: "Controlled Pace"}
+                    ]},
+                    { day: "Day 6 - HYROX Practice", exercises: [
+                        {name: "Partial Simulation", sets: 1, reps: "500m Ski / 4x10m Push / 4x10m Pull / 40m BBJ", load: "Technique Priority"}
+                    ]},
+                    { day: "Day 7 - Recovery", exercises: [
+                        {name: "Active Recovery", sets: 1, reps: "Light walking & mobility", load: "Rest"}
+                    ]}
                 ]
             },
             2: {
                 title: "WEEK 2 — BASE PROGRESSION",
                 focus: "Progressive volume increase, building aerobic base.",
                 days: [
-                    { day: "Day 1 - Lower Strength + Engine", exercises: "Back Squat (4x6 +5-10lb), Reverse Lunge (3x10/leg), Sled Push (6x12.5m). Engine: Bike Erg 1:00 hard x 7." },
-                    { day: "Day 2 - Aerobic Run", exercises: "45 min Zone 2 Run." },
-                    { day: "Day 3 - Upper Strength + Ski", exercises: "Bench Press (4x6), Bent-Over Row (4x8), SkiErg (500m x 5)." },
-                    { day: "Day 4 - Run Intervals", exercises: "5 x 600m Run (Controlled hard, 2:00 rest)." },
-                    { day: "Day 5 - Hybrid Circuit", exercises: "3 Rounds: 750m Row, 75m Farmer Carry, 20 Wall Balls." },
-                    { day: "Day 6 - HYROX Practice (Saturday)", exercises: "Simulation: SkiErg 750m, 4x12.5m Sled Push & Pull, 50m Burpee Broad Jump." },
-                    { day: "Day 7 - Recovery", exercises: "Rest and mobility." }
+                    { day: "Day 1 - Lower Strength + Engine", exercises: [
+                        {name: "Back Squat", sets: 4, reps: "6", load: "+5-10 lb"},
+                        {name: "Reverse Lunge", sets: 3, reps: "10/leg", load: "Slightly heavier"},
+                        {name: "Sled Push", sets: 6, reps: "12.5 m", load: "Moderate"},
+                        {name: "Bike Erg Engine", sets: 7, reps: "1:00 hard / 1:00 easy", load: "Zone 3-4"}
+                    ]},
+                    { day: "Day 2 - Aerobic Run", exercises: [{name: "Zone 2 Run", sets: 1, reps: "45 min", load: "Conversational"}]},
+                    { day: "Day 3 - Upper Strength + Ski", exercises: [
+                        {name: "Bench Press", sets: 4, reps: "6", load: "+5 lb"},
+                        {name: "Bent-Over Row", sets: 4, reps: "8", load: "Slightly heavier"},
+                        {name: "SkiErg Conditioning", sets: 5, reps: "500 m", load: "Moderate"}
+                    ]},
+                    { day: "Day 4 - Run Intervals", exercises: [{name: "Run Intervals", sets: 5, reps: "600 m (2:00 rest)", load: "Controlled Hard"}]},
+                    { day: "Day 5 - Hybrid Conditioning", exercises: [{name: "Row + Farmer Carry + Wall Balls", sets: 3, reps: "750m Row / 75m Carry / 20 WB", load: "Controlled Pace"}]},
+                    { day: "Day 6 - HYROX Practice", exercises: [{name: "Simulation", sets: 1, reps: "750m Ski / 4x12.5m Push & Pull / 50m BBJ", load: "Race Rhythm"}]},
+                    { day: "Day 7 - Recovery", exercises: [{name: "Rest & Mobility", sets: 1, reps: "Full Recovery", load: "Rest"}]}
                 ]
             },
             3: {
                 title: "WEEK 3 — EARLY EVENTS EMPHASIS",
                 focus: "Mastering early race stations and running cadence.",
                 days: [
-                    { day: "Day 1 - Lower Strength + Engine", exercises: "Back Squat, Reverse Lunge, Sled Push. Bike Erg intervals." },
-                    { day: "Day 2 - Aerobic Run", exercises: "45-50 min Zone 2 Run." },
-                    { day: "Day 3 - Upper Strength + Ski", exercises: "Upper body strength maintenance + SkiErg conditioning." },
-                    { day: "Day 4 - Run Intervals", exercises: "4 x 800m Run (Controlled hard, 2:30 rest)." },
-                    { day: "Day 5 - Hybrid Circuit", exercises: "4 Rounds: 750m Row, 100m Farmer Carry, 20 Wall Balls." },
-                    { day: "Day 6 - HYROX Practice (Saturday)", exercises: "Simulation: 1000m Ski, 2x12.5m Sled Push & Pull, 60m BBJ, 100m Farmer Carry." },
-                    { day: "Day 7 - Recovery", exercises: "Rest and mobility." }
+                    { day: "Day 1 - Lower Strength", exercises: [
+                        {name: "Back Squat", sets: 4, reps: "6", load: "+5-10 lb from Wk 2"},
+                        {name: "Reverse Lunge", sets: 3, reps: "10/leg", load: "Heavier DBs"},
+                        {name: "Sled Push", sets: 6, reps: "12.5 m", load: "Moderate-Heavy"}
+                    ]},
+                    { day: "Day 2 - Aerobic Run", exercises: [{name: "Zone 2 Run", sets: 1, reps: "45-50 min", load: "Conversational"}]},
+                    { day: "Day 3 - Upper Strength", exercises: [
+                        {name: "Bench Press", sets: 4, reps: "6", load: "+5 lb"},
+                        {name: "Bent-Over Row", sets: 4, reps: "8", load: "Moderate"},
+                        {name: "SkiErg", sets: 4, reps: "750 m", load: "Moderate"}
+                    ]},
+                    { day: "Day 4 - Run Intervals", exercises: [{name: "Run Intervals", sets: 4, reps: "800 m (2:30 rest)", load: "Controlled Hard"}]},
+                    { day: "Day 5 - Hybrid Circuit", exercises: [{name: "Row + Farmer Carry + Wall Balls", sets: 4, reps: "750m Row / 100m Carry / 20 WB", load: "Race Pace"}]},
+                    { day: "Day 6 - HYROX Practice", exercises: [{name: "Simulation", sets: 1, reps: "1000m Ski / 2x12.5m Push & Pull / 60m BBJ / 100m Carry", load: "Race Intensity"}]},
+                    { day: "Day 7 - Recovery", exercises: [{name: "Rest & Mobility", sets: 1, reps: "Recovery", load: "Rest"}]}
                 ]
             },
             4: {
                 title: "WEEK 4 — THRESHOLD RUN & SLED FOCUS",
                 focus: "Introducing threshold running and heavier sled loads.",
                 days: [
-                    { day: "Day 1 - Lower Strength", exercises: "Heavy Squats & Sled Push (Progressing toward race weight)." },
-                    { day: "Day 2 - Aerobic Run", exercises: "45 min Zone 2." },
-                    { day: "Day 3 - Upper Strength", exercises: "Bench / Rows + SkiErg." },
-                    { day: "Day 4 - Threshold Run", exercises: "3 x 1 Mile Threshold Run (3:00 rest)." },
-                    { day: "Day 5 - Hybrid Conditioning", exercises: "4 Rounds: 750m Row, 100m Carry, 25 Wall Balls." },
-                    { day: "Day 6 - HYROX Practice (Saturday)", exercises: "Broken Race Simulation + Dead Bug core work." },
-                    { day: "Day 7 - Recovery", exercises: "Rest." }
+                    { day: "Day 1 - Lower Strength", exercises: [
+                        {name: "Back Squat", sets: 4, reps: "6", load: "+5 lb from Week 3"},
+                        {name: "Sled Push", sets: 6, reps: "12.5 m", load: "Moderate-Heavy"}
+                    ]},
+                    { day: "Day 2 - Aerobic Run", exercises: [{name: "Zone 2 Run", sets: 1, reps: "45 min", load: "Conversational"}]},
+                    { day: "Day 3 - Upper Strength", exercises: [{name: "Bench Press / Rows", sets: 4, reps: "6", load: "Moderate"}]},
+                    { day: "Day 4 - Threshold Run", exercises: [{name: "Threshold Run", sets: 3, reps: "1 Mile (3:00 rest)", load: "Threshold Pace"}]},
+                    { day: "Day 5 - Hybrid Conditioning", exercises: [{name: "Circuit", sets: 4, reps: "750m Row / 100m Carry / 25 WB", load: "Controlled Pace"}]},
+                    { day: "Day 6 - HYROX Practice", exercises: [{name: "Broken Simulation", sets: 1, reps: "Ski, Sleds, BBJ", load: "Race Simulation"}]},
+                    { day: "Day 7 - Recovery", exercises: [{name: "Rest", sets: 1, reps: "Rest", load: "Rest"}]}
                 ]
             },
             5: {
                 title: "WEEK 5 — BUILD PHASE: SLEDS + SKI",
                 focus: "Density, heavier loads, fatigue tolerance.",
                 days: [
-                    { day: "Day 1 - Lower Strength", exercises: "Back Squat & Heavy Sleds." },
-                    { day: "Day 2 - Aerobic Run", exercises: "50 min Zone 2." },
-                    { day: "Day 3 - Upper Strength", exercises: "Push Press / Pull-ups." },
-                    { day: "Day 4 - Threshold Run", exercises: "4 x 1 Mile Threshold Run." },
-                    { day: "Day 5 - Hybrid Conditioning", exercises: "4 Rounds: 1000m Row, 100m Carry, 25 Wall Balls." },
-                    { day: "Day 6 - HYROX Practice (Saturday)", exercises: "Broken Race Format Simulation." },
-                    { day: "Day 7 - Recovery", exercises: "Rest." }
+                    { day: "Day 1 - Lower Strength", exercises: [
+                        {name: "Front Squat", sets: 5, reps: "5", load: "Moderate-Heavy"},
+                        {name: "Romanian Deadlift", sets: 3, reps: "8", load: "Moderate"},
+                        {name: "Sled Push", sets: 4, reps: "12.5 m", load: "Race Load"}
+                    ]},
+                    { day: "Day 2 - Aerobic Run", exercises: [{name: "Zone 2 Run", sets: 1, reps: "50 min", load: "Steady Pace"}]},
+                    { day: "Day 3 - Upper Strength", exercises: [{name: "Push Press / Pull-ups", sets: 4, reps: "5-8", load: "Moderate"}]},
+                    { day: "Day 4 - Threshold Run", exercises: [{name: "Threshold Run", sets: 4, reps: "1 Mile (3:00 rest)", load: "Threshold Pace"}]},
+                    { day: "Day 5 - Hybrid Conditioning", exercises: [{name: "Circuit", sets: 4, reps: "1000m Row / 100m Carry / 25 WB", load: "Race Pace"}]},
+                    { day: "Day 6 - HYROX Practice", exercises: [{name: "Broken Simulation", sets: 1, reps: "Run, Ski, Sled Push/Pull", load: "Race Format"}]},
+                    { day: "Day 7 - Recovery", exercises: [{name: "Rest", sets: 1, reps: "Rest", load: "Rest"}]}
                 ]
             },
             6: {
                 title: "WEEK 6 — BUILD PHASE: BURPEE + ROW",
                 focus: "Mid-race stamina and burpee efficiency under fatigue.",
                 days: [
-                    { day: "Day 1 - Lower Strength", exercises: "Squats & Lunges." },
-                    { day: "Day 2 - Aerobic Run", exercises: "45 min Zone 2." },
-                    { day: "Day 3 - Upper Strength", exercises: "Overhead Strength + Rowing." },
-                    { day: "Day 4 - Run Intervals", exercises: "5 x 1km Controlled hard." },
-                    { day: "Day 5 - Hybrid Conditioning", exercises: "4 Rounds: 1000m Row, 150m Carry, 30 Wall Balls." },
-                    { day: "Day 6 - HYROX Practice (Saturday)", exercises: "Broken Race Format + Bike Erg intervals." },
-                    { day: "Day 7 - Recovery", exercises: "Rest." }
+                    { day: "Day 1 - Lower Strength", exercises: [
+                        {name: "Front Squat", sets: 5, reps: "5", load: "+5 lb from Wk 5"},
+                        {name: "Romanian Deadlift", sets: 3, reps: "8", load: "Same as Wk 5"},
+                        {name: "Sled Push", sets: 5, reps: "12.5 m", load: "Race Load"}
+                    ]},
+                    { day: "Day 2 - Aerobic Run", exercises: [{name: "Zone 2 Run", sets: 1, reps: "50 min", load: "Steady"}]},
+                    { day: "Day 3 - Upper Strength", exercises: [{name: "Push Press / Pull-ups", sets: 4, reps: "5-8", load: "Slightly heavier"}]},
+                    { day: "Day 4 - Run Intervals", exercises: [{name: "Run Intervals", sets: 5, reps: "1 km", load: "Controlled Hard"}]},
+                    { day: "Day 5 - Hybrid Conditioning", exercises: [{name: "Circuit", sets: 4, reps: "1000m Row / 150m Carry / 30 WB", load: "Race Pace"}]},
+                    { day: "Day 6 - HYROX Practice", exercises: [{name: "Simulation", sets: 1, reps: "Run, Push, Pull, Carry", load: "Race Intensity"}]},
+                    { day: "Day 7 - Recovery", exercises: [{name: "Rest", sets: 1, reps: "Rest", load: "Rest"}]}
                 ]
             },
             7: {
                 title: "WEEK 7 — BUILD PHASE: SLEDS + CARRY",
                 focus: "Farmer carry grip endurance and heavy sled resilience.",
                 days: [
-                    { day: "Day 1 - Lower Strength", exercises: "Heavy Squats & Lunges." },
-                    { day: "Day 2 - Aerobic Run", exercises: "50 min Zone 2." },
-                    { day: "Day 3 - Upper Strength + Ski", exercises: "Push Press & SkiErg." },
-                    { day: "Day 4 - Run Intervals", exercises: "5 x 1km Planned race pace." },
-                    { day: "Day 5 - Hybrid Sharpening", exercises: "3 Rounds: 1000m Row, 200m Carry, 25 Wall Balls." },
-                    { day: "Day 6 - HYROX Practice (Saturday)", exercises: "Race Rhythm 400m repeats + station practice." },
-                    { day: "Day 7 - Recovery", exercises: "Rest." }
+                    { day: "Day 1 - Lower Strength", exercises: [
+                        {name: "Front Squat", sets: 4, reps: "5", load: "Same as Wk 6"},
+                        {name: "Sled Push", sets: 6, reps: "12.5 m", load: "Race Load"}
+                    ]},
+                    { day: "Day 2 - Aerobic Run", exercises: [{name: "Zone 2 Run", sets: 1, reps: "50 min", load: "Relaxed Steady"}]},
+                    { day: "Day 3 - Upper Strength", exercises: [{name: "Push Press / Pull-ups", sets: 4, reps: "5-8", load: "Moderate"}]},
+                    { day: "Day 4 - Run Intervals", exercises: [{name: "Run Intervals", sets: 5, reps: "1 km", load: "Race Pace"}]},
+                    { day: "Day 5 - Hybrid Sharpening", exercises: [{name: "Circuit", sets: 3, reps: "1000m Row / 200m Carry / 25 WB", load: "Race Pace"}]},
+                    { day: "Day 6 - HYROX Practice", exercises: [{name: "Race Rhythm Practice", sets: 1, reps: "400m repeats + station practice", load: "Race Pace"}]},
+                    { day: "Day 7 - Recovery", exercises: [{name: "Rest", sets: 1, reps: "Rest", load: "Rest"}]}
                 ]
             },
             8: {
                 title: "WEEK 8 — LATE-RACE EVENTS FOCUS",
                 focus: "Lunges and wall balls under severe cumulative fatigue.",
                 days: [
-                    { day: "Day 1 - Lower Strength", exercises: "Lunges & Wall Ball simulation." },
-                    { day: "Day 2 - Aerobic Run", exercises: "45 min Zone 2." },
-                    { day: "Day 3 - Upper Strength", exercises: "Pull-ups & Core." },
-                    { day: "Day 4 - Run Intervals", exercises: "4 x 1km Race pace." },
-                    { day: "Day 5 - Hybrid Primer", exercises: "Low fatigue priming circuit." },
-                    { day: "Day 6 - HYROX Practice (Saturday)", exercises: "Late-race simulation focus." },
-                    { day: "Day 7 - Recovery", exercises: "Rest." }
+                    { day: "Day 1 - Lower Strength", exercises: [
+                        {name: "Front Squat", sets: 4, reps: "4", load: "Heavier than Wk 7"},
+                        {name: "Sled Push", sets: 6, reps: "12.5 m", load: "Race Load"}
+                    ]},
+                    { day: "Day 2 - Aerobic Run", exercises: [{name: "Zone 2 Run", sets: 1, reps: "45-50 min", load: "Relaxed"}]},
+                    { day: "Day 3 - Upper Strength", exercises: [{name: "Push Press / Pull-ups", sets: 4, reps: "4-8", load: "Moderate"}]},
+                    { day: "Day 4 - Run Intervals", exercises: [{name: "Run Intervals", sets: 5, reps: "1 km", load: "Race Pace"}]},
+                    { day: "Day 5 - Hybrid Primer", exercises: [{name: "Circuit", sets: 4, reps: "1000m Row / 200m Carry / 30 WB", load: "Late-Race Focus"}]},
+                    { day: "Day 6 - HYROX Practice", exercises: [{name: "Late-Race Simulation", sets: 1, reps: "BBJ, Row, Lunges, Wall Balls", load: "Race Simulation"}]},
+                    { day: "Day 7 - Recovery", exercises: [{name: "Rest", sets: 1, reps: "Rest", load: "Rest"}]}
                 ]
             },
             9: {
                 title: "WEEK 9 — PEAK & FULL SIMULATION",
                 focus: "Full dress rehearsal simulation under exact race conditions.",
                 days: [
-                    { day: "Day 1 - Reduced Strength", exercises: "Light maintenance squats." },
-                    { day: "Day 2 - Easy Run", exercises: "30 min Easy jog." },
-                    { day: "Day 3 - Upper Strength", exercises: "Light upper body." },
-                    { day: "Day 4 - Short Intervals", exercises: "3 x 800m fast." },
-                    { day: "Day 5 - Hybrid Primer", exercises: "Short activation circuit." },
-                    { day: "Day 6 - HYROX Practice (Saturday)", exercises: "FULL HYROX SIMULATION (All 8 stations + runs)." },
-                    { day: "Day 7 - Recovery", exercises: "Full rest." }
+                    { day: "Day 1 - Reduced Strength", exercises: [
+                        {name: "Front Squat", sets: 3, reps: "3", load: "Race-prep load"},
+                        {name: "Sled Push", sets: 5, reps: "12.5 m", load: "Race Load"}
+                    ]},
+                    { day: "Day 2 - Easy Run", exercises: [{name: "Easy Jog", sets: 1, reps: "30 min", load: "Easy"}]},
+                    { day: "Day 3 - Upper Strength", exercises: [{name: "Light Upper Body", sets: 3, reps: "5", load: "Light"}]},
+                    { day: "Day 4 - Short Intervals", exercises: [{name: "Short Intervals", sets: 3, reps: "800 m", load: "Fast"}]},
+                    { day: "Day 5 - Hybrid Primer", exercises: [{name: "Primer Circuit", sets: 1, reps: "Short activation", load: "Easy"}]},
+                    { day: "Day 6 - HYROX Practice (Full Sim)", exercises: [{name: "Full Race Flow Simulation", sets: 1, reps: "All 8 Stations + 8 Runs", load: "Race Intensity"}]},
+                    { day: "Day 7 - Recovery", exercises: [{name: "Rest", sets: 1, reps: "Rest", load: "Rest"}]}
                 ]
             },
             10: {
                 title: "WEEK 10 — SHARPENING & PARTIAL SIM",
-                focus: "Sharpening speed, nervous system activation, reducing accumulated fatigue.",
+                focus: "Sharpening speed, nervous system activation, reducing fatigue.",
                 days: [
-                    { day: "Day 1 - Light Strength", exercises: "Mobility and light squats." },
-                    { day: "Day 2 - Easy Run", exercises: "30 min Zone 2." },
-                    { day: "Day 3 - Short Hybrid", exercises: "Brief intervals." },
-                    { day: "Day 4 - Short Run", exercises: "2km easy with strides." },
-                    { day: "Day 5 - OFF", exercises: "Complete rest." },
-                    { day: "Day 6 - HYROX Practice (Saturday)", exercises: "Sharp / Fast Partial Simulation." },
-                    { day: "Day 7 - Recovery", exercises: "Rest." }
+                    { day: "Day 1 - Light Strength", exercises: [{name: "Mobility & Light Squats", sets: 3, reps: "5", load: "Light"}]},
+                    { day: "Day 2 - Easy Run", exercises: [{name: "Zone 2 Jog", sets: 1, reps: "30 min", load: "Easy"}]},
+                    { day: "Day 3 - Short Hybrid", exercises: [{name: "Brief Intervals", sets: 1, reps: "Short work", load: "Moderate"}]},
+                    { day: "Day 4 - Short Run", exercises: [{name: "Easy Run + Strides", sets: 1, reps: "2 km", load: "Easy"}]},
+                    { day: "Day 5 - Rest", exercises: [{name: "Complete Rest", sets: 1, reps: "0", load: "Rest"}]},
+                    { day: "Day 6 - HYROX Practice", exercises: [{name: "Sharp Partial Simulation", sets: 1, reps: "Key stations speed work", load: "Race Pace"}]},
+                    { day: "Day 7 - Recovery", exercises: [{name: "Rest", sets: 1, reps: "Rest", load: "Rest"}]}
                 ]
             },
             11: {
                 title: "WEEK 11 — TAPER & RACE EXECUTION",
                 focus: "Shedding fatigue, ensuring complete freshness for race day.",
                 days: [
-                    { day: "Day 1 - Easy Run + Light Work", exercises: "20 min easy jog + mobility." },
-                    { day: "Day 2 - OFF", exercises: "Complete rest." },
-                    { day: "Day 3 - Easy Jog + Ski", exercises: "15 min jog + light SkiErg pulls." },
-                    { day: "Day 4 - OFF", exercises: "Complete rest." },
-                    { day: "Day 5 - OFF", exercises: "Complete rest." },
-                    { day: "Day 6 - Pre-Race Activation", exercises: "10 min shakeout run + light dynamic stretches." },
-                    { day: "Day 7 - RACE DAY", exercises: "RACE DAY — Division Execution!" }
+                    { day: "Day 1 - Shakeout", exercises: [{name: "Easy Jog + Mobility", sets: 1, reps: "20 min", load: "Easy"}]},
+                    { day: "Day 2 - Rest", exercises: [{name: "Complete Rest", sets: 1, reps: "0", load: "Rest"}]},
+                    { day: "Day 3 - Activation", exercises: [{name: "Easy Jog + SkiErg Pulls", sets: 1, reps: "15 min", load: "Easy"}]},
+                    { day: "Day 4 - Rest", exercises: [{name: "Complete Rest", sets: 1, reps: "0", load: "Rest"}]},
+                    { day: "Day 5 - Rest", exercises: [{name: "Complete Rest", sets: 1, reps: "0", load: "Rest"}]},
+                    { day: "Day 6 - Pre-Race Activation", exercises: [{name: "Shakeout Run & Dynamic Stretches", sets: 1, reps: "10 min", load: "Easy"}]},
+                    { day: "Day 7 - RACE DAY", exercises: [{name: "HYROX RACE DAY EXECUTION", sets: 1, reps: "Full Division Execution", load: "MAX"}]}
                 ]
             }
         };
@@ -862,21 +922,49 @@
                         <h3 class="text-lg font-black text-hyrox-yellow">${data.title}</h3>
                         <p class="text-xs text-gray-400 mt-1"><strong class="text-white">Primary Focus:</strong> ${data.focus}</p>
                     </div>
-                    <div class="grid grid-cols-1 gap-3">
+                    <div class="space-y-4">
             `;
 
-            data.days.forEach((d, idx) => {
+            data.days.forEach((dayObj, dayIdx) => {
                 html += `
-                    <div class="bg-black/40 border border-gray-800 p-3 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
-                        <div class="w-full md:w-1/3">
-                            <span class="text-xs font-bold text-yellow-400">${d.day}</span>
-                        </div>
-                        <div class="w-full md:w-2/3 flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
-                            <span class="text-xs text-gray-300">${d.exercises}</span>
-                            <input type="text" placeholder="Log actual load / notes..." class="bg-black border border-gray-700 text-xs rounded p-1.5 w-full md:w-48">
-                        </div>
-                    </div>
+                    <div class="bg-black/40 border border-gray-800 p-4 rounded-xl space-y-3">
+                        <div class="font-bold text-xs text-hyrox-yellow text-yellow-400 uppercase tracking-wide">${dayObj.day}</div>
+                        <div class="space-y-2">
                 `;
+
+                dayObj.exercises.forEach((ex, exIdx) => {
+                    // Generate set check boxes
+                    let setsHtml = '';
+                    for(let s = 1; s <= (ex.sets || 1); s++) {
+                        const checkboxId = `chk_w${weekNum}_d${dayIdx}_e${exIdx}_s${s}`;
+                        setsHtml += `
+                            <label class="cursor-pointer inline-flex items-center">
+                                <input type="checkbox" class="set-checkbox hidden" id="${checkboxId}">
+                                <span class="w-6 h-6 rounded border border-gray-700 bg-black text-[10px] font-bold flex items-center justify-center text-gray-300 hover:border-hyrox-yellow transition">${s}</span>
+                            </label>
+                        `;
+                    }
+
+                    html += `
+                        <div class="bg-zinc-900/60 border border-gray-800/80 p-3 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+                            <div class="w-full md:w-1/3">
+                                <div class="text-xs font-bold text-white">${ex.name}</div>
+                                <div class="text-[11px] text-gray-400">Target: ${ex.reps} | Prescribed: ${ex.load}</div>
+                            </div>
+                            <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
+                                <div class="flex items-center gap-1.5 bg-black/50 p-1.5 rounded-lg border border-gray-800">
+                                    <span class="text-[10px] text-gray-400 uppercase font-bold mr-1">Sets:</span>
+                                    ${setsHtml}
+                                </div>
+                                <div class="w-28">
+                                    <input type="text" placeholder="Actual Load..." class="w-full text-xs p-1.5 rounded bg-black border border-gray-700 font-semibold text-center">
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += `</div></div>`;
             });
 
             html += `</div></div>`;
