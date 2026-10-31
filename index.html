@@ -232,7 +232,6 @@
                     <div class="flex items-center gap-3 w-full sm:w-auto">
                         <label class="text-xs text-gray-300 font-medium whitespace-nowrap">Select Day:</label>
                         <select id="program-day-select" onchange="renderProgramWeek()" class="bg-black border border-gray-700 text-sm rounded-lg px-3 py-1.5 text-white font-semibold w-full sm:w-auto">
-                            <option value="all">All Days</option>
                             <option value="0">Day 1</option>
                             <option value="1">Day 2</option>
                             <option value="2">Day 3</option>
@@ -771,7 +770,7 @@
 
         function renderProgramWeek() {
             const weekNum = document.getElementById('program-week-select').value;
-            const selectedDayFilter = document.getElementById('program-day-select').value;
+            const selectedDayFilter = parseInt(document.getElementById('program-day-select').value);
             const container = document.getElementById('program-container');
 
             if (!programData[weekNum]) {
@@ -791,8 +790,8 @@
             `;
 
             data.days.forEach((dayObj, dayIdx) => {
-                if (selectedDayFilter !== 'all' && parseInt(selectedDayFilter) !== dayIdx) {
-                    return; // Skip days that don't match the filter
+                if (selectedDayFilter !== dayIdx) {
+                    return; // Skip days that don't match the selected dropdown filter
                 }
 
                 html += `
