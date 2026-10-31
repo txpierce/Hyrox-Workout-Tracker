@@ -449,28 +449,48 @@
                     </div>
                 </div>
 
-                <!-- Right Col: Pace Calculator & Quick Timer -->
+                <!-- Right Col: Individual Station Pace Calculator -->
                 <div class="space-y-6">
                     <div class="bg-[#1E1E1E] border border-gray-800 rounded-xl p-5 shadow-lg space-y-4">
-                        <h3 class="text-base font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-calculator text-hyrox-yellow"></i> HYROX Pace Calculator
-                        </h3>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-[10px] font-medium text-gray-400 mb-1">Target 1km Run Pace</label>
-                                <input type="text" id="calc-pace" value="5:00" class="w-full rounded-lg p-2 text-xs font-bold text-center">
-                            </div>
-                            <div>
-                                <label class="block text-[10px] font-medium text-gray-400 mb-1">Avg Station Time (Min)</label>
-                                <input type="number" step="0.5" id="calc-station-time" value="4.5" class="w-full rounded-lg p-2 text-xs font-bold text-center">
+                        <div class="flex justify-between items-center border-b border-gray-800 pb-3">
+                            <h3 class="text-base font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-calculator text-hyrox-yellow"></i> HYROX Pace Calculator
+                            </h3>
+                            <!-- Gender Toggle -->
+                            <div class="flex bg-black p-1 rounded-lg border border-gray-700 text-xs font-bold">
+                                <button onclick="setCalcGender('men')" id="btn-calc-men" class="px-3 py-1 rounded bg-hyrox-yellow text-black transition">Men</button>
+                                <button onclick="setCalcGender('women')" id="btn-calc-women" class="px-3 py-1 rounded text-gray-300 transition">Women</button>
                             </div>
                         </div>
-                        <button onclick="calculatePace()" class="w-full bg-hyrox-yellow text-black py-2 rounded-lg font-bold text-xs hover:bg-yellow-400 transition">
-                            Calculate Finish Time
+
+                        <!-- Run Pace Input -->
+                        <div>
+                            <label class="block text-[11px] font-medium text-gray-400 mb-1">Target 1km Run Pace (MM:SS)</label>
+                            <input type="text" id="calc-run-pace" value="5:00" class="w-full rounded-lg p-2 text-xs font-bold text-center">
+                        </div>
+
+                        <!-- Individual Station Time Inputs -->
+                        <div class="space-y-2 pt-2 border-t border-gray-800">
+                            <div class="text-[11px] font-bold text-hyrox-yellow uppercase tracking-wider">Station Target Times (MM:SS)[cite: 1, 2, 3]</div>
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div><label class="block text-[10px] text-gray-400">1. SkiErg (1,000m)</label><input type="text" id="station-skierg" value="4:24" class="w-full rounded p-1.5 text-center font-bold"></div>
+                                <div><label class="block text-[10px] text-gray-400">2. Sled Push (50m)</label><input type="text" id="station-push" value="3:23" class="w-full rounded p-1.5 text-center font-bold"></div>
+                                <div><label class="block text-[10px] text-gray-400">3. Sled Pull (50m)</label><input type="text" id="station-pull" value="6:12" class="w-full rounded p-1.5 text-center font-bold"></div>
+                                <div><label class="block text-[10px] text-gray-400">4. Burpee Broad Jumps</label><input type="text" id="station-burpee" value="5:23" class="w-full rounded p-1.5 text-center font-bold"></div>
+                                <div><label class="block text-[10px] text-gray-400">5. Rowing (1,000m)</label><input type="text" id="station-row" value="4:54" class="w-full rounded p-1.5 text-center font-bold"></div>
+                                <div><label class="block text-[10px] text-gray-400">6. Farmer Carry (200m)</label><input type="text" id="station-farmer" value="2:49" class="w-full rounded p-1.5 text-center font-bold"></div>
+                                <div><label class="block text-[10px] text-gray-400">7. Sandbag Lunges</label><input type="text" id="station-lunge" value="5:35" class="w-full rounded p-1.5 text-center font-bold"></div>
+                                <div><label class="block text-[10px] text-gray-400">8. Wall Balls (100 reps)</label><input type="text" id="station-wallball" value="6:45" class="w-full rounded p-1.5 text-center font-bold"></div>
+                            </div>
+                        </div>
+
+                        <button onclick="calculateIndividualPace()" class="w-full bg-hyrox-yellow text-black py-2.5 rounded-lg font-bold text-xs hover:bg-yellow-400 transition shadow-lg">
+                            Calculate Total Finish Time
                         </button>
+
                         <div class="bg-black/50 border border-gray-800 p-3 rounded-xl text-center">
-                            <div class="text-[10px] text-gray-400">Estimated Total Finish Time</div>
-                            <div id="est-time" class="text-xl font-black text-hyrox-yellow">--:--:--</div>
+                            <div class="text-[10px] text-gray-400 uppercase">Estimated Total Finish Time</div>
+                            <div id="est-time" class="text-2xl font-black font-mono text-hyrox-yellow">--:--:--</div>
                         </div>
                     </div>
                 </div>
@@ -781,7 +801,6 @@
                     opt.textContent = dayObj.title || dayObj.day;
                     daySelect.appendChild(opt);
                 });
-                // Keep selection if valid, else default to 0
                 if (currentSelected < programData[weekNum].days.length) {
                     daySelect.value = currentSelected;
                 }
@@ -811,7 +830,7 @@
 
             data.days.forEach((dayObj, dayIdx) => {
                 if (selectedDayFilter !== dayIdx) {
-                    return; // Skip days that don't match the selected dropdown filter
+                    return;
                 }
 
                 html += `
@@ -1149,18 +1168,64 @@
             }
         }
 
-        function calculatePace() {
-            const paceStr = document.getElementById('calc-pace').value;
-            const stationTimeMin = parseFloat(document.getElementById('calc-station-time').value) || 4.5;
-            const parts = paceStr.split(':');
-            const totalSecPerKm = ((parseFloat(parts[0]) || 5) * 60) + (parseFloat(parts[1]) || 0);
-            const totalRaceSec = (totalSecPerKm * 8) + (stationTimeMin * 60 * 8);
+        // Gender presets for stations
+        const stationPresets = {
+            men: { skierg: "4:24", push: "3:23", pull: "6:12", burpee: "5:23", row: "4:54", farmer: "2:49", lunge: "5:35", wallball: "6:30" },
+            womens: { skierg: "5:21", push: "3:28", pull: "7:03", burpee: "5:23", row: "5:35", farmer: "2:32", lunge: "4:52", wallball: "6:00" }
+        };
+
+        function setCalcGender(gender) {
+            const btnMen = document.getElementById('btn-calc-men');
+            const btnWomen = document.getElementById('btn-calc-women');
+            if (gender === 'men') {
+                btnMen.className = "px-3 py-1 rounded bg-hyrox-yellow text-black transition";
+                btnWomen.className = "px-3 py-1 rounded text-gray-300 transition";
+            } else {
+                btnWomen.className = "px-3 py-1 rounded bg-hyrox-yellow text-black transition";
+                btnMen.className = "px-3 py-1 rounded text-gray-300 transition";
+            }
+            const p = stationPresets[gender];
+            document.getElementById('station-skierg').value = p.skierg;
+            document.getElementById('station-push').value = p.push;
+            document.getElementById('station-pull').value = p.pull;
+            document.getElementById('station-burpee').value = p.burpee;
+            document.getElementById('station-row').value = p.row;
+            document.getElementById('station-farmer').value = p.farmer;
+            document.getElementById('station-lunge').value = p.lunge;
+            document.getElementById('station-wallball').value = p.wallball;
+            calculateIndividualPace();
+        }
+
+        function parseTimeToSeconds(str) {
+            if (!str || !str.includes(':')) return parseFloat(str) * 60 || 0;
+            const parts = str.split(':');
+            return (parseInt(parts[0]) * 60) + parseFloat(parts[1]);
+        }
+
+        function calculateIndividualPace() {
+            const paceStr = document.getElementById('calc-run-pace').value || "5:00";
+            const runSecPerKm = parseTimeToSeconds(paceStr);
+            const totalRunSec = runSecPerKm * 8;
+
+            const skiergSec = parseTimeToSeconds(document.getElementById('station-skierg').value);
+            const pushSec = parseTimeToSeconds(document.getElementById('station-push').value);
+            const pullSec = parseTimeToSeconds(document.getElementById('station-pull').value);
+            const burpeeSec = parseTimeToSeconds(document.getElementById('station-burpee').value);
+            const rowSec = parseTimeToSeconds(document.getElementById('station-row').value);
+            const farmerSec = parseTimeToSeconds(document.getElementById('station-farmer').value);
+            const lungeSec = parseTimeToSeconds(document.getElementById('station-lunge').value);
+            const wallballSec = parseTimeToSeconds(document.getElementById('station-wallball').value);
+
+            const totalStationSec = skiergSec + pushSec + pullSec + burpeeSec + rowSec + farmerSec + lungeSec + wallballSec;
+            const totalRaceSec = totalRunSec + totalStationSec;
+
             const hours = Math.floor(totalRaceSec / 3600);
             const minutes = Math.floor((totalRaceSec % 3600) / 60);
-            const seconds = Math.floor(totalRaceSec % 60);
-            document.getElementById('est-time').innerText = `${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            const seconds = Math.round(totalRaceSec % 60);
+
+            document.getElementById('est-time').innerText = `${hours > 0 ? hours + ':' : ''}${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }
-        calculatePace();
+        calculateIndividualPace();
 
         function saveSimLog() {
             localStorage.setItem('hyrox_sim_log', JSON.stringify({
