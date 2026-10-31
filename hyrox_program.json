@@ -748,37 +748,37 @@
           {
             "name": " Run",
             "sets": 1,
-            "reps": 1km",
+            "reps": 1 km",
             "load": "Technique Priority"
           },
           {
             "name": "SkiErgi",
             "sets": 1,
-            "reps": "1km",
+            "reps": "1 km",
             "load": "Technique Priority"
           },
           {
             "name": "Runl",
             "sets": 1,
-            "reps": "1km",
+            "reps": "1 km",
             "load": "Technique Priority"
           },
           {
             "name": "Sled Push",
             "sets": 4,
-            "reps": "12.5m",
+            "reps": "12.5 m",
             "load": "Technique Priority"
           },
           {
             "name": "Run",
             "sets": 1,
-            "reps": "1km",
+            "reps": "1 km",
             "load": "Technique Priority"
           },
           {
             "name": "Pull",
             "sets": 4,
-            "reps": "12.5m",
+            "reps": "12.5 m",
             "load": "Technique Priority"
           }
         ]
