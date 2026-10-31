@@ -1,11 +1,11 @@
 {
   "1": {
-    "title": "WEEK 1 — BASE & MOVEMENT QUALITY",
+    "title": "WEEK 1 \u2014 BASE & MOVEMENT QUALITY",
     "focus": "Aerobic capacity, foundational strength, movement quality.",
     "days": [
       {
         "day": "Day 1 - Lower Body Strength + Engine",
-        "title": "Day 1 — Lower Body Strength + Engine",
+        "title": "Day 1 \u2014 Lower Body Strength + Engine",
         "exercises": [
           {
             "name": "Back Squat",
@@ -35,7 +35,7 @@
       },
       {
         "day": "Day 2 - Aerobic Run",
-        "title": "Day 2 — Aerobic Run",
+        "title": "Day 2 \u2014 Aerobic Run",
         "exercises": [
           {
             "name": "Zone 2 Run",
@@ -47,7 +47,7 @@
       },
       {
         "day": "Day 3 - Upper Body Strength + Conditioning",
-        "title": "Day 3 — Upper Body Strength + Conditioning",
+        "title": "Day 3 \u2014 Upper Body Strength + Conditioning",
         "exercises": [
           {
             "name": "Bench Press",
@@ -77,7 +77,7 @@
       },
       {
         "day": "Day 4 - Run Intervals",
-        "title": "Day 4 — Run Intervals",
+        "title": "Day 4 \u2014 Run Intervals",
         "exercises": [
           {
             "name": "Run Intervals",
@@ -89,7 +89,7 @@
       },
       {
         "day": "Day 5 - Hybrid Conditioning",
-        "title": "Day 5 — Hybrid Conditioning",
+        "title": "Day 5 \u2014 Hybrid Conditioning",
         "exercises": [
           {
             "name": "Row",
@@ -113,7 +113,7 @@
       },
       {
         "day": "Day 6 - HYROX Practice",
-        "title": "Day 6 — HYROX Practice (Technique Priority)",
+        "title": "Day 6 \u2014 HYROX Practice (Technique Priority)",
         "exercises": [
           {
             "name": "SkiErg",
@@ -143,7 +143,7 @@
       },
       {
         "day": "Day 7 - Recovery",
-        "title": "Day 7 — Off / Recovery",
+        "title": "Day 7 \u2014 Off / Recovery",
         "exercises": [
           {
             "name": "Active Recovery",
@@ -156,12 +156,12 @@
     ]
   },
   "2": {
-    "title": "WEEK 2 — BASE PROGRESSION",
+    "title": "WEEK 2 \u2014 BASE PROGRESSION",
     "focus": "Progressive volume increase, building aerobic base.",
     "days": [
       {
         "day": "Day 1 - Lower Body Strength + Engine",
-        "title": "Day 1 — Lower Body Strength + Engine",
+        "title": "Day 1 \u2014 Lower Body Strength + Engine",
         "exercises": [
           {
             "name": "Back Squat",
@@ -191,7 +191,7 @@
       },
       {
         "day": "Day 2 - Aerobic Run",
-        "title": "Day 2 — Aerobic Run",
+        "title": "Day 2 \u2014 Aerobic Run",
         "exercises": [
           {
             "name": "Zone 2 Run",
@@ -203,7 +203,7 @@
       },
       {
         "day": "Day 3 - Upper Body Strength + Conditioning",
-        "title": "Day 3 — Upper Body Strength + Conditioning",
+        "title": "Day 3 \u2014 Upper Body Strength + Conditioning",
         "exercises": [
           {
             "name": "Bench Press",
@@ -227,7 +227,7 @@
       },
       {
         "day": "Day 4 - Run Intervals",
-        "title": "Day 4 — Run Intervals",
+        "title": "Day 4 \u2014 Run Intervals",
         "exercises": [
           {
             "name": "Run Intervals",
@@ -239,7 +239,7 @@
       },
       {
         "day": "Day 5 - Hybrid Conditioning",
-        "title": "Day 5 — Hybrid Conditioning",
+        "title": "Day 5 \u2014 Hybrid Conditioning",
         "exercises": [
           {
             "name": "Row",
@@ -263,7 +263,7 @@
       },
       {
         "day": "Day 6 - HYROX Practice",
-        "title": "Day 6 — HYROX Practice (Longer Partial Sim)",
+        "title": "Day 6 \u2014 HYROX Practice (Longer Partial Sim)",
         "exercises": [
           {
             "name": "SkiErg",
@@ -293,7 +293,7 @@
       },
       {
         "day": "Day 7 - Recovery",
-        "title": "Day 7 — Off / Recovery",
+        "title": "Day 7 \u2014 Off / Recovery",
         "exercises": [
           {
             "name": "Rest & Mobility",
@@ -306,18 +306,18 @@
     ]
   },
   "3": {
-    "title": "WEEK 3 — BASE → BUILD TRANSITION",
+    "title": "WEEK 3 \u2014 BASE \u2192 BUILD TRANSITION",
     "focus": "Mastering early race stations and running cadence.",
     "days": [
       {
         "day": "Day 1 - Lower Body Strength + Engine",
-        "title": "Day 1 — Lower Body Strength + Engine",
+        "title": "Day 1 \u2014 Lower Body Strength + Engine",
         "exercises": [
           {
             "name": "Back Squat",
             "sets": 4,
             "reps": "6",
-            "load": "+5–10 lb from Wk 2"
+            "load": "+5\u201310 lb from Wk 2"
           },
           {
             "name": "Reverse Lunge",
@@ -341,7 +341,7 @@
       },
       {
         "day": "Day 2 - Aerobic Run",
-        "title": "Day 2 — Aerobic Run",
+        "title": "Day 2 \u2014 Aerobic Run",
         "exercises": [
           {
             "name": "Zone 2 Run",
@@ -353,7 +353,7 @@
       },
       {
         "day": "Day 3 - Upper Body Strength + Conditioning",
-        "title": "Day 3 — Upper Body Strength + Conditioning",
+        "title": "Day 3 \u2014 Upper Body Strength + Conditioning",
         "exercises": [
           {
             "name": "Bench Press",
@@ -371,7 +371,7 @@
             "name": "SkiErg",
             "sets": 5,
             "reps": "500 m",
-            "load": "Easy–Moderate"
+            "load": "Easy\u2013Moderate"
           },
           {
             "name": "Plank",
@@ -383,7 +383,7 @@
       },
       {
         "day": "Day 4 - Run Intervals",
-        "title": "Day 4 — Run Intervals",
+        "title": "Day 4 \u2014 Run Intervals",
         "exercises": [
           {
             "name": "Run Intervals",
@@ -395,7 +395,7 @@
       },
       {
         "day": "Day 5 - Hybrid Circuit",
-        "title": "Day 5 — Hybrid Conditioning",
+        "title": "Day 5 \u2014 Hybrid Conditioning",
         "exercises": [
           {
             "name": "Row",
@@ -419,7 +419,7 @@
       },
       {
         "day": "Day 6 - HYROX Practice",
-        "title": "Day 6 — HYROX Practice (Early Events Emphasis)",
+        "title": "Day 6 \u2014 HYROX Practice (Early Events Emphasis)",
         "exercises": [
           {
             "name": "SkiErg",
@@ -455,7 +455,7 @@
       },
       {
         "day": "Day 7 - Off / Recovery",
-        "title": "Day 7 — Off / Recovery",
+        "title": "Day 7 \u2014 Off / Recovery",
         "exercises": [
           {
             "name": "Recovery",
@@ -468,12 +468,12 @@
     ]
   },
   "4": {
-    "title": "WEEK 4 — BASE PHASE COMPLETE",
+    "title": "WEEK 4 \u2014 BASE PHASE COMPLETE",
     "focus": "Threshold running and heavy sled volume capstone.",
     "days": [
       {
         "day": "Day 1 - Lower Body Strength + Engine",
-        "title": "Day 1 — Lower Body Strength + Engine",
+        "title": "Day 1 \u2014 Lower Body Strength + Engine",
         "exercises": [
           {
             "name": "Back Squat",
@@ -491,7 +491,7 @@
             "name": "Sled Push",
             "sets": 6,
             "reps": "12.5 m",
-            "load": "Moderate–Heavy"
+            "load": "Moderate\u2013Heavy"
           },
           {
             "name": "Bike Erg",
@@ -503,7 +503,7 @@
       },
       {
         "day": "Day 2 - Aerobic Run",
-        "title": "Day 2 — Aerobic Run",
+        "title": "Day 2 \u2014 Aerobic Run",
         "exercises": [
           {
             "name": "Zone 2 Run",
@@ -515,7 +515,7 @@
       },
       {
         "day": "Day 3 - Upper Body Strength + Conditioning",
-        "title": "Day 3 — Upper Body Strength + Conditioning",
+        "title": "Day 3 \u2014 Upper Body Strength + Conditioning",
         "exercises": [
           {
             "name": "Bench Press",
@@ -545,7 +545,7 @@
       },
       {
         "day": "Day 4 - Threshold Run",
-        "title": "Day 4 — Threshold Run",
+        "title": "Day 4 \u2014 Threshold Run",
         "exercises": [
           {
             "name": "Threshold Run",
@@ -557,7 +557,7 @@
       },
       {
         "day": "Day 5 - Hybrid Conditioning",
-        "title": "Day 5 — Hybrid Conditioning",
+        "title": "Day 5 \u2014 Hybrid Conditioning",
         "exercises": [
           {
             "name": "Row",
@@ -581,7 +581,7 @@
       },
       {
         "day": "Day 6 - HYROX Practice",
-        "title": "Day 6 — HYROX Practice (Base Capstone)",
+        "title": "Day 6 \u2014 HYROX Practice (Base Capstone)",
         "exercises": [
           {
             "name": "SkiErg",
@@ -617,7 +617,7 @@
       },
       {
         "day": "Day 7 - Off / Recovery",
-        "title": "Day 7 — Off / Recovery",
+        "title": "Day 7 \u2014 Off / Recovery",
         "exercises": [
           {
             "name": "Recovery",
@@ -630,18 +630,18 @@
     ]
   },
   "5": {
-    "title": "WEEK 5 — BUILD PHASE BEGINS",
+    "title": "WEEK 5 \u2014 BUILD PHASE BEGINS",
     "focus": "Density, heavier loads, fatigue tolerance.",
     "days": [
       {
         "day": "Day 1 - Lower Body Strength + Engine",
-        "title": "Day 1 — Lower Body Strength + Engine",
+        "title": "Day 1 \u2014 Lower Body Strength + Engine",
         "exercises": [
           {
             "name": "Front Squat",
             "sets": 5,
             "reps": "5",
-            "load": "Moderate–Heavy"
+            "load": "Moderate\u2013Heavy"
           },
           {
             "name": "Romanian Deadlift",
@@ -665,7 +665,7 @@
       },
       {
         "day": "Day 2 - Aerobic Run",
-        "title": "Day 2 — Aerobic Run",
+        "title": "Day 2 \u2014 Aerobic Run",
         "exercises": [
           {
             "name": "Zone 2 Run",
@@ -677,7 +677,7 @@
       },
       {
         "day": "Day 3 - Upper Body Strength + Conditioning",
-        "title": "Day 3 — Upper Body Strength + Conditioning",
+        "title": "Day 3 \u2014 Upper Body Strength + Conditioning",
         "exercises": [
           {
             "name": "Push Press",
@@ -707,7 +707,7 @@
       },
       {
         "day": "Day 4 - Threshold Run",
-        "title": "Day 4 — Threshold Run",
+        "title": "Day 4 \u2014 Threshold Run",
         "exercises": [
           {
             "name": "Threshold Run",
@@ -719,7 +719,7 @@
       },
       {
         "day": "Day 5 - Hybrid Conditioning",
-        "title": "Day 5 — Hybrid Conditioning",
+        "title": "Day 5 \u2014 Hybrid Conditioning",
         "exercises": [
           {
             "name": "Row",
@@ -743,49 +743,19 @@
       },
       {
         "day": "Day 6 - HYROX Practice",
-        "title": "Day 6 — HYROX Practice (Technique Priority)",
+        "title": "Day 6 \u2014 HYROX Practice (Broken Sim: Ski & Sleds)",
         "exercises": [
           {
-            "name": "Run",
+            "name": "Broken Sim Sequence",
             "sets": 1,
-            "reps": "1 km",
-            "load": "Technique Priority"
-          },
-          {
-            "name": "SkiErg",
-            "sets": 1,
-            "reps": "1 km",
-            "load": "Technique Priority"
-          },
-          {
-            "name": "Run",
-            "sets": 1,
-            "reps": "1 km",
-            "load": "Technique Priority"
-          },
-          {
-            "name": "Sled Push",
-            "sets": 4,
-            "reps": "12.5 m",
-            "load": "Technique Priority"
-          },
-          {
-            "name": "Run",
-            "sets": 1,
-            "reps": "1 km",
-            "load": "Technique Priority"
-          },
-          {
-            "name": "Sled Pull",
-            "sets": 4,
-            "reps": "12.5 m",
-            "load": "Technique Priority"
+            "reps": "1km Run -> 1km Ski -> 1km Run -> 4x12.5m Push -> 1km Run -> 4x12.5m Pull",
+            "load": "Broken Race Format"
           }
         ]
       },
       {
         "day": "Day 7 - Off / Recovery",
-        "title": "Day 7 — Off / Recovery",
+        "title": "Day 7 \u2014 Off / Recovery",
         "exercises": [
           {
             "name": "Recovery",
@@ -798,12 +768,12 @@
     ]
   },
   "6": {
-    "title": "WEEK 6 — BUILD PHASE CONTINUES",
+    "title": "WEEK 6 \u2014 BUILD PHASE CONTINUES",
     "focus": "Mid-race stamina and burpee efficiency under fatigue.",
     "days": [
       {
         "day": "Day 1 - Lower Body Strength + Engine",
-        "title": "Day 1 — Lower Body Strength + Engine",
+        "title": "Day 1 \u2014 Lower Body Strength + Engine",
         "exercises": [
           {
             "name": "Front Squat",
@@ -833,7 +803,7 @@
       },
       {
         "day": "Day 2 - Aerobic Run",
-        "title": "Day 2 — Aerobic Run",
+        "title": "Day 2 \u2014 Aerobic Run",
         "exercises": [
           {
             "name": "Zone 2 Run",
@@ -845,7 +815,7 @@
       },
       {
         "day": "Day 3 - Upper Body Strength + Conditioning",
-        "title": "Day 3 — Upper Body Strength + Conditioning",
+        "title": "Day 3 \u2014 Upper Body Strength + Conditioning",
         "exercises": [
           {
             "name": "Push Press",
@@ -875,7 +845,7 @@
       },
       {
         "day": "Day 4 - Threshold Run",
-        "title": "Day 4 — Threshold Run",
+        "title": "Day 4 \u2014 Threshold Run",
         "exercises": [
           {
             "name": "Threshold Run",
@@ -887,7 +857,7 @@
       },
       {
         "day": "Day 5 - Hybrid Conditioning",
-        "title": "Day 5 — Hybrid Conditioning",
+        "title": "Day 5 \u2014 Hybrid Conditioning",
         "exercises": [
           {
             "name": "Row",
@@ -911,7 +881,7 @@
       },
       {
         "day": "Day 6 - HYROX Practice",
-        "title": "Day 6 — HYROX Practice (Broken Sim: Burpees & Row)",
+        "title": "Day 6 \u2014 HYROX Practice (Broken Sim: Burpees & Row)",
         "exercises": [
           {
             "name": "Broken Sim Sequence",
@@ -923,7 +893,7 @@
       },
       {
         "day": "Day 7 - Off / Recovery",
-        "title": "Day 7 — Off / Recovery",
+        "title": "Day 7 \u2014 Off / Recovery",
         "exercises": [
           {
             "name": "Recovery",
@@ -936,12 +906,12 @@
     ]
   },
   "7": {
-    "title": "WEEK 7 — DENSITY & EFFICIENCY",
+    "title": "WEEK 7 \u2014 DENSITY & EFFICIENCY",
     "focus": "Farmer carry grip endurance and heavy sled resilience.",
     "days": [
       {
         "day": "Day 1 - Lower Body Strength + Engine",
-        "title": "Day 1 — Lower Body Strength + Engine",
+        "title": "Day 1 \u2014 Lower Body Strength + Engine",
         "exercises": [
           {
             "name": "Front Squat",
@@ -971,7 +941,7 @@
       },
       {
         "day": "Day 2 - Aerobic Run",
-        "title": "Day 2 — Aerobic Run",
+        "title": "Day 2 \u2014 Aerobic Run",
         "exercises": [
           {
             "name": "Zone 2 Run",
@@ -983,7 +953,7 @@
       },
       {
         "day": "Day 3 - Upper Body Strength + Conditioning",
-        "title": "Day 3 — Upper Body Strength + Conditioning",
+        "title": "Day 3 \u2014 Upper Body Strength + Conditioning",
         "exercises": [
           {
             "name": "Push Press",
@@ -1013,7 +983,7 @@
       },
       {
         "day": "Day 4 - Run Intervals",
-        "title": "Day 4 — Run Intervals",
+        "title": "Day 4 \u2014 Run Intervals",
         "exercises": [
           {
             "name": "Run Intervals",
@@ -1025,7 +995,7 @@
       },
       {
         "day": "Day 5 - Hybrid Sharpening",
-        "title": "Day 5 — Hybrid Conditioning",
+        "title": "Day 5 \u2014 Hybrid Conditioning",
         "exercises": [
           {
             "name": "Row",
@@ -1049,7 +1019,7 @@
       },
       {
         "day": "Day 6 - HYROX Practice",
-        "title": "Day 6 — HYROX Practice (Broken Sim: Sleds & Carry)",
+        "title": "Day 6 \u2014 HYROX Practice (Broken Sim: Sleds & Carry)",
         "exercises": [
           {
             "name": "Broken Sim Sequence",
@@ -1061,7 +1031,7 @@
       },
       {
         "day": "Day 7 - Off / Recovery",
-        "title": "Day 7 — Off / Recovery",
+        "title": "Day 7 \u2014 Off / Recovery",
         "exercises": [
           {
             "name": "Recovery",
@@ -1074,12 +1044,12 @@
     ]
   },
   "8": {
-    "title": "WEEK 8 — LATE-RACE FOCUS",
+    "title": "WEEK 8 \u2014 LATE-RACE FOCUS",
     "focus": "Lunges and wall balls under severe cumulative fatigue.",
     "days": [
       {
         "day": "Day 1 - Lower Body Strength + Engine",
-        "title": "Day 1 — Lower Body Strength + Engine",
+        "title": "Day 1 \u2014 Lower Body Strength + Engine",
         "exercises": [
           {
             "name": "Front Squat",
@@ -1109,7 +1079,7 @@
       },
       {
         "day": "Day 2 - Aerobic Run",
-        "title": "Day 2 — Aerobic Run",
+        "title": "Day 2 \u2014 Aerobic Run",
         "exercises": [
           {
             "name": "Zone 2 Run",
@@ -1121,7 +1091,7 @@
       },
       {
         "day": "Day 3 - Upper Body Strength + Conditioning",
-        "title": "Day 3 — Upper Body Strength + Conditioning",
+        "title": "Day 3 \u2014 Upper Body Strength + Conditioning",
         "exercises": [
           {
             "name": "Push Press",
@@ -1151,7 +1121,7 @@
       },
       {
         "day": "Day 4 - Run Intervals",
-        "title": "Day 4 — Run Intervals",
+        "title": "Day 4 \u2014 Run Intervals",
         "exercises": [
           {
             "name": "Run Intervals",
@@ -1163,7 +1133,7 @@
       },
       {
         "day": "Day 5 - Hybrid Primer",
-        "title": "Day 5 — Hybrid Conditioning",
+        "title": "Day 5 \u2014 Hybrid Conditioning",
         "exercises": [
           {
             "name": "Row",
@@ -1187,7 +1157,7 @@
       },
       {
         "day": "Day 6 - HYROX Practice",
-        "title": "Day 6 — HYROX Practice (Late-Race Simulation)",
+        "title": "Day 6 \u2014 HYROX Practice (Late-Race Simulation)",
         "exercises": [
           {
             "name": "Late-Race Sim Sequence",
@@ -1199,7 +1169,7 @@
       },
       {
         "day": "Day 7 - Off / Recovery",
-        "title": "Day 7 — Off / Recovery",
+        "title": "Day 7 \u2014 Off / Recovery",
         "exercises": [
           {
             "name": "Recovery",
@@ -1212,12 +1182,12 @@
     ]
   },
   "9": {
-    "title": "WEEK 9 — PEAK & FULL SIMULATION",
+    "title": "WEEK 9 \u2014 PEAK & FULL SIMULATION",
     "focus": "Full dress rehearsal simulation under exact race conditions.",
     "days": [
       {
         "day": "Day 1 - Reduced Strength",
-        "title": "Day 1 — Reduced Strength + Engine",
+        "title": "Day 1 \u2014 Reduced Strength + Engine",
         "exercises": [
           {
             "name": "Front Squat",
@@ -1247,7 +1217,7 @@
       },
       {
         "day": "Day 2 - Easy Run",
-        "title": "Day 2 — Easy Run (Economy)",
+        "title": "Day 2 \u2014 Easy Run (Economy)",
         "exercises": [
           {
             "name": "Easy Jog",
@@ -1259,7 +1229,7 @@
       },
       {
         "day": "Day 3 - Upper Strength (Light)",
-        "title": "Day 3 — Upper Body Strength + Conditioning",
+        "title": "Day 3 \u2014 Upper Body Strength + Conditioning",
         "exercises": [
           {
             "name": "Push Press",
@@ -1289,7 +1259,7 @@
       },
       {
         "day": "Day 4 - Short Intervals",
-        "title": "Day 4 — Run Intervals (Pace Control)",
+        "title": "Day 4 \u2014 Run Intervals (Pace Control)",
         "exercises": [
           {
             "name": "Run Intervals",
@@ -1301,7 +1271,7 @@
       },
       {
         "day": "Day 5 - Hybrid Primer",
-        "title": "Day 5 — Hybrid Sharpening",
+        "title": "Day 5 \u2014 Hybrid Sharpening",
         "exercises": [
           {
             "name": "Row",
@@ -1325,7 +1295,7 @@
       },
       {
         "day": "Day 6 - HYROX Practice (Full Sim)",
-        "title": "Day 6 — HYROX Practice (FULL RACE SIMULATION — DOUBLES)",
+        "title": "Day 6 \u2014 HYROX Practice (FULL RACE SIMULATION \u2014 DOUBLES)",
         "exercises": [
           {
             "name": "FULL RACE SIMULATION",
@@ -1337,7 +1307,7 @@
       },
       {
         "day": "Day 7 - Recovery",
-        "title": "Day 7 — Off / Recovery",
+        "title": "Day 7 \u2014 Off / Recovery",
         "exercises": [
           {
             "name": "Recovery",
@@ -1350,12 +1320,12 @@
     ]
   },
   "10": {
-    "title": "WEEK 10 — SHARPEN PHASE",
+    "title": "WEEK 10 \u2014 SHARPEN PHASE",
     "focus": "Sharpening speed, nervous system activation, reducing fatigue.",
     "days": [
       {
         "day": "Day 1 - Light Strength + Engine",
-        "title": "Day 1 — Light Strength + Engine",
+        "title": "Day 1 \u2014 Light Strength + Engine",
         "exercises": [
           {
             "name": "Front Squat",
@@ -1385,7 +1355,7 @@
       },
       {
         "day": "Day 2 - Aerobic Run (Short)",
-        "title": "Day 2 — Aerobic Run (Short)",
+        "title": "Day 2 \u2014 Aerobic Run (Short)",
         "exercises": [
           {
             "name": "Easy Jog",
@@ -1397,7 +1367,7 @@
       },
       {
         "day": "Day 3 - Upper Body & Core",
-        "title": "Day 3 — Upper Body Strength + Conditioning",
+        "title": "Day 3 \u2014 Upper Body Strength + Conditioning",
         "exercises": [
           {
             "name": "Push Press",
@@ -1427,7 +1397,7 @@
       },
       {
         "day": "Day 4 - Run Strides / Race Rhythm",
-        "title": "Day 4 — Run Strides / Race Rhythm",
+        "title": "Day 4 \u2014 Run Strides / Race Rhythm",
         "exercises": [
           {
             "name": "Run Strides",
@@ -1439,7 +1409,7 @@
       },
       {
         "day": "Day 5 - Hybrid Primer",
-        "title": "Day 5 — Hybrid Primer (Low Fatigue)",
+        "title": "Day 5 \u2014 Hybrid Primer (Low Fatigue)",
         "exercises": [
           {
             "name": "Row",
@@ -1463,7 +1433,7 @@
       },
       {
         "day": "Day 6 - HYROX Practice",
-        "title": "Day 6 — HYROX Practice (Primer Only)",
+        "title": "Day 6 \u2014 HYROX Practice (Primer Only)",
         "exercises": [
           {
             "name": "Primer Sequence",
@@ -1475,7 +1445,7 @@
       },
       {
         "day": "Day 7 - Recovery",
-        "title": "Day 7 — Off / Recovery",
+        "title": "Day 7 \u2014 Off / Recovery",
         "exercises": [
           {
             "name": "Recovery",
@@ -1488,12 +1458,12 @@
     ]
   },
   "11": {
-    "title": "WEEK 11 — TAPER & RACE EXECUTION",
+    "title": "WEEK 11 \u2014 TAPER & RACE EXECUTION",
     "focus": "Shedding fatigue, ensuring complete freshness for race day.",
     "days": [
       {
         "day": "Day 1 - Shakeout",
-        "title": "Day 1 — Light Lower Body + Engine Shakeout",
+        "title": "Day 1 \u2014 Light Lower Body + Engine Shakeout",
         "exercises": [
           {
             "name": "Front Squat",
@@ -1523,7 +1493,7 @@
       },
       {
         "day": "Day 2 - Rest",
-        "title": "Day 2 — Easy Run / Rest",
+        "title": "Day 2 \u2014 Easy Run / Rest",
         "exercises": [
           {
             "name": "Easy Run",
@@ -1535,7 +1505,7 @@
       },
       {
         "day": "Day 3 - Activation",
-        "title": "Day 3 — Light Upper Body & Activation",
+        "title": "Day 3 \u2014 Light Upper Body & Activation",
         "exercises": [
           {
             "name": "Push Press",
@@ -1565,7 +1535,7 @@
       },
       {
         "day": "Day 4 - Short Strides",
-        "title": "Day 4 — Short Strides (Neural Primer)",
+        "title": "Day 4 \u2014 Short Strides (Neural Primer)",
         "exercises": [
           {
             "name": "Run Strides",
@@ -1577,19 +1547,19 @@
       },
       {
         "day": "Day 5 - Complete Rest",
-        "title": "Day 5 — Complete Rest / Mobility",
+        "title": "Day 5 \u2014 Complete Rest / Mobility",
         "exercises": [
           {
             "name": "Mobility & Rest",
             "sets": 1,
-            "reps": "Light walking & mobility",
+            "reps": "Light stretching & short walk",
             "load": "Rest"
           }
         ]
       },
       {
         "day": "Day 6 - Pre-Race Activation",
-        "title": "Day 6 — Pre-Race Activation & Shakedown",
+        "title": "Day 6 \u2014 Pre-Race Activation & Shakedown",
         "exercises": [
           {
             "name": "Shakeout Run & Dynamic Stretches",
@@ -1601,10 +1571,10 @@
       },
       {
         "day": "Day 7 - RACE DAY",
-        "title": "Day 7 — RACE DAY (HYROX HOUSTON — WOMEN'S DOUBLES)",
+        "title": "Day 7 \u2014 RACE DAY (HYROX HOUSTON \u2014 WOMEN'S DOUBLES)",
         "exercises": [
           {
-            "name": "SESSION",
+            "name": "HYROX HOUSTON COMPETITION EXECUTION",
             "sets": 1,
             "reps": "Full 8 Stations + 8 x 1km Runs (Partner Relay)",
             "load": "MAX EXECUTION / RACE DAY"
@@ -1614,3 +1584,5 @@
     ]
   }
 }
+
+
