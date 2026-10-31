@@ -480,7 +480,7 @@
                                 <div><label class="block text-[10px] text-gray-400">5. Rowing (1,000m)</label><input type="text" id="station-row" value="4:54" class="w-full rounded p-1.5 text-center font-bold"></div>
                                 <div><label class="block text-[10px] text-gray-400">6. Farmer Carry (200m)</label><input type="text" id="station-farmer" value="2:49" class="w-full rounded p-1.5 text-center font-bold"></div>
                                 <div><label class="block text-[10px] text-gray-400">7. Sandbag Lunges</label><input type="text" id="station-lunge" value="5:35" class="w-full rounded p-1.5 text-center font-bold"></div>
-                                <div><label class="block text-[10px] text-gray-400">8. Wall Balls (100 reps)</label><input type="text" id="station-wallball" value="6:45" class="w-full rounded p-1.5 text-center font-bold"></div>
+                                <div><label class="block text-[10px] text-gray-400">8. Wall Balls (100 reps)</label><input type="text" id="station-wallball" value="6:30" class="w-full rounded p-1.5 text-center font-bold"></div>
                             </div>
                         </div>
 
@@ -1168,10 +1168,28 @@
             }
         }
 
-        // Gender presets for stations
+        // Updated Station Benchmarks for Men vs Women
         const stationPresets = {
-            men: { skierg: "4:24", push: "3:23", pull: "6:12", burpee: "5:23", row: "4:54", farmer: "2:49", lunge: "5:35", wallball: "6:30" },
-            womens: { skierg: "5:21", push: "3:28", pull: "7:03", burpee: "5:23", row: "5:35", farmer: "2:32", lunge: "4:52", wallball: "6:00" }
+            men: { 
+                skierg: "4:24", 
+                push: "3:23", 
+                pull: "6:12", 
+                burpee: "5:23", 
+                row: "4:54", 
+                farmer: "2:49", 
+                lunge: "5:35", 
+                wallball: "6:30" 
+            },
+            women: { 
+                skierg: "5:21", 
+                push: "3:28", 
+                pull: "7:03", 
+                burpee: "5:23", 
+                row: "5:35", 
+                farmer: "2:32", 
+                lunge: "4:52", 
+                wallball: "6:00" 
+            }
         };
 
         function setCalcGender(gender) {
@@ -1223,7 +1241,16 @@
             const minutes = Math.floor((totalRaceSec % 3600) / 60);
             const seconds = Math.round(totalRaceSec % 60);
 
-            document.getElementById('est-time').innerText = `${hours > 0 ? hours + ':' : ''}${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            const formattedFinalTime = `${hours > 0 ? hours + ':' : ''}${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Update Estimated Total Finish Time display
+            document.getElementById('est-time').innerText = formattedFinalTime;
+
+            // Automatically update simulator goal total and live coach timer estimates
+            const paddedGoal = hours === 0 ? `0:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}` : `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            document.getElementById('sim-goal-total').value = paddedGoal;
+            autoCalculateTargets();
+            document.getElementById('coach-est-finish').innerText = paddedGoal;
         }
         calculateIndividualPace();
 
