@@ -41,7 +41,6 @@
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between">
-
     <!-- Top Navigation / Header -->
     <header class="bg-black border-b border-gray-800 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-4">
@@ -199,7 +198,7 @@
                 <div class="flex justify-between items-center">
                     <div>
                         <h2 class="text-xl font-bold text-white">11-Week Master Training Program</h2>
-                        <p class="text-xs text-gray-400">Log working weights and check off sets. Data saves automatically.</p>
+                        <p class="text-xs text-gray-400">Select week and day to view workouts, log working weights, and check off sets.</p>
                     </div>
                     <div class="text-right">
                         <span id="overall-progress-text" class="text-sm font-black text-hyrox-yellow">0% Completed</span>
@@ -212,21 +211,28 @@
             </div>
 
             <div class="bg-[#1E1E1E] border border-gray-800 rounded-xl p-4 shadow-lg flex flex-col md:flex-row justify-between items-center gap-4">
-                <div class="flex items-center gap-3 w-full">
-                    <label class="text-xs text-gray-300 font-medium whitespace-nowrap">Select Week:</label>
-                    <select id="program-week-select" onchange="renderProgramWeek()" class="bg-black border border-gray-700 text-sm rounded-lg px-3 py-1.5 text-white font-semibold w-full md:w-auto">
-                        <option value="1">Week 1: Base & Movement Quality</option>
-                        <option value="2">Week 2: Base Progression</option>
-                        <option value="3">Week 3: Base → Build Transition</option>
-                        <option value="4">Week 4: Base Phase Complete</option>
-                        <option value="5">Week 5: Build Phase Begins</option>
-                        <option value="6">Week 6: Build Phase Continues</option>
-                        <option value="7">Week 7: Density & Efficiency</option>
-                        <option value="8">Week 8: Late-Race Focus</option>
-                        <option value="9">Week 9: Peak & Full Sim</option>
-                        <option value="10">Week 10: Sharpen Phase</option>
-                        <option value="11">Week 11: Taper & Race Execution</option>
-                    </select>
+                <div class="flex items-center gap-3 w-full flex-wrap">
+                    <div class="flex items-center gap-2">
+                        <label class="text-xs text-gray-300 font-medium whitespace-nowrap">Select Week:</label>
+                        <select id="program-week-select" onchange="onWeekSelectChange()" class="bg-black border border-gray-700 text-sm rounded-lg px-3 py-1.5 text-white font-semibold">
+                            <option value="1">Week 1: Base &amp; Movement Quality</option>
+                            <option value="2">Week 2: Base Progression</option>
+                            <option value="3">Week 3: Base → Build Transition</option>
+                            <option value="4">Week 4: Base Phase Complete</option>
+                            <option value="5">Week 5: Build Phase Begins</option>
+                            <option value="6">Week 6: Build Phase Continues</option>
+                            <option value="7">Week 7: Density &amp; Efficiency</option>
+                            <option value="8">Week 8: Late-Race Focus</option>
+                            <option value="9">Week 9: Peak &amp; Full Sim</option>
+                            <option value="10">Week 10: Sharpen Phase</option>
+                            <option value="11">Week 11: Taper &amp; Race Execution</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <label class="text-xs text-gray-300 font-medium whitespace-nowrap">Select Day:</label>
+                        <select id="program-day-select" onchange="renderProgramDay()" class="bg-black border border-gray-700 text-sm rounded-lg px-3 py-1.5 text-white font-semibold">
+                        </select>
+                    </div>
                 </div>
             </div>
 
@@ -344,28 +350,20 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-800 text-gray-300">
-                                <!-- Segment 1 -->
                                 <tr><td class="p-2.5 font-medium text-white">1. Run 1 (1,000m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg1">--:--</td><td class="p-2.5"><input type="text" id="seg1-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg1-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
                                 <tr class="bg-black/20"><td class="p-2.5 font-medium text-hyrox-yellow">2. SkiErg (1,000m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg2">--:--</td><td class="p-2.5"><input type="text" id="seg2-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg2-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <!-- Segment 3 -->
                                 <tr><td class="p-2.5 font-medium text-white">3. Run 2 (1,000m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg3">--:--</td><td class="p-2.5"><input type="text" id="seg3-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg3-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
                                 <tr class="bg-black/20"><td class="p-2.5 font-medium text-hyrox-yellow">4. Sled Push (50m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg4">--:--</td><td class="p-2.5"><input type="text" id="seg4-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg4-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <!-- Segment 5 -->
                                 <tr><td class="p-2.5 font-medium text-white">5. Run 3 (1,000m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg5">--:--</td><td class="p-2.5"><input type="text" id="seg5-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg5-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
                                 <tr class="bg-black/20"><td class="p-2.5 font-medium text-hyrox-yellow">6. Sled Pull (50m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg6">--:--</td><td class="p-2.5"><input type="text" id="seg6-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg6-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <!-- Segment 7 -->
                                 <tr><td class="p-2.5 font-medium text-white">7. Run 4 (1,000m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg7">--:--</td><td class="p-2.5"><input type="text" id="seg7-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg7-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
                                 <tr class="bg-black/20"><td class="p-2.5 font-medium text-hyrox-yellow">8. Burpee Broad Jumps (80m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg8">--:--</td><td class="p-2.5"><input type="text" id="seg8-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg8-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <!-- Segment 9 -->
                                 <tr><td class="p-2.5 font-medium text-white">9. Run 5 (1,000m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg9">--:--</td><td class="p-2.5"><input type="text" id="seg9-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg9-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
                                 <tr class="bg-black/20"><td class="p-2.5 font-medium text-hyrox-yellow">10. Rowing (1,000m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg10">--:--</td><td class="p-2.5"><input type="text" id="seg10-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg10-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <!-- Segment 11 -->
                                 <tr><td class="p-2.5 font-medium text-white">11. Run 6 (1,000m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg11">--:--</td><td class="p-2.5"><input type="text" id="seg11-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg11-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
                                 <tr class="bg-black/20"><td class="p-2.5 font-medium text-hyrox-yellow">12. Farmer Carry (200m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg12">--:--</td><td class="p-2.5"><input type="text" id="seg12-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg12-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <!-- Segment 13 -->
                                 <tr><td class="p-2.5 font-medium text-white">13. Run 7 (1,000m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg13">--:--</td><td class="p-2.5"><input type="text" id="seg13-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg13-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
                                 <tr class="bg-black/20"><td class="p-2.5 font-medium text-hyrox-yellow">14. Sandbag Lunges (100m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg14">--:--</td><td class="p-2.5"><input type="text" id="seg14-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg14-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
-                                <!-- Segment 15 -->
                                 <tr><td class="p-2.5 font-medium text-white">15. Run 8 (1,000m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg15">--:--</td><td class="p-2.5"><input type="text" id="seg15-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg15-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
                                 <tr class="bg-black/20"><td class="p-2.5 font-medium text-hyrox-yellow">16. Wall Balls (100 reps)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg16">--:--</td><td class="p-2.5"><input type="text" id="seg16-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg16-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
                             </tbody>
@@ -750,155 +748,174 @@
         }
         setInterval(updateCountdown, 1000);
 
-        const programData = {
-            1: {
-                title: "WEEK 1 — BASE & MOVEMENT QUALITY",
-                focus: "Aerobic capacity, foundational strength, movement quality.",
-                days: [
-                    { day: "Day 1 - Lower Body Strength + Engine", exercises: [{name: "Back Squat", sets: 4, reps: "6", load: "Moderate"}, {name: "Reverse Lunge", sets: 3, reps: "10/leg", load: "DBs Moderate"}, {name: "Sled Push", sets: 6, reps: "10 m", load: "Light-Mod"}, {name: "Bike Erg Engine", sets: 6, reps: "1:00 hard / 1:00 easy", load: "Zone 3-4"}]},
-                    { day: "Day 2 - Aerobic Run", exercises: [{name: "Zone 2 Run", sets: 1, reps: "40 min", load: "Conversational Pace"}]},
-                    { day: "Day 3 - Upper Body Strength + Conditioning", exercises: [{name: "Bench Press", sets: 4, reps: "6", load: "Moderate"}, {name: "Bent-Over Row", sets: 4, reps: "8", load: "Moderate"}, {name: "SkiErg Conditioning", sets: 4, reps: "500 m", load: "Easy-Mod"}]},
-                    { day: "Day 4 - Run Intervals", exercises: [{name: "Run Intervals", sets: 6, reps: "400 m (90s rest)", load: "Controlled Hard"}]},
-                    { day: "Day 5 - Hybrid Conditioning", exercises: [{name: "Row + Farmer Carry + Wall Balls", sets: 3, reps: "500m Row / 50m Carry / 15 WB", load: "Controlled Pace"}]},
-                    { day: "Day 6 - HYROX Practice", exercises: [{name: "Partial Simulation", sets: 1, reps: "500m Ski / 4x10m Push / 4x10m Pull", load: "Technique Priority"}]},
-                    { day: "Day 7 - Recovery", exercises: [{name: "Active Recovery", sets: 1, reps: "Light walking & mobility", load: "Rest"}]}
-                ]
-            },
-            2: {
-                title: "WEEK 2 — BASE PROGRESSION",
-                focus: "Progressive volume increase, building aerobic base.",
-                days: [
-                    { day: "Day 1 - Lower Body Strength + Engine", exercises: [{name: "Back Squat", sets: 4, reps: "6", load: "+5-10 lb"}, {name: "Reverse Lunge", sets: 3, reps: "10/leg", load: "Slightly heavier"}, {name: "Sled Push", sets: 6, reps: "12.5 m", load: "Moderate"}]},
-                    { day: "Day 2 - Aerobic Run", exercises: [{name: "Zone 2 Run", sets: 1, reps: "45 min", load: "Conversational"}]},
-                    { day: "Day 3 - Upper Body Strength + Conditioning", exercises: [{name: "Bench Press", sets: 4, reps: "6", load: "+5 lb"}, {name: "Bent-Over Row", sets: 4, reps: "8", load: "Heavier"}]},
-                    { day: "Day 4 - Run Intervals", exercises: [{name: "Run Intervals", sets: 5, reps: "600 m (2:00 rest)", load: "Controlled Hard"}]},
-                    { day: "Day 5 - Hybrid Conditioning", exercises: [{name: "Row + Farmer Carry + Wall Balls", sets: 3, reps: "750m Row / 75m Carry / 20 WB", load: "Controlled Pace"}]},
-                    { day: "Day 6 - HYROX Practice", exercises: [{name: "Simulation", sets: 1, reps: "750m Ski / 4x12.5m Push & Pull", load: "Race Rhythm"}]},
-                    { day: "Day 7 - Recovery", exercises: [{name: "Rest & Mobility", sets: 1, reps: "Full Recovery", load: "Rest"}]}
-                ]
-            },
-            3: {
-                title: "WEEK 3 — BASE → BUILD TRANSITION",
-                focus: "Mastering early race stations and running cadence.",
-                days: [
-                    { day: "Day 1 - Lower Body Strength + Engine", exercises: [{name: "Back Squat", sets: 4, reps: "6", load: "+5–10 lb"}, {name: "Sled Push", sets: 6, reps: "12.5 m", load: "Moderate"}]},
-                    { day: "Day 2 - Aerobic Run", exercises: [{name: "Zone 2 Run", sets: 1, reps: "45-50 min", load: "Conversational"}]},
-                    { day: "Day 3 - Upper Body Strength + Conditioning", exercises: [{name: "Bench Press", sets: 4, reps: "6", load: "+5 lb"}, {name: "SkiErg", sets: 4, reps: "750 m", load: "Moderate"}]},
-                    { day: "Day 4 - Run Intervals", exercises: [{name: "Run Intervals", sets: 4, reps: "800 m (2:30 rest)", load: "Controlled Hard"}]},
-                    { day: "Day 5 - Hybrid Circuit", exercises: [{name: "Row + Farmer Carry + Wall Balls", sets: 4, reps: "750m Row / 100m Carry / 20 WB", load: "Race Pace"}]},
-                    { day: "Day 6 - HYROX Practice", exercises: [{name: "Simulation", sets: 1, reps: "1000m Ski / 2x12.5m Push & Pull / 60m BBJ", load: "Race Intensity"}]},
-                    { day: "Day 7 - Off / Recovery", exercises: [{name: "Recovery", sets: 1, reps: "Light walking & mobility", load: "Rest"}]}
-                ]
-            },
-            4: {
-                title: "WEEK 4 — BASE PHASE COMPLETE",
-                focus: "Threshold running and heavy sled volume capstone.",
-                days: [
-                    { day: "Day 1 - Lower Body Strength + Engine", exercises: [{name: "Back Squat", sets: 4, reps: "6", load: "+5 lb"}, {name: "Sled Push", sets: 6, reps: "12.5 m", load: "Heavy"}]},
-                    { day: "Day 2 - Aerobic Run", exercises: [{name: "Zone 2 Run", sets: 1, reps: "45 min", load: "Conversational"}]},
-                    { day: "Day 3 - Upper Body Strength + Conditioning", exercises: [{name: "Bench Press", sets: 4, reps: "6", load: "+5 lb"}, {name: "SkiErg", sets: 5, reps: "500 m", load: "Moderate"}]},
-                    { day: "Day 4 - Threshold Run", exercises: [{name: "Threshold Run", sets: 3, reps: "1 mile (3:00 rest)", load: "Threshold Pace"}]},
-                    { day: "Day 5 - Hybrid Conditioning", exercises: [{name: "Circuit", sets: 4, reps: "750m Row / 100m Carry / 25 WB", load: "Controlled Pace"}]},
-                    { day: "Day 6 - HYROX Practice", exercises: [{name: "Simulation", sets: 1, reps: "1km Ski / 4x12.5m Push & Pull / 80m BBJ", load: "Base Phase Capstone"}]},
-                    { day: "Day 7 - Off / Recovery", exercises: [{name: "Recovery", sets: 1, reps: "Light walking & mobility", load: "Rest"}]}
-                ]
-            },
-            5: {
-                title: "WEEK 5 — BUILD PHASE BEGINS",
-                focus: "Density, heavier loads, fatigue tolerance.",
-                days: [
-                    { day: "Day 1 - Lower Body Strength + Engine", exercises: [{name: "Front Squat", sets: 5, reps: "5", load: "Moderate–Heavy"}, {name: "Sled Push", sets: 4, reps: "12.5 m", load: "Race Load"}]},
-                    { day: "Day 2 - Aerobic Run", exercises: [{name: "Zone 2 Run", sets: 1, reps: "45-50 min", load: "Steady"}]},
-                    { day: "Day 3 - Upper Body Strength + Conditioning", exercises: [{name: "Push Press", sets: 4, reps: "5", load: "Moderate"}, {name: "SkiErg", sets: 5, reps: "400 m", load: "Moderate"}]},
-                    { day: "Day 4 - Threshold Run", exercises: [{name: "Threshold Run", sets: 3, reps: "1 mile (3:00 rest)", load: "Threshold Pace"}]},
-                    { day: "Day 5 - Hybrid Conditioning", exercises: [{name: "Circuit", sets: 4, reps: "750m Row / 100m Carry / 25 WB", load: "Moderate Pace"}]},
-                    { day: "Day 6 - HYROX Practice", exercises: [{name: "Broken Simulation", sets: 1, reps: "1km Run / 1km Ski / 4x12.5m Push", load: "Broken Race Format"}]},
-                    { day: "Day 7 - Off / Recovery", exercises: [{name: "Recovery", sets: 1, reps: "Light walking & mobility", load: "Rest"}]}
-                ]
-            },
-            6: {
-                title: "WEEK 6 — BUILD PHASE CONTINUES",
-                focus: "Mid-race stamina and burpee efficiency under fatigue.",
-                days: [
-                    { day: "Day 1 - Lower Body Strength + Engine", exercises: [{name: "Front Squat", sets: 5, reps: "5", load: "+5 lb"}, {name: "Sled Push", sets: 5, reps: "12.5 m", load: "Race Load"}]},
-                    { day: "Day 2 - Aerobic Run", exercises: [{name: "Zone 2 Run", sets: 1, reps: "50 min", load: "Steady"}]},
-                    { day: "Day 3 - Upper Body Strength + Conditioning", exercises: [{name: "Push Press", sets: 4, reps: "5", load: "Heavier"}, {name: "SkiErg", sets: 6, reps: "400 m", load: "Moderate"}]},
-                    { day: "Day 4 - Threshold Run", exercises: [{name: "Threshold Run", sets: 4, reps: "1 mile (3:00 rest)", load: "Threshold Pace"}]},
-                    { day: "Day 5 - Hybrid Conditioning", exercises: [{name: "Circuit", sets: 4, reps: "1000m Row / 100m Carry / 25 WB", load: "Controlled Pace"}]},
-                    { day: "Day 6 - HYROX Practice", exercises: [{name: "Broken Simulation", sets: 1, reps: "1km Run / 1km Ski / 80m BBJ", load: "Broken Race Format"}]},
-                    { day: "Day 7 - Off / Recovery", exercises: [{name: "Recovery", sets: 1, reps: "Light walking & mobility", load: "Rest"}]}
-                ]
-            },
-            7: {
-                title: "WEEK 7 — DENSITY & EFFICIENCY",
-                focus: "Farmer carry grip endurance and heavy sled resilience.",
-                days: [
-                    { day: "Day 1 - Lower Body Strength + Engine", exercises: [{name: "Front Squat", sets: 4, reps: "5", load: "Same as Wk 6"}, {name: "Sled Push", sets: 6, reps: "12.5 m", load: "Race Load"}]},
-                    { day: "Day 2 - Aerobic Run", exercises: [{name: "Zone 2 Run", sets: 1, reps: "50 min", load: "Relaxed Steady"}]},
-                    { day: "Day 3 - Upper Body Strength + Conditioning", exercises: [{name: "Push Press", sets: 4, reps: "5", load: "Same as Wk 6"}, {name: "SkiErg", sets: 6, reps: "400 m", load: "Moderate"}]},
-                    { day: "Day 4 - Run Intervals", exercises: [{name: "Run Intervals", sets: 5, reps: "1 km", load: "Race Pace"}]},
-                    { day: "Day 5 - Hybrid Sharpening", exercises: [{name: "Circuit", sets: 3, reps: "1000m Row / 200m Carry / 25 WB", load: "Race Pace"}]},
-                    { day: "Day 6 - HYROX Practice", exercises: [{name: "Race Rhythm Practice", sets: 1, reps: "400m repeats + station practice", load: "Race Pace"}]},
-                    { day: "Day 7 - Off / Recovery", exercises: [{name: "Recovery", sets: 1, reps: "Light walking & mobility", load: "Rest"}]}
-                ]
-            },
-            8: {
-                title: "WEEK 8 — LATE-RACE FOCUS",
-                focus: "Lunges and wall balls under severe cumulative fatigue.",
-                days: [
-                    { day: "Day 1 - Lower Body Strength + Engine", exercises: [{name: "Front Squat", sets: 4, reps: "4", load: "Heavier"}, {name: "Sled Push", sets: 6, reps: "12.5 m", load: "Race Load"}]},
-                    { day: "Day 2 - Aerobic Run", exercises: [{name: "Zone 2 Run", sets: 1, reps: "45-50 min", load: "Relaxed"}]},
-                    { day: "Day 3 - Upper Body Strength + Conditioning", exercises: [{name: "Push Press", sets: 4, reps: "4", load: "Heavier"}, {name: "SkiErg", sets: 5, reps: "500 m", load: "Moderate"}]},
-                    { day: "Day 4 - Run Intervals", exercises: [{name: "Run Intervals", sets: 5, reps: "1 km", load: "Race Pace"}]},
-                    { day: "Day 5 - Hybrid Primer", exercises: [{name: "Circuit", sets: 4, reps: "1000m Row / 200m Carry / 30 WB", load: "Late-Race Focus"}]},
-                    { day: "Day 6 - HYROX Practice", exercises: [{name: "Late-Race Simulation", sets: 1, reps: "BBJ, Row, Lunges, Wall Balls", load: "Race Simulation"}]},
-                    { day: "Day 7 - Off / Recovery", exercises: [{name: "Recovery", sets: 1, reps: "Light walking & mobility", load: "Rest"}]}
-                ]
-            },
-            9: {
-                title: "WEEK 9 — PEAK & FULL SIMULATION",
-                focus: "Full dress rehearsal simulation under exact race conditions.",
-                days: [
-                    { day: "Day 1 - Reduced Strength", exercises: [{name: "Front Squat", sets: 3, reps: "3", load: "Race-prep load"}, {name: "Sled Push", sets: 5, reps: "12.5 m", load: "Race Load"}]},
-                    { day: "Day 2 - Easy Run", exercises: [{name: "Easy Jog", sets: 1, reps: "30 min", load: "Easy"}]},
-                    { day: "Day 3 - Upper Strength & Full Simulation", exercises: [{name: "Push Press", sets: 3, reps: "4", load: "Moderate"}, {name: "Full Race Simulation", sets: 1, reps: "All 8 Stations + 8 Runs", load: "Race Intensity"}]},
-                    { day: "Day 4 - Short Intervals", exercises: [{name: "Short Intervals", sets: 3, reps: "800 m", load: "Fast"}]},
-                    { day: "Day 5 - Hybrid Primer", exercises: [{name: "Primer Circuit", sets: 1, reps: "Short activation", load: "Easy"}]},
-                    { day: "Day 6 - HYROX Practice", exercises: [{name: "Pacing Review & Mobility", sets: 1, reps: "Drills & transition practice", load: "Moderate"}]},
-                    { day: "Day 7 - Off / Recovery", exercises: [{name: "Mobility & Walking", sets: 1, reps: "Light stretching", load: "Rest"}]}
-                ]
-            },
-            10: {
-                title: "WEEK 10 — SHARPEN PHASE",
-                focus: "Sharpening speed, nervous system activation, reducing fatigue.",
-                days: [
-                    { day: "Day 1 - Light Strength + Engine", exercises: [{name: "Front Squat", sets: 3, reps: "2", load: "~85-88%"}, {name: "Sled Push", sets: 4, reps: "12.5 m", load: "Race Load"}]},
-                    { day: "Day 2 - Aerobic Run (Short)", exercises: [{name: "Easy Jog", sets: 1, reps: "30 min", load: "Zone 2"}]},
-                    { day: "Day 3 - Upper Body & Core", exercises: [{name: "Push Press", sets: 3, reps: "3", load: "Moderate"}, {name: "Core Work", sets: 3, reps: "10 reps", load: "Bodyweight"}]},
-                    { day: "Day 4 - Threshold Run", exercises: [{name: "Threshold Run", sets: 2, reps: "800 m", load: "Controlled"}]},
-                    { day: "Day 5 - Active Recovery", exercises: [{name: "Mobility & Stretching", sets: 1, reps: "20 min", load: "Easy"}]},
-                    { day: "Day 6 - HYROX Practice", exercises: [{name: "Sharp Partial Simulation", sets: 1, reps: "Key stations speed work", load: "Race Pace"}]},
-                    { day: "Day 7 - Off / Recovery", exercises: [{name: "Rest", sets: 1, reps: "Rest", load: "Rest"}]}
-                ]
-            },
-            11: {
-                title: "WEEK 11 — TAPER & RACE EXECUTION",
-                focus: "Shedding fatigue, ensuring complete freshness for race day.",
-                days: [
-                    { day: "Day 1 - Shakeout", exercises: [{name: "Easy Jog + Mobility", sets: 1, reps: "20 min", load: "Easy"}]},
-                    { day: "Day 2 - Rest", exercises: [{name: "Complete Rest", sets: 1, reps: "0", load: "Rest"}]},
-                    { day: "Day 3 - Activation", exercises: [{name: "Easy Jog + SkiErg Pulls", sets: 1, reps: "15 min", load: "Easy"}]},
-                    { day: "Day 4 - Rest", exercises: [{name: "Complete Rest", sets: 1, reps: "0", load: "Rest"}]},
-                    { day: "Day 5 - Rest", exercises: [{name: "Complete Rest", sets: 1, reps: "0", load: "Rest"}]},
-                    { day: "Day 6 - Pre-Race Activation", exercises: [{name: "Shakeout Run & Dynamic Stretches", sets: 1, reps: "10 min", load: "Easy"}]},
-                    { day: "Day 7 - RACE DAY", exercises: [{name: "HYROX RACE DAY EXECUTION", sets: 1, reps: "Full Division Execution", load: "MAX"}]}
-                ]
-            }
-        };
+        let programData = {};
 
-        function renderProgramWeek() {
+        async function fetchProgramData() {
+            programData = {
+                1: {
+                    title: "WEEK 1 — BASE & MOVEMENT QUALITY",
+                    focus: "Aerobic capacity, foundational strength, movement quality.",
+                    days: [
+                        { day: "Day 1 - Lower Body Strength + Engine", exercises: [{name: "Back Squat", sets: 4, reps: "6", load: "Moderate"}, {name: "Reverse Lunge", sets: 3, reps: "10/leg", load: "DBs Moderate"}, {name: "Sled Push", sets: 6, reps: "10 m", load: "Light-Mod"}, {name: "Bike Erg Engine", sets: 6, reps: "1:00 hard / 1:00 easy", load: "Zone 3-4"}]},
+                        { day: "Day 2 - Aerobic Run", exercises: [{name: "Zone 2 Run", sets: 1, reps: "40 min", load: "Conversational Pace"}]},
+                        { day: "Day 3 - Upper Body Strength + Conditioning", exercises: [{name: "Bench Press", sets: 4, reps: "6", load: "Moderate"}, {name: "Bent-Over Row", sets: 4, reps: "8", load: "Moderate"}, {name: "SkiErg Conditioning", sets: 4, reps: "500 m", load: "Easy-Mod"}]},
+                        { day: "Day 4 - Run Intervals", exercises: [{name: "Run Intervals", sets: 6, reps: "400 m (90s rest)", load: "Controlled Hard"}]},
+                        { day: "Day 5 - Hybrid Conditioning", exercises: [{name: "Row + Farmer Carry + Wall Balls", sets: 3, reps: "500m Row / 50m Carry / 15 WB", load: "Controlled Pace"}]},
+                        { day: "Day 6 - HYROX Practice", exercises: [{name: "Partial Simulation", sets: 1, reps: "500m Ski / 4x10m Push / 4x10m Pull", load: "Technique Priority"}]},
+                        { day: "Day 7 - Recovery", exercises: [{name: "Active Recovery", sets: 1, reps: "Light walking & mobility", load: "Rest"}]}
+                    ]
+                },
+                2: {
+                    title: "WEEK 2 — BASE PROGRESSION",
+                    focus: "Progressive volume increase, building aerobic base.",
+                    days: [
+                        { day: "Day 1 - Lower Body Strength + Engine", exercises: [{name: "Back Squat", sets: 4, reps: "6", load: "+5-10 lb"}, {name: "Reverse Lunge", sets: 3, reps: "10/leg", load: "Slightly heavier"}, {name: "Sled Push", sets: 6, reps: "12.5 m", load: "Moderate"}]},
+                        { day: "Day 2 - Aerobic Run", exercises: [{name: "Zone 2 Run", sets: 1, reps: "45 min", load: "Conversational"}]},
+                        { day: "Day 3 - Upper Body Strength + Conditioning", exercises: [{name: "Bench Press", sets: 4, reps: "6", load: "+5 lb"}, {name: "Bent-Over Row", sets: 4, reps: "8", load: "Heavier"}]},
+                        { day: "Day 4 - Run Intervals", exercises: [{name: "Run Intervals", sets: 5, reps: "600 m (2:00 rest)", load: "Controlled Hard"}]},
+                        { day: "Day 5 - Hybrid Conditioning", exercises: [{name: "Row + Farmer Carry + Wall Balls", sets: 3, reps: "750m Row / 75m Carry / 20 WB", load: "Controlled Pace"}]},
+                        { day: "Day 6 - HYROX Practice", exercises: [{name: "Simulation", sets: 1, reps: "750m Ski / 4x12.5m Push & Pull", load: "Race Rhythm"}]},
+                        { day: "Day 7 - Recovery", exercises: [{name: "Rest & Mobility", sets: 1, reps: "Full Recovery", load: "Rest"}]}
+                    ]
+                },
+                3: {
+                    title: "WEEK 3 — BASE → BUILD TRANSITION",
+                    focus: "Mastering early race stations and running cadence.",
+                    days: [
+                        { day: "Day 1 - Lower Body Strength + Engine", exercises: [{name: "Back Squat", sets: 4, reps: "6", load: "+5–10 lb"}, {name: "Sled Push", sets: 6, reps: "12.5 m", load: "Moderate"}]},
+                        { day: "Day 2 - Aerobic Run", exercises: [{name: "Zone 2 Run", sets: 1, reps: "45-50 min", load: "Conversational"}]},
+                        { day: "Day 3 - Upper Body Strength + Conditioning", exercises: [{name: "Bench Press", sets: 4, reps: "6", load: "+5 lb"}, {name: "SkiErg", sets: 4, reps: "750 m", load: "Moderate"}]},
+                        { day: "Day 4 - Run Intervals", exercises: [{name: "Run Intervals", sets: 4, reps: "800 m (2:30 rest)", load: "Controlled Hard"}]},
+                        { day: "Day 5 - Hybrid Circuit", exercises: [{name: "Row + Farmer Carry + Wall Balls", sets: 4, reps: "750m Row / 100m Carry / 20 WB", load: "Race Pace"}]},
+                        { day: "Day 6 - HYROX Practice", exercises: [{name: "Simulation", sets: 1, reps: "1000m Ski / 2x12.5m Push & Pull / 60m BBJ", load: "Race Intensity"}]},
+                        { day: "Day 7 - Off / Recovery", exercises: [{name: "Recovery", sets: 1, reps: "Light walking & mobility", load: "Rest"}]}
+                    ]
+                },
+                4: {
+                    title: "WEEK 4 — BASE PHASE COMPLETE",
+                    focus: "Threshold running and heavy sled volume capstone.",
+                    days: [
+                        { day: "Day 1 - Lower Body Strength + Engine", exercises: [{name: "Back Squat", sets: 4, reps: "6", load: "+5 lb"}, {name: "Sled Push", sets: 6, reps: "12.5 m", load: "Heavy"}]},
+                        { day: "Day 2 - Aerobic Run", exercises: [{name: "Zone 2 Run", sets: 1, reps: "45 min", load: "Conversational"}]},
+                        { day: "Day 3 - Upper Body Strength + Conditioning", exercises: [{name: "Bench Press", sets: 4, reps: "6", load: "+5 lb"}, {name: "SkiErg", sets: 5, reps: "500 m", load: "Moderate"}]},
+                        { day: "Day 4 - Threshold Run", exercises: [{name: "Threshold Run", sets: 3, reps: "1 mile (3:00 rest)", load: "Threshold Pace"}]},
+                        { day: "Day 5 - Hybrid Conditioning", exercises: [{name: "Circuit", sets: 4, reps: "750m Row / 100m Carry / 25 WB", load: "Controlled Pace"}]},
+                        { day: "Day 6 - HYROX Practice", exercises: [{name: "Simulation", sets: 1, reps: "1km Ski / 4x12.5m Push & Pull / 80m BBJ", load: "Base Phase Capstone"}]},
+                        { day: "Day 7 - Off / Recovery", exercises: [{name: "Recovery", sets: 1, reps: "Light walking & mobility", load: "Rest"}]}
+                    ]
+                },
+                5: {
+                    title: "WEEK 5 — BUILD PHASE BEGINS",
+                    focus: "Density, heavier loads, fatigue tolerance.",
+                    days: [
+                        { day: "Day 1 - Lower Body Strength + Engine", exercises: [{name: "Front Squat", sets: 5, reps: "5", load: "Moderate–Heavy"}, {name: "Sled Push", sets: 4, reps: "12.5 m", load: "Race Load"}]},
+                        { day: "Day 2 - Aerobic Run", exercises: [{name: "Zone 2 Run", sets: 1, reps: "45-50 min", load: "Steady"}]},
+                        { day: "Day 3 - Upper Body Strength + Conditioning", exercises: [{name: "Push Press", sets: 4, reps: "5", load: "Moderate"}, {name: "SkiErg", sets: 5, reps: "400 m", load: "Moderate"}]},
+                        { day: "Day 4 - Threshold Run", exercises: [{name: "Threshold Run", sets: 3, reps: "1 mile (3:00 rest)", load: "Threshold Pace"}]},
+                        { day: "Day 5 - Hybrid Conditioning", exercises: [{name: "Circuit", sets: 4, reps: "750m Row / 100m Carry / 25 WB", load: "Moderate Pace"}]},
+                        { day: "Day 6 - HYROX Practice", exercises: [{name: "Broken Simulation", sets: 1, reps: "1km Run / 1km Ski / 4x12.5m Push", load: "Broken Race Format"}]},
+                        { day: "Day 7 - Off / Recovery", exercises: [{name: "Recovery", sets: 1, reps: "Light walking & mobility", load: "Rest"}]}
+                    ]
+                },
+                6: {
+                    title: "WEEK 6 — BUILD PHASE CONTINUES",
+                    focus: "Mid-race stamina and burpee efficiency under fatigue.",
+                    days: [
+                        { day: "Day 1 - Lower Body Strength + Engine", exercises: [{name: "Front Squat", sets: 5, reps: "5", load: "+5 lb"}, {name: "Sled Push", sets: 5, reps: "12.5 m", load: "Race Load"}]},
+                        { day: "Day 2 - Aerobic Run", exercises: [{name: "Zone 2 Run", sets: 1, reps: "50 min", load: "Steady"}]},
+                        { day: "Day 3 - Upper Body Strength + Conditioning", exercises: [{name: "Push Press", sets: 4, reps: "5", load: "Heavier"}, {name: "SkiErg", sets: 6, reps: "400 m", load: "Moderate"}]},
+                        { day: "Day 4 - Threshold Run", exercises: [{name: "Threshold Run", sets: 4, reps: "1 mile (3:00 rest)", load: "Threshold Pace"}]},
+                        { day: "Day 5 - Hybrid Conditioning", exercises: [{name: "Circuit", sets: 4, reps: "1000m Row / 100m Carry / 25 WB", load: "Controlled Pace"}]},
+                        { day: "Day 6 - HYROX Practice", exercises: [{name: "Broken Simulation", sets: 1, reps: "1km Run / 1km Ski / 80m BBJ", load: "Broken Race Format"}]},
+                        { day: "Day 7 - Off / Recovery", exercises: [{name: "Recovery", sets: 1, reps: "Light walking & mobility", load: "Rest"}]}
+                    ]
+                },
+                7: {
+                    title: "WEEK 7 — DENSITY & EFFICIENCY",
+                    focus: "Farmer carry grip endurance and heavy sled resilience.",
+                    days: [
+                        { day: "Day 1 - Lower Body Strength + Engine", exercises: [{name: "Front Squat", sets: 4, reps: "5", load: "Same as Wk 6"}, {name: "Sled Push", sets: 6, reps: "12.5 m", load: "Race Load"}]},
+                        { day: "Day 2 - Aerobic Run", exercises: [{name: "Zone 2 Run", sets: 1, reps: "50 min", load: "Relaxed Steady"}]},
+                        { day: "Day 3 - Upper Body Strength + Conditioning", exercises: [{name: "Push Press", sets: 4, reps: "5", load: "Same as Wk 6"}, {name: "SkiErg", sets: 6, reps: "400 m", load: "Moderate"}]},
+                        { day: "Day 4 - Run Intervals", exercises: [{name: "Run Intervals", sets: 5, reps: "1 km", load: "Race Pace"}]},
+                        { day: "Day 5 - Hybrid Sharpening", exercises: [{name: "Circuit", sets: 3, reps: "1000m Row / 200m Carry / 25 WB", load: "Race Pace"}]},
+                        { day: "Day 6 - HYROX Practice", exercises: [{name: "Race Rhythm Practice", sets: 1, reps: "400m repeats + station practice", load: "Race Pace"}]},
+                        { day: "Day 7 - Off / Recovery", exercises: [{name: "Recovery", sets: 1, reps: "Light walking & mobility", load: "Rest"}]}
+                    ]
+                },
+                8: {
+                    title: "WEEK 8 — LATE-RACE FOCUS",
+                    focus: "Lunges and wall balls under severe cumulative fatigue.",
+                    days: [
+                        { day: "Day 1 - Lower Body Strength + Engine", exercises: [{name: "Front Squat", sets: 4, reps: "4", load: "Heavier"}, {name: "Sled Push", sets: 6, reps: "12.5 m", load: "Race Load"}]},
+                        { day: "Day 2 - Aerobic Run", exercises: [{name: "Zone 2 Run", sets: 1, reps: "45-50 min", load: "Relaxed"}]},
+                        { day: "Day 3 - Upper Body Strength + Conditioning", exercises: [{name: "Push Press", sets: 4, reps: "4", load: "Heavier"}, {name: "SkiErg", sets: 5, reps: "500 m", load: "Moderate"}]},
+                        { day: "Day 4 - Run Intervals", exercises: [{name: "Run Intervals", sets: 5, reps: "1 km", load: "Race Pace"}]},
+                        { day: "Day 5 - Hybrid Primer", exercises: [{name: "Circuit", sets: 4, reps: "1000m Row / 200m Carry / 30 WB", load: "Late-Race Focus"}]},
+                        { day: "Day 6 - HYROX Practice", exercises: [{name: "Late-Race Simulation", sets: 1, reps: "BBJ, Row, Lunges, Wall Balls", load: "Race Simulation"}]},
+                        { day: "Day 7 - Off / Recovery", exercises: [{name: "Recovery", sets: 1, reps: "Light walking & mobility", load: "Rest"}]}
+                    ]
+                },
+                9: {
+                    title: "WEEK 9 — PEAK & FULL SIMULATION",
+                    focus: "Full dress rehearsal simulation under exact race conditions.",
+                    days: [
+                        { day: "Day 1 - Reduced Strength", exercises: [{name: "Front Squat", sets: 3, reps: "3", load: "Race-prep load"}, {name: "Sled Push", sets: 5, reps: "12.5 m", load: "Race Load"}]},
+                        { day: "Day 2 - Easy Run", exercises: [{name: "Easy Jog", sets: 1, reps: "30 min", load: "Easy"}]},
+                        { day: "Day 3 - Upper Strength & Full Simulation", exercises: [{name: "Push Press", sets: 3, reps: "4", load: "Moderate"}, {name: "Full Race Simulation", sets: 1, reps: "All 8 Stations + 8 Runs", load: "Race Intensity"}]},
+                        { day: "Day 4 - Short Intervals", exercises: [{name: "Short Intervals", sets: 3, reps: "800 m", load: "Fast"}]},
+                        { day: "Day 5 - Hybrid Primer", exercises: [{name: "Primer Circuit", sets: 1, reps: "Short activation", load: "Easy"}]},
+                        { day: "Day 6 - HYROX Practice", exercises: [{name: "Pacing Review & Mobility", sets: 1, reps: "Drills & transition practice", load: "Moderate"}]},
+                        { day: "Day 7 - Off / Recovery", exercises: [{name: "Mobility & Walking", sets: 1, reps: "Light stretching", load: "Rest"}]}
+                    ]
+                },
+                10: {
+                    title: "WEEK 10 — SHARPEN PHASE",
+                    focus: "Sharpening speed, nervous system activation, reducing fatigue.",
+                    days: [
+                        { day: "Day 1 - Light Strength + Engine", exercises: [{name: "Front Squat", sets: 3, reps: "2", load: "~85-88%"}, {name: "Sled Push", sets: 4, reps: "12.5 m", load: "Race Load"}]},
+                        { day: "Day 2 - Aerobic Run (Short)", exercises: [{name: "Easy Jog", sets: 1, reps: "30 min", load: "Zone 2"}]},
+                        { day: "Day 3 - Upper Body & Core", exercises: [{name: "Push Press", sets: 3, reps: "3", load: "Moderate"}, {name: "Core Work", sets: 3, reps: "10 reps", load: "Bodyweight"}]},
+                        { day: "Day 4 - Threshold Run", exercises: [{name: "Threshold Run", sets: 2, reps: "800 m", load: "Controlled"}]},
+                        { day: "Day 5 - Active Recovery", exercises: [{name: "Mobility & Stretching", sets: 1, reps: "20 min", load: "Easy"}]},
+                        { day: "Day 6 - HYROX Practice", exercises: [{name: "Sharp Partial Simulation", sets: 1, reps: "Key stations speed work", load: "Race Pace"}]},
+                        { day: "Day 7 - Off / Recovery", exercises: [{name: "Rest", sets: 1, reps: "Rest", load: "Rest"}]}
+                    ]
+                },
+                11: {
+                    title: "WEEK 11 — TAPER & RACE EXECUTION",
+                    focus: "Shedding fatigue, ensuring complete freshness for race day.",
+                    days: [
+                        { day: "Day 1 - Shakeout", exercises: [{name: "Easy Jog + Mobility", sets: 1, reps: "20 min", load: "Easy"}]},
+                        { day: "Day 2 - Rest", exercises: [{name: "Complete Rest", sets: 1, reps: "0", load: "Rest"}]},
+                        { day: "Day 3 - Activation", exercises: [{name: "Easy Jog + SkiErg Pulls", sets: 1, reps: "15 min", load: "Easy"}]},
+                        { day: "Day 4 - Rest", exercises: [{name: "Complete Rest", sets: 1, reps: "0", load: "Rest"}]},
+                        { day: "Day 5 - Rest", exercises: [{name: "Complete Rest", sets: 1, reps: "0", load: "Rest"}]},
+                        { day: "Day 6 - Pre-Race Activation", exercises: [{name: "Shakeout Run & Dynamic Stretches", sets: 1, reps: "10 min", load: "Easy"}]},
+                        { day: "Day 7 - RACE DAY", exercises: [{name: "HYROX RACE DAY EXECUTION", sets: 1, reps: "Full Division Execution", load: "MAX"}]}
+                    ]
+                }
+            };
+        }
+
+        async function onWeekSelectChange() {
             const weekNum = document.getElementById('program-week-select').value;
             const data = programData[weekNum];
+            const daySelect = document.getElementById('program-day-select');
+            
+            let optionsHtml = '';
+            data.days.forEach((dayObj, idx) => {
+                optionsHtml += `<option value="${idx}">${dayObj.day}</option>`;
+            });
+            daySelect.innerHTML = optionsHtml;
+            renderProgramDay();
+        }
+
+        function renderProgramDay() {
+            const weekNum = document.getElementById('program-week-select').value;
+            const dayIdx = parseInt(document.getElementById('program-day-select').value) || 0;
+            const data = programData[weekNum];
+            const dayObj = data.days[dayIdx];
             const container = document.getElementById('program-container');
 
             let html = `
@@ -908,52 +925,45 @@
                         <p class="text-xs text-gray-400 mt-1"><strong class="text-white">Primary Focus:</strong> ${data.focus}</p>
                     </div>
                     <div class="space-y-4">
+                        <div class="bg-black/40 border border-gray-800 p-3.5 sm:p-4 rounded-xl space-y-3">
+                            <div class="font-bold text-xs text-hyrox-yellow uppercase tracking-wide">${dayObj.day}</div>
+                            <div class="space-y-2.5">
             `;
 
-            data.days.forEach((dayObj, dayIdx) => {
+            dayObj.exercises.forEach((ex, exIdx) => {
+                let setsHtml = '';
+                for(let s = 1; s <= (ex.sets || 1); s++) {
+                    const checkboxId = `chk_w${weekNum}_d${dayIdx}_e${exIdx}_s${s}`;
+                    setsHtml += `
+                        <label class="cursor-pointer inline-flex items-center">
+                            <input type="checkbox" class="set-checkbox hidden" id="${checkboxId}" onchange="saveProgramProgress()">
+                            <span class="w-6 h-6 rounded border border-gray-700 bg-black text-[10px] font-bold flex items-center justify-center text-gray-300 hover:border-hyrox-yellow transition">${s}</span>
+                        </label>
+                    `;
+                }
+
+                const loadInputId = `load_w${weekNum}_d${dayIdx}_e${exIdx}`;
                 html += `
-                    <div class="bg-black/40 border border-gray-800 p-3.5 sm:p-4 rounded-xl space-y-3">
-                        <div class="font-bold text-xs text-hyrox-yellow uppercase tracking-wide">${dayObj.day}</div>
-                        <div class="space-y-2.5">
-                `;
-
-                dayObj.exercises.forEach((ex, exIdx) => {
-                    let setsHtml = '';
-                    for(let s = 1; s <= (ex.sets || 1); s++) {
-                        const checkboxId = `chk_w${weekNum}_d${dayIdx}_e${exIdx}_s${s}`;
-                        setsHtml += `
-                            <label class="cursor-pointer inline-flex items-center">
-                                <input type="checkbox" class="set-checkbox hidden" id="${checkboxId}" onchange="saveProgramProgress()">
-                                <span class="w-6 h-6 rounded border border-gray-700 bg-black text-[10px] font-bold flex items-center justify-center text-gray-300 hover:border-hyrox-yellow transition">${s}</span>
-                            </label>
-                        `;
-                    }
-
-                    const loadInputId = `load_w${weekNum}_d${dayIdx}_e${exIdx}`;
-                    html += `
-                        <div class="bg-zinc-900/80 border border-gray-800/90 p-3 rounded-lg flex flex-col gap-3">
-                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
-                                <div>
-                                    <div class="text-xs font-bold text-white">${ex.name}</div>
-                                    <div class="text-[11px] text-gray-400">Target: ${ex.reps} | Prescribed: ${ex.load}</div>
-                                </div>
-                                <div class="w-full sm:w-36 mt-1 sm:mt-0">
-                                    <input type="text" id="${loadInputId}" oninput="saveProgramProgress()" placeholder="Actual Load..." class="w-full text-xs p-1.5 rounded bg-black border border-gray-700 font-semibold text-center">
-                                </div>
+                    <div class="bg-zinc-900/80 border border-gray-800/90 p-3 rounded-lg flex flex-col gap-3">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
+                            <div>
+                                <div class="text-xs font-bold text-white">${ex.name}</div>
+                                <div class="text-[11px] text-gray-400">Target: ${ex.reps} | Prescribed: ${ex.load}</div>
                             </div>
-                            <div class="flex items-center justify-between pt-2 border-t border-gray-800/60">
-                                <span class="text-[10px] text-gray-400 uppercase font-bold">Check Sets:</span>
-                                <div class="flex items-center gap-1.5 bg-black/50 px-2 py-1 rounded-lg border border-gray-800 flex-wrap justify-end">
-                                    ${setsHtml}
-                                </div>
+                            <div class="w-full sm:w-36 mt-1 sm:mt-0">
+                                <input type="text" id="${loadInputId}" oninput="saveProgramProgress()" placeholder="Actual Load..." class="w-full text-xs p-1.5 rounded bg-black border border-gray-700 font-semibold text-center">
                             </div>
                         </div>
-                    `;
-                });
-                html += `</div></div>`;
+                        <div class="flex items-center justify-between pt-2 border-t border-gray-800/60">
+                            <span class="text-[10px] text-gray-400 uppercase font-bold">Check Sets:</span>
+                            <div class="flex items-center gap-1.5 bg-black/50 px-2 py-1 rounded-lg border border-gray-800 flex-wrap justify-end">
+                                ${setsHtml}
+                            </div>
+                        </div>
+                    </div>
+                `;
             });
-
-            html += `</div></div>`;
+            html += `</div></div></div></div>`;
             container.innerHTML = html;
             loadProgramProgress();
             updateOverallProgress();
@@ -1045,10 +1055,9 @@
         let coachTimerInterval = null;
         let totalElapsedSec = 0;
         let segElapsedSec = 0;
-        let currentSegIndex = 0; // 0 to 15
+        let currentSegIndex = 0;
         let coachSplitsLog = [];
 
-        // Helper to get goal goal duration in seconds from the calculator/goal field
         function getGoalTotalSeconds() {
             const goalInput = document.getElementById('sim-goal-total').value || "1:15:00";
             let totalSeconds = 75 * 60;
@@ -1068,7 +1077,6 @@
                 return;
             }
 
-            // Calculate standard target duration for completed segments vs remaining
             const goalTotalSec = getGoalTotalSeconds();
             const totalRunSec = goalTotalSec * 0.55;
             const singleRunSec = totalRunSec / 8;
@@ -1086,10 +1094,7 @@
                 }
             }
 
-            // If currently partway through a segment, add elapsed portion of current segment to actual completed time
             const actualCompletedSec = totalElapsedSec;
-            
-            // If targetCompletedSec is 0 (just started), avoid division by zero
             let projectedTotalSec = goalTotalSec;
             if (targetCompletedSec > 0 && currentSegIndex > 0) {
                 const paceRatio = actualCompletedSec / targetCompletedSec;
@@ -1113,13 +1118,11 @@
                 totalElapsedSec++;
                 segElapsedSec++;
 
-                // Format Total
                 const th = Math.floor(totalElapsedSec / 3600);
                 const tm = Math.floor((totalElapsedSec % 3600) / 60);
                 const ts = totalElapsedSec % 60;
                 document.getElementById('coach-total-timer').innerText = `${th > 0 ? th + ':' : ''}${tm.toString().padStart(2,'0')}:${ts.toString().padStart(2,'0')}`;
 
-                // Format Segment
                 const sm = Math.floor(segElapsedSec / 60);
                 const ss = segElapsedSec % 60;
                 document.getElementById('coach-seg-timer').innerText = `${sm.toString().padStart(2,'0')}:${ss.toString().padStart(2,'0')}`;
@@ -1146,12 +1149,11 @@
 
             coachSplitsLog.push({ index: currentSegIndex + 1, name: segName, split: splitStr, cumulative: cumStr });
             
-            // Also autofill in simulator tab if present
             const actInput = document.getElementById(`seg${currentSegIndex + 1}-act`);
             if (actInput) actInput.value = splitStr;
 
             currentSegIndex++;
-            segElapsedSec = 0; // reset segment timer
+            segElapsedSec = 0;
 
             if (currentSegIndex < segmentNamesList.length) {
                 document.getElementById('coach-current-segment').innerText = `Segment ${currentSegIndex + 1}: ${segmentNamesList[currentSegIndex]}`;
@@ -1289,19 +1291,27 @@
             alert('Post-race journal saved successfully!');
         }
 
-        document.getElementById('sim-date').valueAsDate = new Date();
-        const savedSettings = JSON.parse(localStorage.getItem('hyrox_custom_settings'));
-        if (savedSettings) {
-            document.getElementById('setting-race-name').value = savedSettings.raceName || 'HYROX Houston';
-            document.getElementById('setting-race-date').value = savedSettings.raceDateVal || '2026-03-29';
-            document.getElementById('setting-division').value = savedSettings.divisionKey || 'womens-double';
-        }
-        updateRaceSettings();
-        updateCountdown();
-        renderProgramWeek();
-        autoCalculateTargets();
-        generateShareCard('daily');
-        document.getElementById('coach-est-finish').innerText = document.getElementById('sim-goal-total').value || "1:15:00";
+        // ================= APP INITIALIZATION =================
+        (async function initApp() {
+            document.getElementById('sim-date').valueAsDate = new Date();
+
+            const savedSettings = JSON.parse(localStorage.getItem('hyrox_custom_settings'));
+            if (savedSettings) {
+                document.getElementById('setting-race-name').value = savedSettings.raceName || 'HYROX Houston';
+                document.getElementById('setting-race-date').value = savedSettings.raceDateVal || '2026-03-29';
+                document.getElementById('setting-division').value = savedSettings.divisionKey || 'womens-double';
+            }
+            updateRaceSettings();
+            updateCountdown();
+
+            // Fetch programData and populate Week & Day dropdowns
+            await fetchProgramData();
+            await onWeekSelectChange();
+
+            autoCalculateTargets();
+            generateShareCard('daily');
+            document.getElementById('coach-est-finish').innerText = document.getElementById('sim-goal-total').value || "1:15:00";
+        })();
     </script>
 </body>
 </html>
