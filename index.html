@@ -247,7 +247,7 @@
                 <div class="flex justify-between items-center">
                     <div>
                         <h2 class="text-xl font-bold text-white">HYROX Race Simulator & Workout Logger</h2>
-                        <p class="text-xs text-gray-400">Set your overall goal finish time to automatically generate target splits for every run and station.</p>
+                        <p class="text-xs text-gray-400">Set your overall goal finish time or use the Pace Calculator tool to automatically populate target splits.</p>
                     </div>
                     <div class="flex gap-2">
                         <button onclick="saveSimLog()" class="bg-hyrox-yellow text-black px-4 py-2 rounded-lg font-bold text-xs hover:bg-yellow-400 transition flex items-center gap-1.5">
@@ -339,20 +339,20 @@
                 <!-- Full Race Flow: Alternating Runs & Stations -->
                 <div class="border-t border-gray-800 pt-4">
                     <h3 class="text-sm font-bold text-white mb-3 text-hyrox-yellow flex items-center gap-2">
-                        <i class="fa-solid fa-person-running"></i> 2. Full Race Flow (Runs & Stations)
+                        <i class="fa-solid fa-person-running"></i> 2. Full Race Flow (Runs & Stations)[cite: 6]
                     </h3>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs">
                             <thead class="bg-black/40 text-gray-400 uppercase text-[10px]">
                                 <tr>
-                                    <th class="p-2.5">Race Segment</th>
-                                    <th class="p-2.5">Target Pace / Time & Cumulative</th>
-                                    <th class="p-2.5">Actual Time / Split</th>
-                                    <th class="p-2.5">Transition / Execution Quality</th>
+                                    <th class="p-2.5">Race Segment[cite: 6]</th>
+                                    <th class="p-2.5">Target Pace / Time & Cumulative[cite: 6]</th>
+                                    <th class="p-2.5">Actual Time / Split[cite: 6]</th>
+                                    <th class="p-2.5">Transition / Execution Quality[cite: 6]</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-800 text-gray-300">
-                                <tr><td class="p-2.5 font-medium text-white">1. Run 1 (1,000m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg1">--:--</td><td class="p-2.5"><input type="text" id="seg1-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg1-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
+                                <tr><td class="p-2.5 font-medium text-white">1. Run 1 (1,000m)[cite: 6]</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg1">--:--</td><td class="p-2.5"><input type="text" id="seg1-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg1-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
                                 <tr class="bg-black/20"><td class="p-2.5 font-medium text-hyrox-yellow">2. SkiErg (1,000m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg2">--:--</td><td class="p-2.5"><input type="text" id="seg2-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg2-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
                                 <tr><td class="p-2.5 font-medium text-white">3. Run 2 (1,000m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg3">--:--</td><td class="p-2.5"><input type="text" id="seg3-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg3-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
                                 <tr class="bg-black/20"><td class="p-2.5 font-medium text-hyrox-yellow">4. Sled Push (50m)</td><td class="p-2.5 font-mono text-hyrox-yellow" id="target-seg4">--:--</td><td class="p-2.5"><input type="text" id="seg4-act" placeholder="--:--" class="w-full p-1.5 rounded text-xs"></td><td class="p-2.5"><select id="seg4-trans" class="w-full p-1.5 rounded text-xs"><option>Smooth</option><option>Rushed</option><option>Slow</option></select></td></tr>
@@ -1220,37 +1220,70 @@
             return (parseInt(parts[0]) * 60) + parseFloat(parts[1]);
         }
 
+        function formatSecondsToMMSS(totalSec) {
+            const m = Math.floor(totalSec / 60);
+            const s = Math.round(totalSec % 60);
+            return `${m}:${s < 10 ? '0' : ''}${s}`;
+        }
+
+        function formatSecondsToHHMMSS(totalSec) {
+            const h = Math.floor(totalSec / 3600);
+            const m = Math.floor((totalSec % 3600) / 60);
+            const s = Math.round(totalSec % 60);
+            return `${h > 0 ? h + ':' : ''}${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        }
+
         function calculateIndividualPace() {
             const paceStr = document.getElementById('calc-run-pace').value || "5:00";
             const runSecPerKm = parseTimeToSeconds(paceStr);
-            const totalRunSec = runSecPerKm * 8;
 
-            const skiergSec = parseTimeToSeconds(document.getElementById('station-skierg').value);
-            const pushSec = parseTimeToSeconds(document.getElementById('station-push').value);
-            const pullSec = parseTimeToSeconds(document.getElementById('station-pull').value);
-            const burpeeSec = parseTimeToSeconds(document.getElementById('station-burpee').value);
-            const rowSec = parseTimeToSeconds(document.getElementById('station-row').value);
-            const farmerSec = parseTimeToSeconds(document.getElementById('station-farmer').value);
-            const lungeSec = parseTimeToSeconds(document.getElementById('station-lunge').value);
-            const wallballSec = parseTimeToSeconds(document.getElementById('station-wallball').value);
+            // Collect station times from the 8 calculator inputs
+            const stationTimes = [
+                parseTimeToSeconds(document.getElementById('station-skierg').value),
+                parseTimeToSeconds(document.getElementById('station-push').value),
+                parseTimeToSeconds(document.getElementById('station-pull').value),
+                parseTimeToSeconds(document.getElementById('station-burpee').value),
+                parseTimeToSeconds(document.getElementById('station-row').value),
+                parseTimeToSeconds(document.getElementById('station-farmer').value),
+                parseTimeToSeconds(document.getElementById('station-lunge').value),
+                parseTimeToSeconds(document.getElementById('station-wallball').value)
+            ];
 
-            const totalStationSec = skiergSec + pushSec + pullSec + burpeeSec + rowSec + farmerSec + lungeSec + wallballSec;
-            const totalRaceSec = totalRunSec + totalStationSec;
+            let totalStationSec = stationTimes.reduce((a, b) => a + b, 0);
+            let totalRunSec = runSecPerKm * 8;
+            let totalRaceSec = totalRunSec + totalStationSec;
 
-            const hours = Math.floor(totalRaceSec / 3600);
-            const minutes = Math.floor((totalRaceSec % 3600) / 60);
-            const seconds = Math.round(totalRaceSec % 60);
-
-            const formattedFinalTime = `${hours > 0 ? hours + ':' : ''}${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            
-            // Update Estimated Total Finish Time display
+            // Format final total time
+            const formattedFinalTime = formatSecondsToHHMMSS(totalRaceSec);
             document.getElementById('est-time').innerText = formattedFinalTime;
 
-            // Automatically update simulator goal total and live coach timer estimates
-            const paddedGoal = hours === 0 ? `0:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}` : `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            document.getElementById('sim-goal-total').value = paddedGoal;
-            autoCalculateTargets();
-            document.getElementById('coach-est-finish').innerText = paddedGoal;
+            // Update simulator goal total
+            document.getElementById('sim-goal-total').value = formattedFinalTime;
+            document.getElementById('display-goal-total').innerText = formattedFinalTime;
+            document.getElementById('coach-est-finish').innerText = formattedFinalTime;
+
+            // Push precise target split and cumulative time into each of the 16 simulator tracking rows
+            let cumulativeSec = 0;
+            for (let i = 1; i <= 16; i++) {
+                const targetEl = document.getElementById(`target-seg${i}`);
+                if (targetEl) {
+                    let segTimeSec = 0;
+                    if (i % 2 !== 0) {
+                        // Odd segments are Runs (1 to 8)
+                        segTimeSec = runSecPerKm;
+                    } else {
+                        // Even segments are Stations (1 to 8)
+                        let stationIdx = (i / 2) - 1;
+                        segTimeSec = stationTimes[stationIdx];
+                    }
+
+                    cumulativeSec += segTimeSec;
+                    const formattedSeg = formatSecondsToMMSS(segTimeSec);
+                    const formattedCum = formatSecondsToHHMMSS(cumulativeSec);
+
+                    targetEl.innerText = `${formattedSeg} (Cum: ${formattedCum})`;
+                }
+            }
         }
         calculateIndividualPace();
 
@@ -1293,8 +1326,7 @@
         }
         updateRaceSettings();
         updateCountdown();
-        autoCalculateTargets();
-        document.getElementById('coach-est-finish').innerText = document.getElementById('sim-goal-total').value || "1:15:00";
+        calculateIndividualPace();
     </script>
 </body>
 </html>
