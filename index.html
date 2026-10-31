@@ -212,21 +212,36 @@
             </div>
 
             <div class="bg-[#1E1E1E] border border-gray-800 rounded-xl p-4 shadow-lg flex flex-col md:flex-row justify-between items-center gap-4">
-                <div class="flex items-center gap-3 w-full">
-                    <label class="text-xs text-gray-300 font-medium whitespace-nowrap">Select Week:</label>
-                    <select id="program-week-select" onchange="renderProgramWeek()" class="bg-black border border-gray-700 text-sm rounded-lg px-3 py-1.5 text-white font-semibold w-full md:w-auto">
-                        <option value="1">Week 1: Base & Movement Quality</option>
-                        <option value="2">Week 2: Base Progression</option>
-                        <option value="3">Week 3: Base → Build Transition</option>
-                        <option value="4">Week 4: Base Phase Complete</option>
-                        <option value="5">Week 5: Build Phase Begins</option>
-                        <option value="6">Week 6: Build Phase Continues</option>
-                        <option value="7">Week 7: Density & Efficiency</option>
-                        <option value="8">Week 8: Late-Race Focus</option>
-                        <option value="9">Week 9: Peak & Full Sim</option>
-                        <option value="10">Week 10: Sharpen Phase</option>
-                        <option value="11">Week 11: Taper & Race Execution</option>
-                    </select>
+                <div class="flex flex-col sm:flex-row items-center gap-3 w-full">
+                    <div class="flex items-center gap-3 w-full sm:w-auto">
+                        <label class="text-xs text-gray-300 font-medium whitespace-nowrap">Select Week:</label>
+                        <select id="program-week-select" onchange="renderProgramWeek()" class="bg-black border border-gray-700 text-sm rounded-lg px-3 py-1.5 text-white font-semibold w-full sm:w-auto">
+                            <option value="1">Week 1: Base & Movement Quality</option>
+                            <option value="2">Week 2: Base Progression</option>
+                            <option value="3">Week 3: Base → Build Transition</option>
+                            <option value="4">Week 4: Base Phase Complete</option>
+                            <option value="5">Week 5: Build Phase Begins</option>
+                            <option value="6">Week 6: Build Phase Continues</option>
+                            <option value="7">Week 7: Density & Efficiency</option>
+                            <option value="8">Week 8: Late-Race Focus</option>
+                            <option value="9">Week 9: Peak & Full Sim</option>
+                            <option value="10">Week 10: Sharpen Phase</option>
+                            <option value="11">Week 11: Taper & Race Execution</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center gap-3 w-full sm:w-auto">
+                        <label class="text-xs text-gray-300 font-medium whitespace-nowrap">Select Day:</label>
+                        <select id="program-day-select" onchange="renderProgramWeek()" class="bg-black border border-gray-700 text-sm rounded-lg px-3 py-1.5 text-white font-semibold w-full sm:w-auto">
+                            <option value="all">All Days</option>
+                            <option value="0">Day 1</option>
+                            <option value="1">Day 2</option>
+                            <option value="2">Day 3</option>
+                            <option value="3">Day 4</option>
+                            <option value="4">Day 5</option>
+                            <option value="5">Day 6</option>
+                            <option value="6">Day 7</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
@@ -756,6 +771,7 @@
 
         function renderProgramWeek() {
             const weekNum = document.getElementById('program-week-select').value;
+            const selectedDayFilter = document.getElementById('program-day-select').value;
             const container = document.getElementById('program-container');
 
             if (!programData[weekNum]) {
@@ -775,6 +791,10 @@
             `;
 
             data.days.forEach((dayObj, dayIdx) => {
+                if (selectedDayFilter !== 'all' && parseInt(selectedDayFilter) !== dayIdx) {
+                    return; // Skip days that don't match the filter
+                }
+
                 html += `
                     <div class="bg-black/40 border border-gray-800 p-3.5 sm:p-4 rounded-xl space-y-3">
                         <div class="font-bold text-xs text-hyrox-yellow uppercase tracking-wide">${dayObj.day}</div>
