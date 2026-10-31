@@ -215,7 +215,7 @@
                 <div class="flex flex-col sm:flex-row items-center gap-3 w-full">
                     <div class="flex items-center gap-3 w-full sm:w-auto">
                         <label class="text-xs text-gray-300 font-medium whitespace-nowrap">Select Week:</label>
-                        <select id="program-week-select" onchange="renderProgramWeek()" class="bg-black border border-gray-700 text-sm rounded-lg px-3 py-1.5 text-white font-semibold w-full sm:w-auto">
+                        <select id="program-week-select" onchange="onWeekChange()" class="bg-black border border-gray-700 text-sm rounded-lg px-3 py-1.5 text-white font-semibold w-full sm:w-auto">
                             <option value="1">Week 1: Base & Movement Quality</option>
                             <option value="2">Week 2: Base Progression</option>
                             <option value="3">Week 3: Base → Build Transition</option>
@@ -231,14 +231,8 @@
                     </div>
                     <div class="flex items-center gap-3 w-full sm:w-auto">
                         <label class="text-xs text-gray-300 font-medium whitespace-nowrap">Select Day:</label>
-                        <select id="program-day-select" onchange="renderProgramWeek()" class="bg-black border border-gray-700 text-sm rounded-lg px-3 py-1.5 text-white font-semibold w-full sm:w-auto">
-                            <option value="0">Day 1</option>
-                            <option value="1">Day 2</option>
-                            <option value="2">Day 3</option>
-                            <option value="3">Day 4</option>
-                            <option value="4">Day 5</option>
-                            <option value="5">Day 6</option>
-                            <option value="6">Day 7</option>
+                        <select id="program-day-select" onchange="renderProgramWeek()" class="bg-black border border-gray-700 text-sm rounded-lg px-3 py-1.5 text-white font-semibold w-full sm:w-auto max-w-xs truncate">
+                            <!-- Populated dynamically via JavaScript -->
                         </select>
                     </div>
                 </div>
@@ -706,6 +700,7 @@
             .then(response => response.json())
             .then(data => {
                 programData = data;
+                updateDayDropdownOptions();
                 renderProgramWeek();
                 updateOverallProgress();
             })
@@ -768,9 +763,34 @@
         }
         setInterval(updateCountdown, 1000);
 
+        function onWeekChange() {
+            updateDayDropdownOptions();
+            renderProgramWeek();
+        }
+
+        function updateDayDropdownOptions() {
+            const weekNum = document.getElementById('program-week-select').value;
+            const daySelect = document.getElementById('program-day-select');
+            const currentSelected = daySelect.value;
+            daySelect.innerHTML = '';
+
+            if (programData[weekNum] && programData[weekNum].days) {
+                programData[weekNum].days.forEach((dayObj, idx) => {
+                    const opt = document.createElement('option');
+                    opt.value = idx;
+                    opt.textContent = dayObj.title || dayObj.day;
+                    daySelect.appendChild(opt);
+                });
+                // Keep selection if valid, else default to 0
+                if (currentSelected < programData[weekNum].days.length) {
+                    daySelect.value = currentSelected;
+                }
+            }
+        }
+
         function renderProgramWeek() {
             const weekNum = document.getElementById('program-week-select').value;
-            const selectedDayFilter = parseInt(document.getElementById('program-day-select').value);
+            const selectedDayFilter = parseInt(document.getElementById('program-day-select').value) || 0;
             const container = document.getElementById('program-container');
 
             if (!programData[weekNum]) {
@@ -796,7 +816,7 @@
 
                 html += `
                     <div class="bg-black/40 border border-gray-800 p-3.5 sm:p-4 rounded-xl space-y-3">
-                        <div class="font-bold text-xs text-hyrox-yellow uppercase tracking-wide">${dayObj.day}</div>
+                        <div class="font-bold text-xs text-hyrox-yellow uppercase tracking-wide">${dayObj.title || dayObj.day}</div>
                         <div class="space-y-2.5">
                 `;
 
@@ -1110,7 +1130,7 @@
                 document.getElementById('card-title-type').innerText = "Daily Workout Graphic";
                 document.getElementById('card-main-title').innerText = `Week ${weekNum} - ${dayObj.day.split(' - ')[0]}`;
                 
-                let workoutListHtml = `<div class="font-bold text-hyrox-yellow mb-1">${dayObj.day}</div>`;
+                let workoutListHtml = `<div class="font-bold text-hyrox-yellow mb-1">${dayObj.title || dayObj.day}</div>`;
                 dayObj.exercises.forEach(ex => {
                     workoutListHtml += `<div class="flex justify-between border-b border-gray-800/50 py-0.5"><span>${ex.name}</span><span class="text-gray-400">${ex.reps}</span></div>`;
                 });
