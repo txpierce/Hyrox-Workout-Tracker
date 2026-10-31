@@ -742,18 +742,49 @@
         ]
       },
       {
-        "day": "Day 6 - HYROX Practice",
-        "title": "Day 6 \u2014 HYROX Practice (Broken Sim: Ski & Sleds)",
+         "day": "Day 6 - HYROX Practice",
+        "title": "Day 6 \u2014 HYROX Practice (Technique Priority)",
         "exercises": [
           {
-            "name": "Broken Sim Sequence",
+            "name": " Run",
             "sets": 1,
-            "reps": "1km Run -> 1km Ski -> 1km Run -> 4x12.5m Push -> 1km Run -> 4x12.5m Pull",
-            "load": "Broken Race Format"
+            "reps": 1km)",
+            "load": "Technique Priority"
+          },
+          {
+            "name": "SkiErgi",
+            "sets": 1,
+            "reps": "1km",
+            "load": "Technique Priority"
+          },
+          {
+            "name": "Runl",
+            "sets": 1,
+            "reps": "1km",
+            "load": "Technique Priority"
+          },
+          {
+            "name": "Sled Push",
+            "sets": 4,
+            "reps": "12.5m",
+            "load": "Technique Priority"
+          },
+          {
+            "name": "Run",
+            "sets": 1,
+            "reps": "1km",
+            "load": "Technique Priority"
+          },
+          {
+            "name": "Pull",
+            "sets": 4,
+            "reps": "12.5m",
+            "load": "Technique Priority"
           }
         ]
       },
       {
+
         "day": "Day 7 - Off / Recovery",
         "title": "Day 7 \u2014 Off / Recovery",
         "exercises": [
@@ -1584,3 +1615,7 @@
     ]
   }
 }
+
+
+
+
