@@ -1,0 +1,1586 @@
+{
+  "1": {
+    "title": "WEEK 1 \u2014 BASE & MOVEMENT QUALITY",
+    "focus": "Aerobic capacity, foundational strength, movement quality.",
+    "days": [
+      {
+        "day": "Day 1 - Lower Body Strength + Engine",
+        "title": "Day 1 \u2014 Lower Body Strength + Engine",
+        "exercises": [
+          {
+            "name": "Back Squat",
+            "sets": 4,
+            "reps": "6",
+            "load": "Moderate (70% 1RM)"
+          },
+          {
+            "name": "Reverse Lunge",
+            "sets": 3,
+            "reps": "10/leg",
+            "load": "DBs Moderate"
+          },
+          {
+            "name": "Sled Push",
+            "sets": 6,
+            "reps": "10 m",
+            "load": "Light-Moderate"
+          },
+          {
+            "name": "Bike Erg Engine",
+            "sets": 6,
+            "reps": "1:00 hard / 1:00 easy",
+            "load": "Zone 3-4"
+          }
+        ]
+      },
+      {
+        "day": "Day 2 - Aerobic Run",
+        "title": "Day 2 \u2014 Aerobic Run",
+        "exercises": [
+          {
+            "name": "Zone 2 Run",
+            "sets": 1,
+            "reps": "40 min",
+            "load": "Conversational Pace"
+          }
+        ]
+      },
+      {
+        "day": "Day 3 - Upper Body Strength + Conditioning",
+        "title": "Day 3 \u2014 Upper Body Strength + Conditioning",
+        "exercises": [
+          {
+            "name": "Bench Press",
+            "sets": 4,
+            "reps": "6",
+            "load": "Moderate"
+          },
+          {
+            "name": "Bent-Over Row",
+            "sets": 4,
+            "reps": "8",
+            "load": "Moderate"
+          },
+          {
+            "name": "SkiErg Conditioning",
+            "sets": 4,
+            "reps": "500 m",
+            "load": "Easy-Moderate"
+          },
+          {
+            "name": "Plank Core",
+            "sets": 3,
+            "reps": "1:00",
+            "load": "Bodyweight"
+          }
+        ]
+      },
+      {
+        "day": "Day 4 - Run Intervals",
+        "title": "Day 4 \u2014 Run Intervals",
+        "exercises": [
+          {
+            "name": "Run Intervals",
+            "sets": 6,
+            "reps": "400 m (90s rest)",
+            "load": "Controlled Hard"
+          }
+        ]
+      },
+      {
+        "day": "Day 5 - Hybrid Conditioning",
+        "title": "Day 5 \u2014 Hybrid Conditioning",
+        "exercises": [
+          {
+            "name": "Row",
+            "sets": 3,
+            "reps": "500 m",
+            "load": "Controlled Pace"
+          },
+          {
+            "name": "Farmer Carry",
+            "sets": 3,
+            "reps": "50 m",
+            "load": "2 x 16 kg (~35 lb)"
+          },
+          {
+            "name": "Wall Balls",
+            "sets": 3,
+            "reps": "15",
+            "load": "4 kg (~9 lb)"
+          }
+        ]
+      },
+      {
+        "day": "Day 6 - HYROX Practice",
+        "title": "Day 6 \u2014 HYROX Practice (Technique Priority)",
+        "exercises": [
+          {
+            "name": "SkiErg",
+            "sets": 1,
+            "reps": "500 m (split evenly)",
+            "load": "Technique Priority"
+          },
+          {
+            "name": "Sled Push",
+            "sets": 1,
+            "reps": "4 x 10 m",
+            "load": "Technique Priority"
+          },
+          {
+            "name": "Sled Pull",
+            "sets": 1,
+            "reps": "4 x 10 m",
+            "load": "Technique Priority"
+          },
+          {
+            "name": "Burpee Broad Jump",
+            "sets": 1,
+            "reps": "40 m",
+            "load": "Technique Priority"
+          }
+        ]
+      },
+      {
+        "day": "Day 7 - Recovery",
+        "title": "Day 7 \u2014 Off / Recovery",
+        "exercises": [
+          {
+            "name": "Active Recovery",
+            "sets": 1,
+            "reps": "Light walking & mobility",
+            "load": "Rest"
+          }
+        ]
+      }
+    ]
+  },
+  "2": {
+    "title": "WEEK 2 \u2014 BASE PROGRESSION",
+    "focus": "Progressive volume increase, building aerobic base.",
+    "days": [
+      {
+        "day": "Day 1 - Lower Body Strength + Engine",
+        "title": "Day 1 \u2014 Lower Body Strength + Engine",
+        "exercises": [
+          {
+            "name": "Back Squat",
+            "sets": 4,
+            "reps": "6",
+            "load": "+5-10 lb from Wk 1"
+          },
+          {
+            "name": "Reverse Lunge",
+            "sets": 3,
+            "reps": "10/leg",
+            "load": "DBs Slightly Heavier"
+          },
+          {
+            "name": "Sled Push",
+            "sets": 6,
+            "reps": "12.5 m",
+            "load": "Moderate"
+          },
+          {
+            "name": "Bike Erg Engine",
+            "sets": 7,
+            "reps": "1:00 hard / 1:00 easy",
+            "load": "Zone 3-4"
+          }
+        ]
+      },
+      {
+        "day": "Day 2 - Aerobic Run",
+        "title": "Day 2 \u2014 Aerobic Run",
+        "exercises": [
+          {
+            "name": "Zone 2 Run",
+            "sets": 1,
+            "reps": "45 min",
+            "load": "Conversational"
+          }
+        ]
+      },
+      {
+        "day": "Day 3 - Upper Body Strength + Conditioning",
+        "title": "Day 3 \u2014 Upper Body Strength + Conditioning",
+        "exercises": [
+          {
+            "name": "Bench Press",
+            "sets": 4,
+            "reps": "6",
+            "load": "+5 lb from Wk 1"
+          },
+          {
+            "name": "Bent-Over Row",
+            "sets": 4,
+            "reps": "8",
+            "load": "Heavier"
+          },
+          {
+            "name": "SkiErg Conditioning",
+            "sets": 5,
+            "reps": "500 m",
+            "load": "Moderate"
+          }
+        ]
+      },
+      {
+        "day": "Day 4 - Run Intervals",
+        "title": "Day 4 \u2014 Run Intervals",
+        "exercises": [
+          {
+            "name": "Run Intervals",
+            "sets": 5,
+            "reps": "600 m (2:00 rest)",
+            "load": "Controlled Hard"
+          }
+        ]
+      },
+      {
+        "day": "Day 5 - Hybrid Conditioning",
+        "title": "Day 5 \u2014 Hybrid Conditioning",
+        "exercises": [
+          {
+            "name": "Row",
+            "sets": 3,
+            "reps": "750 m",
+            "load": "Controlled Pace"
+          },
+          {
+            "name": "Farmer Carry",
+            "sets": 3,
+            "reps": "75 m",
+            "load": "2 x 16 kg (~35 lb)"
+          },
+          {
+            "name": "Wall Balls",
+            "sets": 3,
+            "reps": "20",
+            "load": "4 kg (~9 lb)"
+          }
+        ]
+      },
+      {
+        "day": "Day 6 - HYROX Practice",
+        "title": "Day 6 \u2014 HYROX Practice (Longer Partial Sim)",
+        "exercises": [
+          {
+            "name": "SkiErg",
+            "sets": 1,
+            "reps": "750 m",
+            "load": "Race Rhythm"
+          },
+          {
+            "name": "Sled Push",
+            "sets": 1,
+            "reps": "4 x 12.5 m",
+            "load": "Race Rhythm"
+          },
+          {
+            "name": "Sled Pull",
+            "sets": 1,
+            "reps": "4 x 12.5 m",
+            "load": "Race Rhythm"
+          },
+          {
+            "name": "Burpee Broad Jump",
+            "sets": 1,
+            "reps": "50 m",
+            "load": "Race Rhythm"
+          }
+        ]
+      },
+      {
+        "day": "Day 7 - Recovery",
+        "title": "Day 7 \u2014 Off / Recovery",
+        "exercises": [
+          {
+            "name": "Rest & Mobility",
+            "sets": 1,
+            "reps": "Full Recovery",
+            "load": "Rest"
+          }
+        ]
+      }
+    ]
+  },
+  "3": {
+    "title": "WEEK 3 \u2014 BASE \u2192 BUILD TRANSITION",
+    "focus": "Mastering early race stations and running cadence.",
+    "days": [
+      {
+        "day": "Day 1 - Lower Body Strength + Engine",
+        "title": "Day 1 \u2014 Lower Body Strength + Engine",
+        "exercises": [
+          {
+            "name": "Back Squat",
+            "sets": 4,
+            "reps": "6",
+            "load": "+5\u201310 lb from Wk 2"
+          },
+          {
+            "name": "Reverse Lunge",
+            "sets": 3,
+            "reps": "10/leg",
+            "load": "Slightly heavier DBs"
+          },
+          {
+            "name": "Sled Push",
+            "sets": 6,
+            "reps": "12.5 m",
+            "load": "Moderate"
+          },
+          {
+            "name": "Bike Erg",
+            "sets": 8,
+            "reps": "1:00 hard / 1:00 easy",
+            "load": "Zone 3-4"
+          }
+        ]
+      },
+      {
+        "day": "Day 2 - Aerobic Run",
+        "title": "Day 2 \u2014 Aerobic Run",
+        "exercises": [
+          {
+            "name": "Zone 2 Run",
+            "sets": 1,
+            "reps": "45-50 min",
+            "load": "Conversational"
+          }
+        ]
+      },
+      {
+        "day": "Day 3 - Upper Body Strength + Conditioning",
+        "title": "Day 3 \u2014 Upper Body Strength + Conditioning",
+        "exercises": [
+          {
+            "name": "Bench Press",
+            "sets": 4,
+            "reps": "6",
+            "load": "+5 lb from Wk 2"
+          },
+          {
+            "name": "Bent-Over Row",
+            "sets": 4,
+            "reps": "8",
+            "load": "Slightly heavier"
+          },
+          {
+            "name": "SkiErg",
+            "sets": 5,
+            "reps": "500 m",
+            "load": "Easy\u2013Moderate"
+          },
+          {
+            "name": "Plank",
+            "sets": 3,
+            "reps": "1:00",
+            "load": "Bodyweight"
+          }
+        ]
+      },
+      {
+        "day": "Day 4 - Run Intervals",
+        "title": "Day 4 \u2014 Run Intervals",
+        "exercises": [
+          {
+            "name": "Run Intervals",
+            "sets": 5,
+            "reps": "600 m (2:00 rest)",
+            "load": "Controlled Hard"
+          }
+        ]
+      },
+      {
+        "day": "Day 5 - Hybrid Circuit",
+        "title": "Day 5 \u2014 Hybrid Conditioning",
+        "exercises": [
+          {
+            "name": "Row",
+            "sets": 4,
+            "reps": "750 m",
+            "load": "Race Pace"
+          },
+          {
+            "name": "Farmer Carry",
+            "sets": 4,
+            "reps": "100 m",
+            "load": "2 x 16 kg (~35 lb)"
+          },
+          {
+            "name": "Wall Balls",
+            "sets": 4,
+            "reps": "20",
+            "load": "4 kg (~9 lb)"
+          }
+        ]
+      },
+      {
+        "day": "Day 6 - HYROX Practice",
+        "title": "Day 6 \u2014 HYROX Practice (Early Events Emphasis)",
+        "exercises": [
+          {
+            "name": "SkiErg",
+            "sets": 1,
+            "reps": "1000 m (even split)",
+            "load": "Race Intensity"
+          },
+          {
+            "name": "Sled Push",
+            "sets": 1,
+            "reps": "2 x 12.5 m (race load)",
+            "load": "Race Intensity"
+          },
+          {
+            "name": "Sled Pull",
+            "sets": 1,
+            "reps": "2 x 12.5 m",
+            "load": "Race Intensity"
+          },
+          {
+            "name": "Burpee Broad Jump",
+            "sets": 1,
+            "reps": "60 m",
+            "load": "Race Intensity"
+          },
+          {
+            "name": "Farmer Carry",
+            "sets": 1,
+            "reps": "100 m",
+            "load": "Race Intensity"
+          }
+        ]
+      },
+      {
+        "day": "Day 7 - Off / Recovery",
+        "title": "Day 7 \u2014 Off / Recovery",
+        "exercises": [
+          {
+            "name": "Recovery",
+            "sets": 1,
+            "reps": "Light walking & mobility",
+            "load": "Rest"
+          }
+        ]
+      }
+    ]
+  },
+  "4": {
+    "title": "WEEK 4 \u2014 BASE PHASE COMPLETE",
+    "focus": "Threshold running and heavy sled volume capstone.",
+    "days": [
+      {
+        "day": "Day 1 - Lower Body Strength + Engine",
+        "title": "Day 1 \u2014 Lower Body Strength + Engine",
+        "exercises": [
+          {
+            "name": "Back Squat",
+            "sets": 4,
+            "reps": "6",
+            "load": "+5 lb from Week 3"
+          },
+          {
+            "name": "Reverse Lunge",
+            "sets": 3,
+            "reps": "10/leg",
+            "load": "Same as Wk 3"
+          },
+          {
+            "name": "Sled Push",
+            "sets": 6,
+            "reps": "12.5 m",
+            "load": "Moderate\u2013Heavy"
+          },
+          {
+            "name": "Bike Erg",
+            "sets": 8,
+            "reps": "1:00 hard / 1:00 easy",
+            "load": "Zone 3-4"
+          }
+        ]
+      },
+      {
+        "day": "Day 2 - Aerobic Run",
+        "title": "Day 2 \u2014 Aerobic Run",
+        "exercises": [
+          {
+            "name": "Zone 2 Run",
+            "sets": 1,
+            "reps": "45 min",
+            "load": "Conversational"
+          }
+        ]
+      },
+      {
+        "day": "Day 3 - Upper Body Strength + Conditioning",
+        "title": "Day 3 \u2014 Upper Body Strength + Conditioning",
+        "exercises": [
+          {
+            "name": "Bench Press",
+            "sets": 4,
+            "reps": "6",
+            "load": "+5 lb from Week 3"
+          },
+          {
+            "name": "Bent-Over Row",
+            "sets": 4,
+            "reps": "8",
+            "load": "Same as Wk 3"
+          },
+          {
+            "name": "SkiErg",
+            "sets": 5,
+            "reps": "500 m",
+            "load": "Easy-Moderate"
+          },
+          {
+            "name": "Plank",
+            "sets": 3,
+            "reps": "1:15",
+            "load": "Bodyweight"
+          }
+        ]
+      },
+      {
+        "day": "Day 4 - Threshold Run",
+        "title": "Day 4 \u2014 Threshold Run",
+        "exercises": [
+          {
+            "name": "Threshold Run",
+            "sets": 3,
+            "reps": "1 mile (3:00 rest)",
+            "load": "Threshold Pace"
+          }
+        ]
+      },
+      {
+        "day": "Day 5 - Hybrid Conditioning",
+        "title": "Day 5 \u2014 Hybrid Conditioning",
+        "exercises": [
+          {
+            "name": "Row",
+            "sets": 4,
+            "reps": "750 m",
+            "load": "Controlled Pace"
+          },
+          {
+            "name": "Farmer Carry",
+            "sets": 4,
+            "reps": "100 m",
+            "load": "2 x 16 kg (~35 lb)"
+          },
+          {
+            "name": "Wall Balls",
+            "sets": 4,
+            "reps": "20",
+            "load": "4 kg (~9 lb)"
+          }
+        ]
+      },
+      {
+        "day": "Day 6 - HYROX Practice",
+        "title": "Day 6 \u2014 HYROX Practice (Base Capstone)",
+        "exercises": [
+          {
+            "name": "SkiErg",
+            "sets": 1,
+            "reps": "1000 m",
+            "load": "Base Capstone"
+          },
+          {
+            "name": "Sled Push",
+            "sets": 1,
+            "reps": "4 x 12.5 m (race load)",
+            "load": "Base Capstone"
+          },
+          {
+            "name": "Sled Pull",
+            "sets": 1,
+            "reps": "4 x 12.5 m",
+            "load": "Base Capstone"
+          },
+          {
+            "name": "Burpee Broad Jump",
+            "sets": 1,
+            "reps": "80 m",
+            "load": "Base Capstone"
+          },
+          {
+            "name": "Row",
+            "sets": 1,
+            "reps": "500 m",
+            "load": "Base Capstone"
+          }
+        ]
+      },
+      {
+        "day": "Day 7 - Off / Recovery",
+        "title": "Day 7 \u2014 Off / Recovery",
+        "exercises": [
+          {
+            "name": "Recovery",
+            "sets": 1,
+            "reps": "Light walking & mobility",
+            "load": "Rest"
+          }
+        ]
+      }
+    ]
+  },
+  "5": {
+    "title": "WEEK 5 \u2014 BUILD PHASE BEGINS",
+    "focus": "Density, heavier loads, fatigue tolerance.",
+    "days": [
+      {
+        "day": "Day 1 - Lower Body Strength + Engine",
+        "title": "Day 1 \u2014 Lower Body Strength + Engine",
+        "exercises": [
+          {
+            "name": "Front Squat",
+            "sets": 5,
+            "reps": "5",
+            "load": "Moderate\u2013Heavy"
+          },
+          {
+            "name": "Romanian Deadlift",
+            "sets": 3,
+            "reps": "8",
+            "load": "Moderate"
+          },
+          {
+            "name": "Sled Push",
+            "sets": 4,
+            "reps": "12.5 m",
+            "load": "Race Load"
+          },
+          {
+            "name": "Bike Erg",
+            "sets": 6,
+            "reps": "1:30 hard / 1:00 easy",
+            "load": "Zone 4"
+          }
+        ]
+      },
+      {
+        "day": "Day 2 - Aerobic Run",
+        "title": "Day 2 \u2014 Aerobic Run",
+        "exercises": [
+          {
+            "name": "Zone 2 Run",
+            "sets": 1,
+            "reps": "45-50 min",
+            "load": "Steady & Relaxed"
+          }
+        ]
+      },
+      {
+        "day": "Day 3 - Upper Body Strength + Conditioning",
+        "title": "Day 3 \u2014 Upper Body Strength + Conditioning",
+        "exercises": [
+          {
+            "name": "Push Press",
+            "sets": 4,
+            "reps": "5",
+            "load": "Moderate"
+          },
+          {
+            "name": "Pull-Ups / Lat Pulldown",
+            "sets": 4,
+            "reps": "8",
+            "load": "Moderate"
+          },
+          {
+            "name": "SkiErg",
+            "sets": 5,
+            "reps": "400 m",
+            "load": "Moderate"
+          },
+          {
+            "name": "Dead Bug",
+            "sets": 3,
+            "reps": "12/side",
+            "load": "Bodyweight"
+          }
+        ]
+      },
+      {
+        "day": "Day 4 - Threshold Run",
+        "title": "Day 4 \u2014 Threshold Run",
+        "exercises": [
+          {
+            "name": "Threshold Run",
+            "sets": 3,
+            "reps": "1 mile (3:00 rest)",
+            "load": "Threshold Pace"
+          }
+        ]
+      },
+      {
+        "day": "Day 5 - Hybrid Conditioning",
+        "title": "Day 5 \u2014 Hybrid Conditioning",
+        "exercises": [
+          {
+            "name": "Row",
+            "sets": 4,
+            "reps": "750 m",
+            "load": "Moderate Pace"
+          },
+          {
+            "name": "Farmer Carry",
+            "sets": 4,
+            "reps": "100 m",
+            "load": "2 x 16 kg (~35 lb)"
+          },
+          {
+            "name": "Wall Balls",
+            "sets": 4,
+            "reps": "25",
+            "load": "4 kg (~9 lb)"
+          }
+        ]
+      },
+      {
+        "day": "Day 6 - HYROX Practice",
+        "title": "Day 6 \u2014 HYROX Practice (Broken Sim: Ski & Sleds)",
+        "exercises": [
+          {
+            "name": "Broken Sim Sequence",
+            "sets": 1,
+            "reps": "1km Run -> 1km Ski -> 1km Run -> 4x12.5m Push -> 1km Run -> 4x12.5m Pull",
+            "load": "Broken Race Format"
+          }
+        ]
+      },
+      {
+        "day": "Day 7 - Off / Recovery",
+        "title": "Day 7 \u2014 Off / Recovery",
+        "exercises": [
+          {
+            "name": "Recovery",
+            "sets": 1,
+            "reps": "Light walking & mobility",
+            "load": "Rest"
+          }
+        ]
+      }
+    ]
+  },
+  "6": {
+    "title": "WEEK 6 \u2014 BUILD PHASE CONTINUES",
+    "focus": "Mid-race stamina and burpee efficiency under fatigue.",
+    "days": [
+      {
+        "day": "Day 1 - Lower Body Strength + Engine",
+        "title": "Day 1 \u2014 Lower Body Strength + Engine",
+        "exercises": [
+          {
+            "name": "Front Squat",
+            "sets": 5,
+            "reps": "5",
+            "load": "+5 lb from Week 5"
+          },
+          {
+            "name": "Romanian Deadlift",
+            "sets": 3,
+            "reps": "8",
+            "load": "Same as Wk 5"
+          },
+          {
+            "name": "Sled Push",
+            "sets": 5,
+            "reps": "12.5 m",
+            "load": "Race Load"
+          },
+          {
+            "name": "Bike Erg",
+            "sets": 7,
+            "reps": "1:30 hard / 1:00 easy",
+            "load": "Zone 4"
+          }
+        ]
+      },
+      {
+        "day": "Day 2 - Aerobic Run",
+        "title": "Day 2 \u2014 Aerobic Run",
+        "exercises": [
+          {
+            "name": "Zone 2 Run",
+            "sets": 1,
+            "reps": "50 min",
+            "load": "Steady"
+          }
+        ]
+      },
+      {
+        "day": "Day 3 - Upper Body Strength + Conditioning",
+        "title": "Day 3 \u2014 Upper Body Strength + Conditioning",
+        "exercises": [
+          {
+            "name": "Push Press",
+            "sets": 4,
+            "reps": "5",
+            "load": "Slightly heavier"
+          },
+          {
+            "name": "Pull-Ups / Lat Pulldown",
+            "sets": 4,
+            "reps": "8",
+            "load": "Slightly heavier"
+          },
+          {
+            "name": "SkiErg",
+            "sets": 6,
+            "reps": "400 m",
+            "load": "Moderate"
+          },
+          {
+            "name": "Dead Bug",
+            "sets": 3,
+            "reps": "14/side",
+            "load": "Bodyweight"
+          }
+        ]
+      },
+      {
+        "day": "Day 4 - Threshold Run",
+        "title": "Day 4 \u2014 Threshold Run",
+        "exercises": [
+          {
+            "name": "Threshold Run",
+            "sets": 4,
+            "reps": "1 mile (3:00 rest)",
+            "load": "Threshold Pace"
+          }
+        ]
+      },
+      {
+        "day": "Day 5 - Hybrid Conditioning",
+        "title": "Day 5 \u2014 Hybrid Conditioning",
+        "exercises": [
+          {
+            "name": "Row",
+            "sets": 4,
+            "reps": "1000 m",
+            "load": "Controlled Pace"
+          },
+          {
+            "name": "Farmer Carry",
+            "sets": 4,
+            "reps": "100 m",
+            "load": "2 x 16 kg (~35 lb)"
+          },
+          {
+            "name": "Wall Balls",
+            "sets": 4,
+            "reps": "25",
+            "load": "4 kg (~9 lb)"
+          }
+        ]
+      },
+      {
+        "day": "Day 6 - HYROX Practice",
+        "title": "Day 6 \u2014 HYROX Practice (Broken Sim: Burpees & Row)",
+        "exercises": [
+          {
+            "name": "Broken Sim Sequence",
+            "sets": 1,
+            "reps": "1km Run -> 1km Ski -> 1km Run -> 80m BBJ -> 1km Run -> 1km Row",
+            "load": "Broken Race Format"
+          }
+        ]
+      },
+      {
+        "day": "Day 7 - Off / Recovery",
+        "title": "Day 7 \u2014 Off / Recovery",
+        "exercises": [
+          {
+            "name": "Recovery",
+            "sets": 1,
+            "reps": "Light walking & mobility",
+            "load": "Rest"
+          }
+        ]
+      }
+    ]
+  },
+  "7": {
+    "title": "WEEK 7 \u2014 DENSITY & EFFICIENCY",
+    "focus": "Farmer carry grip endurance and heavy sled resilience.",
+    "days": [
+      {
+        "day": "Day 1 - Lower Body Strength + Engine",
+        "title": "Day 1 \u2014 Lower Body Strength + Engine",
+        "exercises": [
+          {
+            "name": "Front Squat",
+            "sets": 4,
+            "reps": "5",
+            "load": "Same as Wk 6"
+          },
+          {
+            "name": "Romanian Deadlift",
+            "sets": 3,
+            "reps": "8",
+            "load": "Same as Wk 6"
+          },
+          {
+            "name": "Sled Push",
+            "sets": 6,
+            "reps": "12.5 m",
+            "load": "Race Load"
+          },
+          {
+            "name": "Bike Erg",
+            "sets": 7,
+            "reps": "1:30 hard / 0:45 easy",
+            "load": "Zone 4"
+          }
+        ]
+      },
+      {
+        "day": "Day 2 - Aerobic Run",
+        "title": "Day 2 \u2014 Aerobic Run",
+        "exercises": [
+          {
+            "name": "Zone 2 Run",
+            "sets": 1,
+            "reps": "50 min",
+            "load": "Relaxed Steady"
+          }
+        ]
+      },
+      {
+        "day": "Day 3 - Upper Body Strength + Conditioning",
+        "title": "Day 3 \u2014 Upper Body Strength + Conditioning",
+        "exercises": [
+          {
+            "name": "Push Press",
+            "sets": 4,
+            "reps": "5",
+            "load": "Same as Wk 6"
+          },
+          {
+            "name": "Pull-Ups / Lat Pulldown",
+            "sets": 4,
+            "reps": "8",
+            "load": "Same as Wk 6"
+          },
+          {
+            "name": "SkiErg",
+            "sets": 6,
+            "reps": "400 m",
+            "load": "Moderate"
+          },
+          {
+            "name": "Dead Bug",
+            "sets": 3,
+            "reps": "14/side",
+            "load": "Bodyweight"
+          }
+        ]
+      },
+      {
+        "day": "Day 4 - Run Intervals",
+        "title": "Day 4 \u2014 Run Intervals",
+        "exercises": [
+          {
+            "name": "Run Intervals",
+            "sets": 6,
+            "reps": "800 m (2:30 rest)",
+            "load": "Controlled Hard"
+          }
+        ]
+      },
+      {
+        "day": "Day 5 - Hybrid Sharpening",
+        "title": "Day 5 \u2014 Hybrid Conditioning",
+        "exercises": [
+          {
+            "name": "Row",
+            "sets": 4,
+            "reps": "1000 m",
+            "load": "Controlled Density"
+          },
+          {
+            "name": "Farmer Carry",
+            "sets": 4,
+            "reps": "150 m",
+            "load": "2 x 16 kg (~35 lb)"
+          },
+          {
+            "name": "Wall Balls",
+            "sets": 4,
+            "reps": "30",
+            "load": "4 kg (~9 lb)"
+          }
+        ]
+      },
+      {
+        "day": "Day 6 - HYROX Practice",
+        "title": "Day 6 \u2014 HYROX Practice (Broken Sim: Sleds & Carry)",
+        "exercises": [
+          {
+            "name": "Broken Sim Sequence",
+            "sets": 1,
+            "reps": "1km Run -> Sled Push 4x12.5m -> 1km Run -> Sled Pull 4x12.5m -> 1km Run -> Farmer Carry 200m",
+            "load": "Race Pace"
+          }
+        ]
+      },
+      {
+        "day": "Day 7 - Off / Recovery",
+        "title": "Day 7 \u2014 Off / Recovery",
+        "exercises": [
+          {
+            "name": "Recovery",
+            "sets": 1,
+            "reps": "Light walking & mobility",
+            "load": "Rest"
+          }
+        ]
+      }
+    ]
+  },
+  "8": {
+    "title": "WEEK 8 \u2014 LATE-RACE FOCUS",
+    "focus": "Lunges and wall balls under severe cumulative fatigue.",
+    "days": [
+      {
+        "day": "Day 1 - Lower Body Strength + Engine",
+        "title": "Day 1 \u2014 Lower Body Strength + Engine",
+        "exercises": [
+          {
+            "name": "Front Squat",
+            "sets": 4,
+            "reps": "4",
+            "load": "Slightly heavier than Wk 7"
+          },
+          {
+            "name": "Romanian Deadlift",
+            "sets": 3,
+            "reps": "6",
+            "load": "Same as Wk 7"
+          },
+          {
+            "name": "Sled Push",
+            "sets": 6,
+            "reps": "12.5 m",
+            "load": "Race Load"
+          },
+          {
+            "name": "Bike Erg",
+            "sets": 6,
+            "reps": "2:00 hard / 1:00 easy",
+            "load": "Zone 4"
+          }
+        ]
+      },
+      {
+        "day": "Day 2 - Aerobic Run",
+        "title": "Day 2 \u2014 Aerobic Run",
+        "exercises": [
+          {
+            "name": "Zone 2 Run",
+            "sets": 1,
+            "reps": "45-50 min",
+            "load": "Relaxed"
+          }
+        ]
+      },
+      {
+        "day": "Day 3 - Upper Body Strength + Conditioning",
+        "title": "Day 3 \u2014 Upper Body Strength + Conditioning",
+        "exercises": [
+          {
+            "name": "Push Press",
+            "sets": 4,
+            "reps": "4",
+            "load": "Slightly heavier than Wk 7"
+          },
+          {
+            "name": "Pull-Ups / Lat Pulldown",
+            "sets": 4,
+            "reps": "8",
+            "load": "Same as Wk 7"
+          },
+          {
+            "name": "SkiErg",
+            "sets": 5,
+            "reps": "500 m",
+            "load": "Moderate"
+          },
+          {
+            "name": "Dead Bug",
+            "sets": 3,
+            "reps": "16/side",
+            "load": "Bodyweight"
+          }
+        ]
+      },
+      {
+        "day": "Day 4 - Run Intervals",
+        "title": "Day 4 \u2014 Run Intervals",
+        "exercises": [
+          {
+            "name": "Run Intervals",
+            "sets": 5,
+            "reps": "1 km (3:00 rest)",
+            "load": "Planned Race Pace"
+          }
+        ]
+      },
+      {
+        "day": "Day 5 - Hybrid Primer",
+        "title": "Day 5 \u2014 Hybrid Conditioning",
+        "exercises": [
+          {
+            "name": "Row",
+            "sets": 4,
+            "reps": "1000 m",
+            "load": "Late-Race Focus"
+          },
+          {
+            "name": "Farmer Carry",
+            "sets": 4,
+            "reps": "200 m",
+            "load": "2 x 16 kg (~35 lb)"
+          },
+          {
+            "name": "Wall Balls",
+            "sets": 4,
+            "reps": "30",
+            "load": "4 kg (~9 lb)"
+          }
+        ]
+      },
+      {
+        "day": "Day 6 - HYROX Practice",
+        "title": "Day 6 \u2014 HYROX Practice (Late-Race Simulation)",
+        "exercises": [
+          {
+            "name": "Late-Race Sim Sequence",
+            "sets": 1,
+            "reps": "1km Run -> 80m BBJ -> 1km Run -> 1000m Row -> 1km Run -> 100m Lunges -> 1km Run -> 75 Wall Balls",
+            "load": "Race Simulation"
+          }
+        ]
+      },
+      {
+        "day": "Day 7 - Off / Recovery",
+        "title": "Day 7 \u2014 Off / Recovery",
+        "exercises": [
+          {
+            "name": "Recovery",
+            "sets": 1,
+            "reps": "Light walking & mobility",
+            "load": "Rest"
+          }
+        ]
+      }
+    ]
+  },
+  "9": {
+    "title": "WEEK 9 \u2014 PEAK & FULL SIMULATION",
+    "focus": "Full dress rehearsal simulation under exact race conditions.",
+    "days": [
+      {
+        "day": "Day 1 - Reduced Strength",
+        "title": "Day 1 \u2014 Reduced Strength + Engine",
+        "exercises": [
+          {
+            "name": "Front Squat",
+            "sets": 3,
+            "reps": "3",
+            "load": "Race-prep load"
+          },
+          {
+            "name": "Romanian Deadlift",
+            "sets": 3,
+            "reps": "5",
+            "load": "Same as Wk 8"
+          },
+          {
+            "name": "Sled Push",
+            "sets": 5,
+            "reps": "12.5 m",
+            "load": "Race Load"
+          },
+          {
+            "name": "Bike Erg",
+            "sets": 5,
+            "reps": "2:00 strong / 1:00 easy",
+            "load": "Controlled"
+          }
+        ]
+      },
+      {
+        "day": "Day 2 - Easy Run",
+        "title": "Day 2 \u2014 Easy Run (Economy)",
+        "exercises": [
+          {
+            "name": "Easy Jog",
+            "sets": 1,
+            "reps": "30 min",
+            "load": "Comfortable Zone 2"
+          }
+        ]
+      },
+      {
+        "day": "Day 3 - Upper Strength (Light)",
+        "title": "Day 3 \u2014 Upper Body Strength + Conditioning",
+        "exercises": [
+          {
+            "name": "Push Press",
+            "sets": 3,
+            "reps": "3",
+            "load": "Race-prep load"
+          },
+          {
+            "name": "Pull-Ups / Lat Pulldown",
+            "sets": 3,
+            "reps": "8",
+            "load": "Same as Wk 8"
+          },
+          {
+            "name": "SkiErg",
+            "sets": 4,
+            "reps": "500 m",
+            "load": "Smooth & Controlled"
+          },
+          {
+            "name": "Pallof Press",
+            "sets": 3,
+            "reps": "12/side",
+            "load": "Bodyweight"
+          }
+        ]
+      },
+      {
+        "day": "Day 4 - Short Intervals",
+        "title": "Day 4 \u2014 Run Intervals (Pace Control)",
+        "exercises": [
+          {
+            "name": "Run Intervals",
+            "sets": 4,
+            "reps": "1 km (3:00 rest)",
+            "load": "Planned Race Pace"
+          }
+        ]
+      },
+      {
+        "day": "Day 5 - Hybrid Primer",
+        "title": "Day 5 \u2014 Hybrid Sharpening",
+        "exercises": [
+          {
+            "name": "Row",
+            "sets": 3,
+            "reps": "1000 m",
+            "load": "Reduced Volume"
+          },
+          {
+            "name": "Farmer Carry",
+            "sets": 3,
+            "reps": "200 m",
+            "load": "2 x 16 kg (~35 lb)"
+          },
+          {
+            "name": "Wall Balls",
+            "sets": 3,
+            "reps": "25",
+            "load": "4 kg (~9 lb)"
+          }
+        ]
+      },
+      {
+        "day": "Day 6 - HYROX Practice (Full Sim)",
+        "title": "Day 6 \u2014 HYROX Practice (FULL RACE SIMULATION \u2014 DOUBLES)",
+        "exercises": [
+          {
+            "name": "FULL RACE SIMULATION",
+            "sets": 1,
+            "reps": "All 8 Stations + 8 x 1km Runs (Doubles Partner Relay)",
+            "load": "Race Intensity (No Red-Lining)"
+          }
+        ]
+      },
+      {
+        "day": "Day 7 - Recovery",
+        "title": "Day 7 \u2014 Off / Recovery",
+        "exercises": [
+          {
+            "name": "Recovery",
+            "sets": 1,
+            "reps": "Mobility work & walking only",
+            "load": "Rest"
+          }
+        ]
+      }
+    ]
+  },
+  "10": {
+    "title": "WEEK 10 \u2014 SHARPEN PHASE",
+    "focus": "Sharpening speed, nervous system activation, reducing fatigue.",
+    "days": [
+      {
+        "day": "Day 1 - Light Strength + Engine",
+        "title": "Day 1 \u2014 Light Strength + Engine",
+        "exercises": [
+          {
+            "name": "Front Squat",
+            "sets": 3,
+            "reps": "2",
+            "load": "~85-88% race prep"
+          },
+          {
+            "name": "Romanian Deadlift",
+            "sets": 2,
+            "reps": "5",
+            "load": "Light-moderate"
+          },
+          {
+            "name": "Sled Push",
+            "sets": 4,
+            "reps": "12.5 m",
+            "load": "Race Load"
+          },
+          {
+            "name": "Bike Erg",
+            "sets": 4,
+            "reps": "90 sec strong / 90 sec easy",
+            "load": "Controlled"
+          }
+        ]
+      },
+      {
+        "day": "Day 2 - Aerobic Run (Short)",
+        "title": "Day 2 \u2014 Aerobic Run (Short)",
+        "exercises": [
+          {
+            "name": "Easy Jog",
+            "sets": 1,
+            "reps": "30-35 min",
+            "load": "Easy Zone 2"
+          }
+        ]
+      },
+      {
+        "day": "Day 3 - Upper Body & Core",
+        "title": "Day 3 \u2014 Upper Body Strength + Conditioning",
+        "exercises": [
+          {
+            "name": "Push Press",
+            "sets": 3,
+            "reps": "2",
+            "load": "~85% race prep"
+          },
+          {
+            "name": "Pull-Ups / Lat Pulldown",
+            "sets": 2,
+            "reps": "8",
+            "load": "Easy-moderate"
+          },
+          {
+            "name": "SkiErg",
+            "sets": 3,
+            "reps": "400 m",
+            "load": "Smooth"
+          },
+          {
+            "name": "Dead Bug",
+            "sets": 2,
+            "reps": "12/side",
+            "load": "Bodyweight"
+          }
+        ]
+      },
+      {
+        "day": "Day 4 - Run Strides / Race Rhythm",
+        "title": "Day 4 \u2014 Run Strides / Race Rhythm",
+        "exercises": [
+          {
+            "name": "Run Strides",
+            "sets": 6,
+            "reps": "400 m (90s walk rest)",
+            "load": "Race Rhythm"
+          }
+        ]
+      },
+      {
+        "day": "Day 5 - Hybrid Primer",
+        "title": "Day 5 \u2014 Hybrid Primer (Low Fatigue)",
+        "exercises": [
+          {
+            "name": "Row",
+            "sets": 2,
+            "reps": "750 m",
+            "load": "Low Fatigue"
+          },
+          {
+            "name": "Farmer Carry",
+            "sets": 2,
+            "reps": "150 m",
+            "load": "2 x 16 kg"
+          },
+          {
+            "name": "Wall Balls",
+            "sets": 2,
+            "reps": "20",
+            "load": "4 kg"
+          }
+        ]
+      },
+      {
+        "day": "Day 6 - HYROX Practice",
+        "title": "Day 6 \u2014 HYROX Practice (Primer Only)",
+        "exercises": [
+          {
+            "name": "Primer Sequence",
+            "sets": 1,
+            "reps": "1km Run -> 500m Ski -> 1km Run -> Sled Push 2x12.5m -> 1km Run -> 40 Wall Balls",
+            "load": "Feel Sharp, Stop Early"
+          }
+        ]
+      },
+      {
+        "day": "Day 7 - Recovery",
+        "title": "Day 7 \u2014 Off / Recovery",
+        "exercises": [
+          {
+            "name": "Recovery",
+            "sets": 1,
+            "reps": "Mobility work & short walks",
+            "load": "Rest"
+          }
+        ]
+      }
+    ]
+  },
+  "11": {
+    "title": "WEEK 11 \u2014 TAPER & RACE EXECUTION",
+    "focus": "Shedding fatigue, ensuring complete freshness for race day.",
+    "days": [
+      {
+        "day": "Day 1 - Shakeout",
+        "title": "Day 1 \u2014 Light Lower Body + Engine Shakeout",
+        "exercises": [
+          {
+            "name": "Front Squat",
+            "sets": 2,
+            "reps": "3",
+            "load": "~60% race prep"
+          },
+          {
+            "name": "Romanian Deadlift",
+            "sets": 2,
+            "reps": "5",
+            "load": "Light"
+          },
+          {
+            "name": "Sled Push",
+            "sets": 2,
+            "reps": "12.5 m",
+            "load": "Light-moderate"
+          },
+          {
+            "name": "Bike Erg",
+            "sets": 3,
+            "reps": "60 sec smooth / 90 sec easy",
+            "load": "Light"
+          }
+        ]
+      },
+      {
+        "day": "Day 2 - Rest",
+        "title": "Day 2 \u2014 Easy Run / Rest",
+        "exercises": [
+          {
+            "name": "Easy Run",
+            "sets": 1,
+            "reps": "25-30 min",
+            "load": "Very Easy"
+          }
+        ]
+      },
+      {
+        "day": "Day 3 - Activation",
+        "title": "Day 3 \u2014 Light Upper Body & Activation",
+        "exercises": [
+          {
+            "name": "Push Press",
+            "sets": 2,
+            "reps": "3",
+            "load": "Light"
+          },
+          {
+            "name": "Lat Pulldown / Assisted Pull-Up",
+            "sets": 2,
+            "reps": "8",
+            "load": "Easy"
+          },
+          {
+            "name": "SkiErg",
+            "sets": 2,
+            "reps": "300 m",
+            "load": "Smooth"
+          },
+          {
+            "name": "Nasal Breathing Walk",
+            "sets": 1,
+            "reps": "5-10 min",
+            "load": "Restorative"
+          }
+        ]
+      },
+      {
+        "day": "Day 4 - Short Strides",
+        "title": "Day 4 \u2014 Short Strides (Neural Primer)",
+        "exercises": [
+          {
+            "name": "Run Strides",
+            "sets": 4,
+            "reps": "200 m (full walk rest)",
+            "load": "Smooth & Fast"
+          }
+        ]
+      },
+      {
+        "day": "Day 5 - Complete Rest",
+        "title": "Day 5 \u2014 Complete Rest / Mobility",
+        "exercises": [
+          {
+            "name": "Mobility & Rest",
+            "sets": 1,
+            "reps": "Light stretching & short walk",
+            "load": "Rest"
+          }
+        ]
+      },
+      {
+        "day": "Day 6 - Pre-Race Activation",
+        "title": "Day 6 \u2014 Pre-Race Activation & Shakedown",
+        "exercises": [
+          {
+            "name": "Shakeout Run & Dynamic Stretches",
+            "sets": 1,
+            "reps": "10 min",
+            "load": "Easy"
+          }
+        ]
+      },
+      {
+        "day": "Day 7 - RACE DAY",
+        "title": "Day 7 \u2014 RACE DAY (HYROX HOUSTON \u2014 WOMEN'S DOUBLES)",
+        "exercises": [
+          {
+            "name": "HYROX HOUSTON COMPETITION EXECUTION",
+            "sets": 1,
+            "reps": "Full 8 Stations + 8 x 1km Runs (Partner Relay)",
+            "load": "MAX EXECUTION / RACE DAY"
+          }
+        ]
+      }
+    ]
+  }
+}
