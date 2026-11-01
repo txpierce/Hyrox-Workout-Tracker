@@ -216,6 +216,7 @@
                     <div class="flex items-center gap-3 w-full sm:w-auto">
                         <label class="text-xs text-gray-300 font-medium whitespace-nowrap">Select Week:</label>
                         <select id="program-week-select" onchange="onWeekChange()" class="bg-black border border-gray-700 text-sm rounded-lg px-3 py-1.5 text-white font-semibold w-full sm:w-auto">
+                            <option value="0">Week 0: Onboarding & Baseline Assessment</option>
                             <option value="1">Week 1: Base & Movement Quality</option>
                             <option value="2">Week 2: Base Progression</option>
                             <option value="3">Week 3: Base → Build Transition</option>
@@ -746,7 +747,7 @@
             const divisionKey = document.getElementById('setting-division').value;
             const divObj = divisionStandards[divisionKey];
 
-            document.getElementById('display-race-title').innerText = `raceName.toUpperCase()({divObj.name.replace(' Standards', '')})`;
+            document.getElementById('display-race-title').innerText = `${raceName.toUpperCase()} (${divObj.name.replace(' Standards', '')})`;
             const dateFormatted = raceDateVal ? new Date(raceDateVal + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'TBD';
             document.getElementById('display-race-date-sub').innerText = `${dateFormatted} | Complete 11-Week Master Periodized Program`;
             document.getElementById('header-subtext').innerText = `${divObj.name.replace(' Standards', '')} | ${raceName}`;
@@ -843,7 +844,7 @@
                     let setsHtml = '';
                     const numSets = ex.sets || 1;
                     for(let s = 1; s <= numSets; s++) {
-                        const checkboxId = `chk_wweekNumd{dayIdx}_eexIdxs{s}`;
+                        const checkboxId = `chk_w${weekNum}_d${dayIdx}_e${exIdx}_s${s}`;
                         setsHtml += `
                             <label class="cursor-pointer inline-flex items-center">
                                 <input type="checkbox" class="set-checkbox hidden" id="${checkboxId}" onchange="saveProgramProgress()">
@@ -852,7 +853,7 @@
                         `;
                     }
 
-                    const loadInputId = `load_wweekNumd{dayIdx}_e${exIdx}`;
+                    const loadInputId = `load_w${weekNum}_d${dayIdx}_e${exIdx}`;
                     html += `
                         <div class="bg-zinc-900/80 border border-gray-800/90 p-3 rounded-lg flex flex-col gap-3">
                             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
@@ -918,14 +919,14 @@
                         const numSets = ex.sets || 1;
                         for (let s = 1; s <= numSets; s++) {
                             totalCheckboxes++;
-                            const chkId = `chk_wwd{dIdx}_eeIdxs{s}`;
+                            const chkId = `chk_w${w}_d${dIdx}_e${eIdx}_s${s}`;
                             if (saved && saved.checkboxes && saved.checkboxes[chkId]) checkedCount++;
                         }
                     });
                 });
             }
             const percent = totalCheckboxes > 0 ? Math.round((checkedCount / totalCheckboxes) * 100) : 0;
-            document.getElementById('overall-progress-text').innerText = `percent%Completed({checkedCount}/${totalCheckboxes} sets)`;
+            document.getElementById('overall-progress-text').innerText = `${percent}% Completed (${checkedCount}/${totalCheckboxes} sets)`;
             document.getElementById('overall-progress-bar').style.width = `${percent}%`;
         }
 
@@ -986,7 +987,7 @@
             const th = Math.floor(projectedTotalSec / 3600);
             const tm = Math.floor((projectedTotalSec % 3600) / 60);
             const ts = Math.round(projectedTotalSec % 60);
-            const formattedProj = `th>0?th+':':''{tm.toString().padStart(2,'0')}:${ts.toString().padStart(2,'0')}`;
+            const formattedProj = `${th > 0 ? th + ':' : ''}${tm.toString().padStart(2,'0')}:${ts.toString().padStart(2,'0')}`;
             
             document.getElementById('coach-est-finish').innerText = formattedProj;
         }
@@ -1003,11 +1004,11 @@
                 const th = Math.floor(totalElapsedSec / 3600);
                 const tm = Math.floor((totalElapsedSec % 3600) / 60);
                 const ts = totalElapsedSec % 60;
-                document.getElementById('coach-total-timer').innerText = `th>0?th+':':''{tm.toString().padStart(2,'0')}:${ts.toString().padStart(2,'0')}`;
+                document.getElementById('coach-total-timer').innerText = `${th > 0 ? th + ':' : ''}${tm.toString().padStart(2,'0')}:${ts.toString().padStart(2,'0')}`;
 
                 const sm = Math.floor(segElapsedSec / 60);
                 const ss = segElapsedSec % 60;
-                document.getElementById('coach-seg-timer').innerText = `sm.toString().padStart(2,'0'):{ss.toString().padStart(2,'0')}`;
+                document.getElementById('coach-seg-timer').innerText = `${sm.toString().padStart(2,'0')}:${ss.toString().padStart(2,'0')}`;
 
                 updateLiveEstFinish();
             }, 1000);
@@ -1022,12 +1023,12 @@
             const segName = segmentNamesList[currentSegIndex];
             const sm = Math.floor(segElapsedSec / 60);
             const ss = segElapsedSec % 60;
-            const splitStr = `sm:{ss < 10 ? '0' : ''}${ss}`;
+            const splitStr = `${sm}:${ss < 10 ? '0' : ''}${ss}`;
 
             const th = Math.floor(totalElapsedSec / 3600);
             const tm = Math.floor((totalElapsedSec % 3600) / 60);
             const ts = totalElapsedSec % 60;
-            const cumStr = `th>0?th+':':''{tm.toString().padStart(2,'0')}:${ts.toString().padStart(2,'0')}`;
+            const cumStr = `${th > 0 ? th + ':' : ''}${tm.toString().padStart(2,'0')}:${ts.toString().padStart(2,'0')}`;
 
             coachSplitsLog.push({ index: currentSegIndex + 1, name: segName, split: splitStr, cumulative: cumStr });
             
@@ -1118,7 +1119,7 @@
                 
                 let workoutListHtml = `<div class="font-bold text-hyrox-yellow mb-1">${dayObj.title || dayObj.day}</div>`;
                 dayObj.exercises.forEach(ex => {
-                    workoutListHtml += `<div class="flex justify-between border-b border-gray-800/50 py-0.5"><span>ex.name</span><spanclass="text-gray-400">{ex.reps}</span></div>`;
+                    workoutListHtml += `<div class="flex justify-between border-b border-gray-800/50 py-0.5"><span>${ex.name}</span><span class="text-gray-400">${ex.reps}</span></div>`;
                 });
                 metricsBox.innerHTML = `<div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Scheduled Exercises & Runs</div><div class="space-y-1 text-gray-300 text-[11px]">${workoutListHtml}</div>`;
             } else if (type === 'weekly') {
@@ -1131,7 +1132,7 @@
                 const sessionRpe = document.getElementById('sim-rpe').value || '8.5';
                 document.getElementById('card-title-type').innerText = "Race Simulator Result";
                 document.getElementById('card-main-title').innerText = "Full Race Simulation";
-                metricsBox.innerHTML = `<div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Simulation Results</div><div class="flex justify-between"><span class="text-gray-400">Total Sim Time:</span><span class="font-bold font-mono text-white">totalTime</span></div><divclass="flexjustify-between"><spanclass="text-gray-400">SessionRPE:</span><spanclass="font-boldfont-monotext-hyrox-yellow">{sessionRpe} / 10</span></div>`;
+                metricsBox.innerHTML = `<div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Simulation Results</div><div class="flex justify-between"><span class="text-gray-400">Total Sim Time:</span><span class="font-bold font-mono text-white">${totalTime}</span></div><div class="flex justify-between"><span class="text-gray-400">Session RPE:</span><span class="font-bold font-mono text-hyrox-yellow">${sessionRpe} / 10</span></div>`;
             }
         }
 
@@ -1192,14 +1193,14 @@
         function formatSecondsToMMSS(totalSec) {
             const m = Math.floor(totalSec / 60);
             const s = Math.round(totalSec % 60);
-            return `m:{s < 10 ? '0' : ''}${s}`;
+            return `${m}:${s < 10 ? '0' : ''}${s}`;
         }
 
         function formatSecondsToHHMMSS(totalSec) {
             const h = Math.floor(totalSec / 3600);
             const m = Math.floor((totalSec % 3600) / 60);
             const s = Math.round(totalSec % 60);
-            return `h>0?h+':':''{m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+            return `${h > 0 ? h + ':' : ''}${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
         }
 
         function calculateIndividualPace() {
@@ -1298,5 +1299,3 @@
     </script>
 </body>
 </html>
-
-
