@@ -720,28 +720,144 @@
     </main>
 
     <!-- ================= SMART FLOATING REST TIMER WIDGET ================= -->
-    <div id="smart-timer-bar" class="fixed bottom-0 left-0 right-0 z-50 bg-black/95 border-t border-hyrox-yellow/40 backdrop-blur-md px-4 py-2.5 shadow-2xl transition-all duration-300">
-        <div class="max-w-4xl mx-auto flex items-center justify-between gap-3">
-            
-            <!-- IDLE VIEW: Quick 1-Tap Buttons -->
-            <div id="timer-idle-view" class="flex items-center justify-between w-full gap-2 flex-wrap sm:flex-nowrap">
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-lg bg-hyrox-yellow/10 border border-hyrox-yellow/40 flex items-center justify-center text-hyrox-yellow text-sm font-bold">
-                        <i class="fa-solid fa-stopwatch"></i>
-                    </div>
-                    <span class="text-xs font-bold text-white uppercase tracking-wider hidden sm:inline">Rest Timer:</span>
+<div id="smart-timer-bar" class="fixed bottom-0 left-0 right-0 z-50 bg-black/95 border-t border-hyrox-yellow/40 backdrop-blur-md px-4 py-2.5 shadow-2xl transition-all duration-300">
+    <div class="max-w-4xl mx-auto flex items-center justify-between gap-3">
+        
+        <!-- IDLE VIEW: Quick 1-Tap Buttons -->
+        <div id="timer-idle-view" class="flex items-center justify-between w-full gap-2 flex-wrap sm:flex-nowrap">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-hyrox-yellow/10 border border-hyrox-yellow/40 flex items-center justify-center text-hyrox-yellow text-sm font-bold">
+                    <i class="fa-solid fa-stopwatch"></i>
                 </div>
-                <div class="flex items-center gap-1.5 flex-wrap justify-center">
-                    <button onclick="startRestTimer(30)" class="bg-zinc-900 hover:bg-hyrox-yellow hover:text-black text-white border border-gray-700 text-xs font-bold px-3 py-1.5 rounded-lg transition">30s</button>
-                    <button onclick="startRestTimer(60)" class="bg-zinc-900 hover:bg-hyrox-yellow hover:text-black text-white border border-gray-700 text-xs font-bold px-3 py-1.5 rounded-lg transition">60s</button>
-                    <button onclick="startRestTimer(90)" class="bg-zinc-900 hover:bg-hyrox-yellow hover:text-black text-white border border-gray-700 text-xs font-bold px-3 py-1.5 rounded-lg transition">90s</button>
-                    <button onclick="startRestTimer(120)" class="bg-zinc-900 hover:bg-hyrox-yellow hover:text-black text-white border border-gray-700 text-xs font-bold px-3 py-1.5 rounded-lg transition">2m</button>
-                    <div class="flex items-center gap-1 bg-zinc-900 border border-gray-700 rounded-lg px-2 py-1">
-                        <input type="number" id="custom-rest-input" placeholder="Sec" min="5" max="600" class="w-12 text-xs bg-transparent text-center font-bold text-white focus:outline-none">
-                        <button onclick="startCustomRestTimer()" class="text-hyrox-yellow hover:text-yellow-400 text-xs font-bold px-1"><i class="fa-solid fa-play"></i></button>
-                    </div>
+                <span class="text-xs font-bold text-white uppercase tracking-wider hidden sm:inline">Rest Timer:</span>
+            </div>
+            <div class="flex items-center gap-1.5 flex-wrap justify-center">
+                <button onclick="startRestTimer(30)" class="bg-zinc-900 hover:bg-hyrox-yellow hover:text-black text-white border border-gray-700 text-xs font-bold px-3 py-1.5 rounded-lg transition">30s</button>
+                <button onclick="startRestTimer(60)" class="bg-zinc-900 hover:bg-hyrox-yellow hover:text-black text-white border border-gray-700 text-xs font-bold px-3 py-1.5 rounded-lg transition">60s</button>
+                <button onclick="startRestTimer(90)" class="bg-zinc-900 hover:bg-hyrox-yellow hover:text-black text-white border border-gray-700 text-xs font-bold px-3 py-1.5 rounded-lg transition">90s</button>
+                <button onclick="startRestTimer(120)" class="bg-zinc-900 hover:bg-hyrox-yellow hover:text-black text-white border border-gray-700 text-xs font-bold px-3 py-1.5 rounded-lg transition">2m</button>
+                <div class="flex items-center gap-1 bg-zinc-900 border border-gray-700 rounded-lg px-2 py-1">
+                    <input type="number" id="custom-rest-input" placeholder="Sec" min="5" max="600" class="w-12 text-xs bg-transparent text-center font-bold text-white focus:outline-none">
+                    <button onclick="startCustomRestTimer()" class="text-hyrox-yellow hover:text-yellow-400 text-xs font-bold px-1"><i class="fa-solid fa-play"></i></button>
                 </div>
             </div>
+        </div>
+
+        <!-- ACTIVE VIEW: Live Glowing Countdown -->
+        <div id="timer-active-view" class="hidden items-center justify-between w-full gap-3">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-hyrox-yellow text-black flex items-center justify-center text-base font-black animate-pulse shadow-[0_0_15px_rgba(255,204,0,0.6)]">
+                    <i class="fa-solid fa-hourglass-half"></i>
+                </div>
+                <div>
+                    <div class="text-[10px] text-hyrox-yellow font-bold uppercase tracking-wider">Resting Countdown</div>
+                    <div id="floating-timer-display" class="text-xl font-black font-mono text-white tracking-widest">00:00</div>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="addRestTime(30)" class="bg-zinc-800 hover:bg-zinc-700 text-hyrox-yellow border border-hyrox-yellow/30 px-2.5 py-1.5 rounded-lg text-xs font-bold transition">+30s</button>
+                <button id="timer-pause-btn" onclick="togglePauseRestTimer()" class="bg-zinc-800 hover:bg-zinc-700 text-white border border-gray-700 px-3 py-1.5 rounded-lg text-xs font-bold transition">Pause</button>
+                <button onclick="cancelRestTimer()" class="bg-red-600/80 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ================= SMART REST TIMER JAVASCRIPT LOGIC ================= -->
+<script>
+    let restTimerInterval = null;
+    let restSecondsRemaining = 0;
+    let isRestPaused = false;
+
+    function playTimerSound() {
+        try {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); // A5 note (crisp beep)
+            
+            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.8);
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + 0.8);
+        } catch (e) {
+            console.log("Audio playback not supported or blocked by browser policy.");
+        }
+    }
+
+    function startRestTimer(seconds) {
+        clearInterval(restTimerInterval);
+        restSecondsRemaining = seconds;
+        isRestPaused = false;
+        
+        document.getElementById('timer-idle-view').classList.add('hidden');
+        document.getElementById('timer-idle-view').classList.remove('flex');
+        
+        document.getElementById('timer-active-view').classList.add('flex');
+        document.getElementById('timer-active-view').classList.remove('hidden');
+        
+        document.getElementById('timer-pause-btn').innerText = "Pause";
+        
+        updateRestDisplay();
+        
+        restTimerInterval = setInterval(() => {
+            if (!isRestPaused) {
+                if (restSecondsRemaining > 0) {
+                    restSecondsRemaining--;
+                    updateRestDisplay();
+                } else {
+                    clearInterval(restTimerInterval);
+                    playTimerSound();
+                    cancelRestTimer();
+                }
+            }
+        }, 1000);
+    }
+
+    function startCustomRestTimer() {
+        const inputVal = parseInt(document.getElementById('custom-rest-input').value);
+        if (!inputVal || inputVal <= 0) return;
+        startRestTimer(inputVal);
+        document.getElementById('custom-rest-input').value = '';
+    }
+
+    function updateRestDisplay() {
+        const mins = Math.floor(restSecondsRemaining / 60);
+        const secs = restSecondsRemaining % 60;
+        document.getElementById('floating-timer-display').innerText = 
+            `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    function addRestTime(seconds) {
+        restSecondsRemaining += seconds;
+        updateRestDisplay();
+    }
+
+    function togglePauseRestTimer() {
+        isRestPaused = !isRestPaused;
+        const pauseBtn = document.getElementById('timer-pause-btn');
+        pauseBtn.innerText = isRestPaused ? "Resume" : "Pause";
+    }
+
+    function cancelRestTimer() {
+        clearInterval(restTimerInterval);
+        restTimerInterval = null;
+        isRestPaused = false;
+        
+        document.getElementById('timer-active-view').classList.add('hidden');
+        document.getElementById('timer-active-view').classList.remove('flex');
+        
+        document.getElementById('timer-idle-view').classList.add('flex');
+        document.getElementById('timer-idle-view').classList.remove('hidden');
+    }
+</script>
 
             <!-- ACTIVE VIEW: Live Glowing Countdown -->
             <div id="timer-active-view" class="hidden items-center justify-between w-full gap-3">
