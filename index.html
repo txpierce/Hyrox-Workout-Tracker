@@ -716,16 +716,28 @@
 
         let programData = {};
 
-        // Fetch program data from hyrox_program.json
-        fetch('hyrox_program.json')
-            .then(response => response.json())
-            .then(data => {
-                programData = data;
-                updateDayDropdownOptions();
-                renderProgramWeek();
-                updateOverallProgress();
-            })
-            .catch(error => console.error('Error loading hyrox_program.json:', error));
+       // Fetch program data safely with filename fallback
+async function fetchProgramData() {
+    try {
+        let response = await fetch('programData.json');
+        if (!response.ok) {
+            // Fallback if named hyrox_program.json in your GitHub repo
+            response = await fetch('hyrox_program.json');
+        }
+        if (!response.ok) throw new Error("JSON file not found on server");
+        programData = await response.json();
+        
+        // Update dropdowns and render the workout on screen
+        updateDayDropdownOptions();
+        renderProgramDay();
+        updateOverallProgress();
+    } catch (error) {
+        console.error('Error loading program JSON:', error);
+    }
+}
+
+// Call the function on page load
+fetchProgramData();
 
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
