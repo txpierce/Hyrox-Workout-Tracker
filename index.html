@@ -26,7 +26,12 @@
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background-color: #121212; color: #E5E7EB; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; }
+        body { 
+            background-color: #121212; 
+            color: #E5E7EB; 
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; 
+            padding-bottom: 70px; /* Padding for floating bottom rest dock */
+        }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         input[type="date"], input[type="text"], input[type="number"], select, textarea {
@@ -36,14 +41,25 @@
             border-color: #FFCC00; outline: none; ring: 2px; ring-color: #FFCC00;
         }
         .set-checkbox:checked + span {
-            background-color: #FFCC00; color: #000; border-color: #FFCC00; text-decoration: line-through;
+            background-color: #FFCC00; color: #000; border-color: #FFCC00; text-decoration: line-through; font-weight: 800;
+        }
+        /* Floating Rest Dock Glowing Effect */
+        #floating-rest-dock {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 -4px 20px rgba(255, 204, 0, 0.2); }
+            50% { box-shadow: 0 -4px 30px rgba(255, 204, 0, 0.55); }
+        }
+        .timer-active-glow {
+            animation: pulse-glow 2s infinite;
         }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between">
 
     <!-- Top Navigation / Header -->
-    <header class="bg-black border-b border-gray-800 sticky top-0 z-50">
+    <header class="bg-black border-b border-gray-800 sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-center space-x-3">
                 <div class="bg-hyrox-yellow text-black font-black px-3 py-1.5 text-xl tracking-wider rounded">TXP</div>
@@ -126,6 +142,48 @@
                     <div class="bg-black/60 border border-gray-800 px-3 py-2 rounded-lg">
                         <div id="secs-left" class="text-2xl font-black text-white">--</div>
                         <div class="text-[10px] text-gray-400 uppercase">Secs</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WORKOUT CONSISTENCY & TRAINING STREAK WIDGET -->
+            <div class="bg-gradient-to-r from-zinc-900 via-[#1E1E1E] to-zinc-900 border border-gray-800 rounded-xl p-5 shadow-lg space-y-3">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-fire text-hyrox-yellow"></i> Workout Consistency & Training Streak
+                    </h3>
+                    <span class="text-[10px] text-gray-400 bg-black/50 px-2 py-1 rounded border border-gray-800 uppercase">Live Logged Data</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Active Streak -->
+                    <div class="bg-black/60 border border-gray-800 p-4 rounded-xl flex items-center gap-3">
+                        <div class="p-3 bg-hyrox-yellow/10 border border-hyrox-yellow/30 rounded-lg">
+                            <i class="fa-solid fa-flame text-2xl text-hyrox-yellow"></i>
+                        </div>
+                        <div>
+                            <div class="text-[10px] text-gray-400 uppercase font-semibold">Active Streak Weeks</div>
+                            <div id="widget-streak-weeks" class="text-xl font-black text-hyrox-yellow">🔥 0 Weeks</div>
+                        </div>
+                    </div>
+                    <!-- Finished Sets Count -->
+                    <div class="bg-black/60 border border-gray-800 p-4 rounded-xl flex items-center gap-3">
+                        <div class="p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
+                            <i class="fa-solid fa-circle-check text-2xl text-green-400"></i>
+                        </div>
+                        <div>
+                            <div class="text-[10px] text-gray-400 uppercase font-semibold">Completed Sets</div>
+                            <div id="widget-completed-sets" class="text-xl font-black text-white">0 Sets Logged</div>
+                        </div>
+                    </div>
+                    <!-- Current Training Phase Focus -->
+                    <div class="bg-black/60 border border-gray-800 p-4 rounded-xl flex items-center gap-3">
+                        <div class="p-3 bg-blue-500/10 border border-blue-500/30 rounded-lg">
+                            <i class="fa-solid fa-dumbbell text-2xl text-blue-400"></i>
+                        </div>
+                        <div>
+                            <div class="text-[10px] text-gray-400 uppercase font-semibold">Current Phase Focus</div>
+                            <div id="widget-phase-focus" class="text-sm font-extrabold text-white">Base Building</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -217,7 +275,7 @@
                         <label class="text-xs text-gray-300 font-medium whitespace-nowrap">Select Week:</label>
                         <select id="program-week-select" onchange="onWeekChange()" class="bg-black border border-gray-700 text-sm rounded-lg px-3 py-1.5 text-white font-semibold w-full sm:w-auto">
                             <option value="0">Week 0: Onboarding & Baseline Assessment</option>
-                            <option value="1">Week 1: Base & Movement Quality</option>
+                            <option value="1" selected>Week 1: Base & Movement Quality</option>
                             <option value="2">Week 2: Base Progression</option>
                             <option value="3">Week 3: Base → Build Transition</option>
                             <option value="4">Week 4: Base Phase Complete</option>
@@ -572,21 +630,21 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
                     <div class="bg-black/40 p-4 rounded-xl border border-gray-800 space-y-2">
                         <h4 class="font-bold text-hyrox-yellow text-sm">Required Documents</h4>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="rounded bg-black"> Race registration confirmation</label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="rounded bg-black"> Photo ID / Passport</label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="rounded bg-black"> Athlete wristband / packet</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded bg-black border-gray-700"> Race registration confirmation</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded bg-black border-gray-700"> Photo ID / Passport</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded bg-black border-gray-700"> Athlete wristband / packet</label>
                     </div>
                     <div class="bg-black/40 p-4 rounded-xl border border-gray-800 space-y-2">
                         <h4 class="font-bold text-hyrox-yellow text-sm">Competition Gear</h4>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="rounded bg-black"> Race shoes (broken in) + backup</label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="rounded bg-black"> Performance socks (2 pairs)</label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="rounded bg-black"> Watch (fully charged)</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded bg-black border-gray-700"> Race shoes (broken in) + backup</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded bg-black border-gray-700"> Performance socks (2 pairs)</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded bg-black border-gray-700"> Watch (fully charged)</label>
                     </div>
                     <div class="bg-black/40 p-4 rounded-xl border border-gray-800 space-y-2">
                         <h4 class="font-bold text-hyrox-yellow text-sm">Warm-up & Nutrition</h4>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="rounded bg-black"> Light hoodie & sweatpants</label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="rounded bg-black"> Mini resistance bands</label>
-                        <label class="flex items-center gap-2"><input type="checkbox" class="rounded bg-black"> Pre-race meal & electrolytes</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded bg-black border-gray-700"> Light hoodie & sweatpants</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded bg-black border-gray-700"> Mini resistance bands</label>
+                        <label class="flex items-center gap-2 cursor-pointer"><input type="checkbox" class="rounded bg-black border-gray-700"> Pre-race meal & electrolytes</label>
                     </div>
                 </div>
             </div>
@@ -613,8 +671,44 @@
 
     </main>
 
+    <!-- FLOATING QUICK-REST TIMER WITH AUDIO ALERT -->
+    <div id="floating-rest-dock" class="fixed bottom-0 left-0 right-0 z-50 bg-black/95 border-t border-hyrox-yellow/40 px-4 py-3 shadow-2xl backdrop-blur-md">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+            
+            <!-- Left: Status & Icon -->
+            <div class="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
+                <div class="flex items-center gap-2">
+                    <i id="rest-icon" class="fa-solid fa-stopwatch text-hyrox-yellow text-lg"></i>
+                    <span id="rest-status-text" class="text-xs font-bold uppercase tracking-wider text-white">Rest Timer</span>
+                </div>
+                <!-- Expanded Mode Timer Display (Hidden when idle) -->
+                <div id="rest-display-container" class="hidden items-center gap-3">
+                    <span id="rest-countdown-clock" class="font-mono text-xl font-black text-hyrox-yellow">00:00</span>
+                    <button onclick="cancelRestTimer()" class="text-gray-400 hover:text-red-400 text-xs px-2.5 py-1 rounded bg-gray-900 border border-gray-800 transition">Cancel</button>
+                </div>
+            </div>
+
+            <!-- Center: Visual Progress Bar (Expanded Mode Only) -->
+            <div id="rest-progress-wrapper" class="hidden w-full sm:flex-grow sm:max-w-md mx-4">
+                <div class="w-full bg-gray-900 border border-gray-800 rounded-full h-2.5 overflow-hidden">
+                    <div id="rest-progress-bar" class="bg-hyrox-yellow h-full transition-all duration-1000" style="width: 100%;"></div>
+                </div>
+            </div>
+
+            <!-- Right: 1-Tap Quick Rest Buttons (Idle Mode) -->
+            <div id="rest-buttons-container" class="flex items-center gap-2 w-full sm:w-auto justify-center">
+                <span class="text-[10px] text-gray-400 uppercase font-semibold hidden md:inline">Quick Rest:</span>
+                <button onclick="startRestTimer(30)" class="flex-1 sm:flex-none bg-zinc-900 hover:bg-hyrox-yellow hover:text-black border border-gray-800 text-xs font-bold px-3 py-1.5 rounded-lg transition text-gray-200">30s</button>
+                <button onclick="startRestTimer(60)" class="flex-1 sm:flex-none bg-zinc-900 hover:bg-hyrox-yellow hover:text-black border border-gray-800 text-xs font-bold px-3 py-1.5 rounded-lg transition text-gray-200">60s</button>
+                <button onclick="startRestTimer(90)" class="flex-1 sm:flex-none bg-zinc-900 hover:bg-hyrox-yellow hover:text-black border border-gray-800 text-xs font-bold px-3 py-1.5 rounded-lg transition text-gray-200">90s</button>
+                <button onclick="startRestTimer(120)" class="flex-1 sm:flex-none bg-zinc-900 hover:bg-hyrox-yellow hover:text-black border border-gray-800 text-xs font-bold px-3 py-1.5 rounded-lg transition text-gray-200">2m</button>
+            </div>
+
+        </div>
+    </div>
+
     <!-- Footer -->
-    <footer class="bg-black border-t border-gray-800 py-4 text-center text-xs text-gray-500">
+    <footer class="bg-black border-t border-gray-800 py-4 text-center text-xs text-gray-500 mb-10">
         <p>TX_Pierce HYROX Training App | Complete 11-Week Periodized Master Plan</p>
     </footer>
 
@@ -714,30 +808,60 @@
             "13. Run 7 (1,000m)", "14. Sandbag Lunges (100m)", "15. Run 8 (1,000m)", "16. Wall Balls (100 reps)"
         ];
 
-        let programData = {};
+        // Master Program Data Structure (Weeks 0-11)
+        let programData = {
+            "0": { title: "Week 0: Onboarding & Baseline", focus: "Movement Quality & Baseline Assessment", days: [
+                { day: "Day 1 - Baseline Test", title: "1km Run + Station Benchmarks", exercises: [{ name: "1000m Zone 2 Run", reps: "1 km", load: "Bodyweight", sets: 1 }, { name: "SkiErg Benchmark", reps: "500m", load: "Damper 6", sets: 1 }, { name: "Sled Push Practice", reps: "4 x 12.5m", load: "102 kg", sets: 4 }] },
+                { day: "Day 2 - Aerobic Base", title: "Continuous Zone 2 Engine", exercises: [{ name: "Zone 2 Run", reps: "30 mins", load: "Easy Pace", sets: 1 }, { name: "Farmer Carry Walk", reps: "4 x 50m", load: "16 kg DBs", sets: 4 }] }
+            ]},
+            "1": { title: "Week 1: Base & Movement Quality", focus: "Structural Balance & Aerobic Capacity", days: [
+                { day: "Day 1 - Lower Body & Run", title: "Leg Power & Aerobic Intervals", exercises: [{ name: "Goblet Squats", reps: "12 Reps", load: "16 kg KB", sets: 4 }, { name: "Sandbag Lunges", reps: "20 m", load: "10 kg", sets: 4 }, { name: "Zone 2 Intervals", reps: "4 x 800m", load: "5:30/km Pace", sets: 4 }] },
+                { day: "Day 2 - Upper Pull & Engine", title: "SkiErg Pacing & Upper Back", exercises: [{ name: "SkiErg Engine Work", reps: "5 x 500m", load: "Pace 2:05/500m", sets: 5 }, { name: "DB Renegade Rows", reps: "10 Reps/side", load: "12 kg DBs", sets: 3 }] },
+                { day: "Day 3 - HYROX Combo", title: "Sled & Run Integration", exercises: [{ name: "Sled Push", reps: "4 x 25m", load: "102 kg", sets: 4 }, { name: "Run Split", reps: "400m", load: "RPE 7", sets: 4 }, { name: "Wall Balls", reps: "20 Reps", load: "4 kg Ball", sets: 4 }] }
+            ]},
+            "2": { title: "Week 2: Base Progression", focus: "Work Capacity Expansion", days: [
+                { day: "Day 1 - Strength & Engine", title: "Deadlifts & Run Conditioning", exercises: [{ name: "Trap Bar Deadlift", reps: "8 Reps", load: "Prescribed", sets: 4 }, { name: "Run Intervals", reps: "5 x 800m", load: "5:25/km Pace", sets: 5 }] },
+                { day: "Day 2 - Station Density", title: "Burpees & Row Intervals", exercises: [{ name: "Burpee Broad Jumps", reps: "4 x 20m", load: "Bodyweight", sets: 4 }, { name: "Rowing Intervals", reps: "4 x 500m", load: "Pace 2:00/500m", sets: 4 }] }
+            ]},
+            "3": { title: "Week 3: Base → Build Transition", focus: "Lactate Threshold & Heavy Sleds", days: [
+                { day: "Day 1 - Heavy Station Focus", title: "Sled Push/Pull Overload", exercises: [{ name: "Heavy Sled Push", reps: "4 x 15m", load: "120 kg (+Overload)", sets: 4 }, { name: "Heavy Sled Pull", reps: "4 x 15m", load: "90 kg", sets: 4 }] }
+            ]},
+            "4": { title: "Week 4: Base Phase Complete", focus: "Deload & Mid-Block Test", days: [
+                { day: "Day 1 - Half Sim Test", title: "4 Segment Mini Race", exercises: [{ name: "Run 1", reps: "1000m", load: "Race Pace", sets: 1 }, { name: "SkiErg", reps: "1000m", load: "Target Pace", sets: 1 }, { name: "Run 2", reps: "1000m", load: "Race Pace", sets: 1 }, { name: "Sled Push", reps: "50m", load: "102 kg", sets: 1 }] }
+            ]},
+            "5": { title: "Week 5: Build Phase Begins", focus: "Compromised Running & Volume", days: [
+                { day: "Day 1 - Compromised Leg Run", title: "Lunges to Sprint", exercises: [{ name: "Sandbag Lunges", reps: "50m", load: "10 kg", sets: 3 }, { name: "Compromised Run", reps: "800m", load: "Fast Pace", sets: 3 }] }
+            ]},
+            "6": { title: "Week 6: Build Phase Continues", focus: "Station Efficiency & Partner Handoffs", days: [
+                { day: "Day 1 - Station Repeats", title: "Wall Balls & Farmer Carries", exercises: [{ name: "Wall Balls", reps: "30 Reps", load: "4 kg @ 2.70m", sets: 4 }, { name: "Farmer Carry", reps: "50m", load: "2 x 16 kg KB", sets: 4 }] }
+            ]},
+            "7": { title: "Week 7: Density & Efficiency", focus: "High Fatigue Threshold", days: [
+                { day: "Day 1 - High Density Circuit", title: "Full Station Circuit", exercises: [{ name: "SkiErg", reps: "500m", load: "Fast", sets: 3 }, { name: "Rowing", reps: "500m", load: "Fast", sets: 3 }, { name: "Burpees", reps: "20m", load: "BW", sets: 3 }] }
+            ]},
+            "8": { title: "Week 8: Late-Race Focus", focus: "Mental Toughness & Wall Ball Volume", days: [
+                { day: "Day 1 - Late Race Sim", title: "Wall Ball & Lunge Burnout", exercises: [{ name: "Sandbag Lunges", reps: "100m", load: "10 kg", sets: 1 }, { name: "Wall Balls", reps: "100 Reps", load: "4 kg", sets: 1 }] }
+            ]},
+            "9": { title: "Week 9: Peak & Full Sim", focus: "Full 16 Segment Race Simulation", days: [
+                { day: "Day 1 - Full HYROX Sim", title: "100% Race Distance Simulation", exercises: [{ name: "Full Race Simulation", reps: "16 Segments", load: "Competition Loads", sets: 1 }] }
+            ]},
+            "10": { title: "Week 10: Sharpen Phase", focus: "Speed, Pacing & Partner Transitions", days: [
+                { day: "Day 1 - Race Pace Sharpening", title: "Interval Sprints & Transitions", exercises: [{ name: "1km Run Sprint", reps: "1000m", load: "Target Pace", sets: 2 }, { name: "Sled Handoff Practice", reps: "25m", load: "102 kg", sets: 4 }] }
+            ]},
+            "11": { title: "Week 11: Taper & Race Execution", focus: "Carb Load, Rest & HYROX Houston Victory", days: [
+                { day: "Day 1 - Light Taper Activation", title: "CNS Primer & Easy Mobility", exercises: [{ name: "Light Jog", reps: "15 mins", load: "Zone 1", sets: 1 }, { name: "Station Primer", reps: "10 Reps each", load: "Light Load", sets: 1 }] }
+            ]}
+        };
 
-       // Fetch program data safely with filename fallback
-async function fetchProgramData() {
-    try {
-        let response = await fetch('programData.json');
-        if (!response.ok) {
-            // Fallback if named hyrox_program.json in your GitHub repo
-            response = await fetch('hyrox_program.json');
+        function initApp() {
+            loadCustomSettings();
+            updateRaceSettings();
+            updateCountdown();
+            updateDayDropdownOptions();
+            renderProgramWeek();
+            calculateIndividualPace();
+            setInterval(updateCountdown, 1000);
+            document.getElementById('sim-date').valueAsDate = new Date();
         }
-        if (!response.ok) throw new Error("JSON file not found on server");
-        programData = await response.json();
-        
-        // Update dropdowns and render the workout on screen
-        updateDayDropdownOptions();
-        renderProgramDay();
-        updateOverallProgress();
-    } catch (error) {
-        console.error('Error loading program JSON:', error);
-    }
-}
-
-// Call the function on page load
-fetchProgramData();
 
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -753,11 +877,20 @@ fetchProgramData();
             }
         }
 
+        function loadCustomSettings() {
+            const savedSettings = JSON.parse(localStorage.getItem('hyrox_custom_settings'));
+            if (savedSettings) {
+                document.getElementById('setting-race-name').value = savedSettings.raceName || 'HYROX Houston';
+                document.getElementById('setting-race-date').value = savedSettings.raceDateVal || '2026-03-29';
+                document.getElementById('setting-division').value = savedSettings.divisionKey || 'womens-double';
+            }
+        }
+
         function updateRaceSettings() {
             const raceName = document.getElementById('setting-race-name').value;
             const raceDateVal = document.getElementById('setting-race-date').value;
             const divisionKey = document.getElementById('setting-division').value;
-            const divObj = divisionStandards[divisionKey];
+            const divObj = divisionStandards[divisionKey] || divisionStandards['womens-double'];
 
             document.getElementById('display-race-title').innerText = `${raceName.toUpperCase()} (${divObj.name.replace(' Standards', '')})`;
             const dateFormatted = raceDateVal ? new Date(raceDateVal + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'TBD';
@@ -794,7 +927,6 @@ fetchProgramData();
                 document.getElementById('secs-left').innerText = Math.floor((diff % (1000 * 60)) / 1000);
             }
         }
-        setInterval(updateCountdown, 1000);
 
         function onWeekChange() {
             updateDayDropdownOptions();
@@ -804,7 +936,6 @@ fetchProgramData();
         function updateDayDropdownOptions() {
             const weekNum = document.getElementById('program-week-select').value;
             const daySelect = document.getElementById('program-day-select');
-            const currentSelected = daySelect.value;
             daySelect.innerHTML = '';
 
             if (programData[weekNum] && programData[weekNum].days) {
@@ -814,9 +945,6 @@ fetchProgramData();
                     opt.textContent = dayObj.title || dayObj.day;
                     daySelect.appendChild(opt);
                 });
-                if (currentSelected < programData[weekNum].days.length) {
-                    daySelect.value = currentSelected;
-                }
             }
         }
 
@@ -826,7 +954,7 @@ fetchProgramData();
             const container = document.getElementById('program-container');
 
             if (!programData[weekNum]) {
-                container.innerHTML = `<div class="p-4 text-center text-gray-400">Loading program data from JSON...</div>`;
+                container.innerHTML = `<div class="p-4 text-center text-gray-400">Select a valid training week...</div>`;
                 return;
             }
 
@@ -842,7 +970,7 @@ fetchProgramData();
             `;
 
             data.days.forEach((dayObj, dayIdx) => {
-                if (selectedDayFilter !== dayIdx) {
+                if (selectedDayFilter !== dayIdx && data.days.length > 1) {
                     return;
                 }
 
@@ -921,10 +1049,11 @@ fetchProgramData();
         }
 
         function updateOverallProgress() {
-            if (!programData || Object.keys(programData).length === 0) return;
             const saved = JSON.parse(localStorage.getItem('hyrox_program_progress'));
             let totalCheckboxes = 0, checkedCount = 0;
-            for (let w = 1; w <= 11; w++) {
+            let activeWeeksSet = new Set();
+
+            for (let w = 0; w <= 11; w++) {
                 if (!programData[w]) continue;
                 programData[w].days.forEach((dayObj, dIdx) => {
                     dayObj.exercises.forEach((ex, eIdx) => {
@@ -932,21 +1061,120 @@ fetchProgramData();
                         for (let s = 1; s <= numSets; s++) {
                             totalCheckboxes++;
                             const chkId = `chk_w${w}_d${dIdx}_e${eIdx}_s${s}`;
-                            if (saved && saved.checkboxes && saved.checkboxes[chkId]) checkedCount++;
+                            if (saved && saved.checkboxes && saved.checkboxes[chkId]) {
+                                checkedCount++;
+                                activeWeeksSet.add(w);
+                            }
                         }
                     });
                 });
             }
+
             const percent = totalCheckboxes > 0 ? Math.round((checkedCount / totalCheckboxes) * 100) : 0;
             document.getElementById('overall-progress-text').innerText = `${percent}% Completed (${checkedCount}/${totalCheckboxes} sets)`;
             document.getElementById('overall-progress-bar').style.width = `${percent}%`;
+
+            // Update Workout Consistency & Training Streak Widget
+            const activeWeeksCount = activeWeeksSet.size;
+            document.getElementById('widget-streak-weeks').innerText = `🔥 ${activeWeeksCount} Weeks`;
+            document.getElementById('widget-completed-sets').innerText = `${checkedCount} Sets Logged`;
+
+            const currentSelectedWeek = parseInt(document.getElementById('program-week-select').value) || 0;
+            let phaseFocusText = "Base Building (W0-4)";
+            if (currentSelectedWeek >= 5 && currentSelectedWeek <= 8) {
+                phaseFocusText = "Build & Volume (W5-8)";
+            } else if (currentSelectedWeek >= 9) {
+                phaseFocusText = "Taper & Peak (W9-11)";
+            }
+            document.getElementById('widget-phase-focus').innerText = phaseFocusText;
         }
 
-        function autoCalculateTargets() {
-            calculateIndividualPace();
+        // ================= SMART FLOATING REST TIMER LOGIC ================= //
+        let restTimerInterval = null;
+        let restTotalSeconds = 0;
+        let restRemainingSeconds = 0;
+
+        function playRestBeep() {
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                const audioCtx = new AudioCtx();
+                
+                // Play 3 distinct beeps spaced 150ms apart
+                [0, 200, 400].forEach(delay => {
+                    setTimeout(() => {
+                        const oscillator = audioCtx.createOscillator();
+                        const gainNode = audioCtx.createGain();
+                        
+                        oscillator.type = 'sine';
+                        oscillator.frequency.setValueAtTime(880, audioCtx.currentTime); // 880Hz pitch
+                        gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                        
+                        oscillator.connect(gainNode);
+                        gainNode.connect(audioCtx.destination);
+                        
+                        oscillator.start();
+                        oscillator.stop(audioCtx.currentTime + 0.12);
+                    }, delay);
+                });
+            } catch (e) {
+                console.log("AudioContext blocked or unsupported.");
+            }
         }
 
-        // ================= COACH LIVE TRACKER TIMER LOGIC ================= //
+        function startRestTimer(seconds) {
+            clearInterval(restTimerInterval);
+            restTotalSeconds = seconds;
+            restRemainingSeconds = seconds;
+
+            document.getElementById('rest-buttons-container').classList.add('hidden');
+            document.getElementById('rest-display-container').classList.remove('hidden');
+            document.getElementById('rest-display-container').classList.add('flex');
+            document.getElementById('rest-progress-wrapper').classList.remove('hidden');
+            document.getElementById('floating-rest-dock').classList.add('timer-active-glow');
+            document.getElementById('rest-status-text').innerText = "Resting...";
+            document.getElementById('rest-icon').className = "fa-solid fa-hourglass-half text-hyrox-yellow text-lg animate-spin";
+
+            updateRestDisplay();
+
+            restTimerInterval = setInterval(() => {
+                restRemainingSeconds--;
+                updateRestDisplay();
+
+                if (restRemainingSeconds <= 0) {
+                    clearInterval(restTimerInterval);
+                    playRestBeep();
+                    document.getElementById('rest-status-text').innerText = "Time's Up! Back to Work 💪";
+                    document.getElementById('rest-icon').className = "fa-solid fa-bell text-hyrox-yellow text-lg animate-bounce";
+                    
+                    setTimeout(() => {
+                        cancelRestTimer();
+                    }, 3500);
+                }
+            }, 1000);
+        }
+
+        function updateRestDisplay() {
+            const mins = Math.floor(restRemainingSeconds / 60);
+            const secs = restRemainingSeconds % 60;
+            document.getElementById('rest-countdown-clock').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+
+            const percent = (restRemainingSeconds / restTotalSeconds) * 100;
+            document.getElementById('rest-progress-bar').style.width = `${percent}%`;
+        }
+
+        function cancelRestTimer() {
+            clearInterval(restTimerInterval);
+            document.getElementById('rest-display-container').classList.add('hidden');
+            document.getElementById('rest-display-container').classList.remove('flex');
+            document.getElementById('rest-progress-wrapper').classList.add('hidden');
+            document.getElementById('rest-buttons-container').classList.remove('hidden');
+            document.getElementById('floating-rest-dock').classList.remove('timer-active-glow');
+            document.getElementById('rest-status-text').innerText = "Rest Timer";
+            document.getElementById('rest-icon').className = "fa-solid fa-stopwatch text-hyrox-yellow text-lg";
+        }
+
+        // ================= RACE SIMULATOR & COACH TRACKER ================= //
         let coachTimerInterval = null;
         let totalElapsedSec = 0;
         let segElapsedSec = 0;
@@ -999,9 +1227,7 @@ fetchProgramData();
             const th = Math.floor(projectedTotalSec / 3600);
             const tm = Math.floor((projectedTotalSec % 3600) / 60);
             const ts = Math.round(projectedTotalSec % 60);
-            const formattedProj = `${th > 0 ? th + ':' : ''}${tm.toString().padStart(2,'0')}:${ts.toString().padStart(2,'0')}`;
-            
-            document.getElementById('coach-est-finish').innerText = formattedProj;
+            document.getElementById('coach-est-finish').innerText = `${th > 0 ? th + ':' : ''}${tm.toString().padStart(2,'0')}:${ts.toString().padStart(2,'0')}`;
         }
 
         function startCoachLiveRace() {
@@ -1107,7 +1333,8 @@ fetchProgramData();
         function generateShareCard(type) {
             const raceName = document.getElementById('setting-race-name').value;
             const divisionKey = document.getElementById('setting-division').value;
-            const divName = divisionStandards[divisionKey].name.replace(' Standards', '');
+            const divObj = divisionStandards[divisionKey] || divisionStandards['womens-double'];
+            const divName = divObj.name.replace(' Standards', '');
             const athleteName = document.getElementById('sim-athlete').value || 'Athlete';
             const weekNum = document.getElementById('program-week-select').value;
             
@@ -1138,7 +1365,7 @@ fetchProgramData();
                 document.getElementById('card-title-type').innerText = "Weekly Progress Graphic";
                 document.getElementById('card-main-title').innerText = `Week ${weekNum} Summary`;
                 const weekFocus = programData[weekNum] ? programData[weekNum].focus : 'Master Plan';
-                metricsBox.innerHTML = `<div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Weekly Metrics</div><div class="flex justify-between"><span class="text-gray-400">Block Focus:</span><span class="font-bold text-white">${weekFocus}</span></div><div class="flex justify-between"><span class="text-gray-400">Volume Status:</span><span class="font-bold text-hyrox-yellow">100% Completed</span></div>`;
+                metricsBox.innerHTML = `<div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Weekly Metrics</div><div class="flex justify-between"><span class="text-gray-400">Block Focus:</span><span class="font-bold text-white">${weekFocus}</span></div><div class="flex justify-between"><span class="text-gray-400">Volume Status:</span><span class="font-bold text-hyrox-yellow">Target Completed</span></div>`;
             } else if (type === 'sim') {
                 const totalTime = document.getElementById('sim-total-time').value || '1:14:32';
                 const sessionRpe = document.getElementById('sim-rpe').value || '8.5';
@@ -1148,28 +1375,9 @@ fetchProgramData();
             }
         }
 
-        // Updated Station Benchmarks for Men vs Women
         const stationPresets = {
-            men: { 
-                skierg: "4:24", 
-                push: "3:23", 
-                pull: "6:12", 
-                burpee: "5:23", 
-                row: "4:54", 
-                farmer: "2:49", 
-                lunge: "5:35", 
-                wallball: "6:30" 
-            },
-            women: { 
-                skierg: "5:21", 
-                push: "3:28", 
-                pull: "7:03", 
-                burpee: "5:23", 
-                row: "5:35", 
-                farmer: "2:32", 
-                lunge: "4:52", 
-                wallball: "6:00" 
-            }
+            men: { skierg: "4:24", push: "3:23", pull: "6:12", burpee: "5:23", row: "4:54", farmer: "2:49", lunge: "5:35", wallball: "6:30" },
+            women: { skierg: "5:21", push: "3:28", pull: "7:03", burpee: "5:23", row: "5:35", farmer: "2:32", lunge: "4:52", wallball: "6:00" }
         };
 
         function setCalcGender(gender) {
@@ -1219,7 +1427,6 @@ fetchProgramData();
             const paceStr = document.getElementById('calc-run-pace').value || "5:30";
             const runSecPerKm = parseTimeToSeconds(paceStr);
 
-            // Collect station times from the 8 calculator inputs
             const stationTimes = [
                 parseTimeToSeconds(document.getElementById('station-skierg').value),
                 parseTimeToSeconds(document.getElementById('station-push').value),
@@ -1235,37 +1442,26 @@ fetchProgramData();
             let totalRunSec = runSecPerKm * 8;
             let totalRaceSec = totalRunSec + totalStationSec;
 
-            // Format final total time
             const formattedFinalTime = formatSecondsToHHMMSS(totalRaceSec);
             document.getElementById('est-time').innerText = formattedFinalTime;
 
-            // Update simulator goal total
             document.getElementById('sim-goal-total').value = formattedFinalTime;
             document.getElementById('display-goal-total').innerText = formattedFinalTime;
             document.getElementById('coach-est-finish').innerText = formattedFinalTime;
 
-            // Push precise target split and cumulative time into each of the 16 simulator tracking rows
             let cumulativeSec = 0;
             for (let i = 1; i <= 16; i++) {
                 const targetEl = document.getElementById(`target-seg${i}`);
                 if (targetEl) {
-                    let segTimeSec = 0;
-                    if (i % 2 !== 0) {
-                        // Odd segments are Runs (1 to 8)
-                        segTimeSec = runSecPerKm;
-                    } else {
-                        // Even segments are Stations (1 to 8)
-                        let stationIdx = (i / 2) - 1;
-                        segTimeSec = stationTimes[stationIdx];
-                    }
-
+                    let segTimeSec = (i % 2 !== 0) ? runSecPerKm : stationTimes[(i / 2) - 1];
                     cumulativeSec += segTimeSec;
-                    const formattedSeg = formatSecondsToMMSS(segTimeSec);
-                    const formattedCum = formatSecondsToHHMMSS(cumulativeSec);
-
-                    targetEl.innerText = `${formattedSeg} (Cum: ${formattedCum})`;
+                    targetEl.innerText = `${formatSecondsToMMSS(segTimeSec)} (Cum: ${formatSecondsToHHMMSS(cumulativeSec)})`;
                 }
             }
+        }
+
+        function autoCalculateTargets() {
+            calculateIndividualPace();
         }
 
         function saveSimLog() {
@@ -1284,7 +1480,6 @@ fetchProgramData();
                 const el = document.getElementById(id);
                 if(el) el.value = '';
             });
-            alert('Simulation log fields cleared.');
         }
 
         function savePostRaceLog() {
@@ -1298,16 +1493,8 @@ fetchProgramData();
             alert('Post-race journal saved successfully!');
         }
 
-        document.getElementById('sim-date').valueAsDate = new Date();
-        const savedSettings = JSON.parse(localStorage.getItem('hyrox_custom_settings'));
-        if (savedSettings) {
-            document.getElementById('setting-race-name').value = savedSettings.raceName || 'HYROX Houston';
-            document.getElementById('setting-race-date').value = savedSettings.raceDateVal || '2026-03-29';
-            document.getElementById('setting-division').value = savedSettings.divisionKey || 'womens-double';
-        }
-        updateRaceSettings();
-        updateCountdown();
-        calculateIndividualPace();
+        // Initialize App on DOM ready
+        window.onload = initApp;
     </script>
 </body>
 </html>
