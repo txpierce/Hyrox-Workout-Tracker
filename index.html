@@ -60,9 +60,9 @@
         }
     
         .set-checkbox:checked + .set-badge {
-            background-color: #2563EB !important;
-            color: #ffffff !important;
-            border-color: #3B82F6 !important;
+            background-color: #FFCC00 !important;
+            color: #000000 !important;
+            border-color: #FFCC00 !important;
         }
         .set-checkbox:checked + .set-badge .check-icon {
             display: inline-block !important;
@@ -1123,17 +1123,7 @@
                     opt.innerText = dayObj.title || `Day ${idx + 1}`;
                     daySelect.appendChild(opt);
                 });
-            } else {
-                for (let i = 0; i < 7; i++) {
-                    const opt = document.createElement('option');
-                    opt.value = i;
-                    opt.innerText = `Day ${i + 1}`;
-                    daySelect.appendChild(opt);
-                }
-            }
-        }
-
-        function renderProgramWeek() {
+            } el        function renderProgramWeek() {
             const container = document.getElementById('program-container');
             container.innerHTML = '';
 
@@ -1166,16 +1156,24 @@
                 const exCard = document.createElement('div');
                 exCard.className = "bg-[#0f172a] border border-[#1e293b] p-4 rounded-xl space-y-3 shadow-md hover:border-gray-700 transition";
 
-                const totalSets = ex.sets || 1;
-                const seriesLabel = ex.series || (exIdx === 0 ? 'A-SERIES' : exIdx === 1 ? 'B-SERIES' : exIdx === 2 ? 'C-SERIES' : (ex.category || 'MAIN'));
-                const recWeight = ex.load || ex.targetWeight || 'Standard';
+                const totalSets = parseInt(ex.sets) || 1;
+                const targetReps = ex.reps || 'Standard';
+                const prescribedLoad = ex.load || ex.prescribedLoad || ex.targetWeight || 'Standard';
+                const categoryLabel = (ex.category || ex.series || (exIdx === 0 ? 'A-SERIES' : exIdx === 1 ? 'B-SERIES' : 'MAIN')).toUpperCase();
+
+                // Build Optional Specs string if present in sheet data (e.g. tempo, rest, rpe)
+                let extraSpecs = [];
+                if (ex.tempo) extraSpecs.push(`Tempo: <span class="text-hyrox-yellow font-bold">${ex.tempo}</span>`);
+                if (ex.rest) extraSpecs.push(`Rest: ${ex.rest}`);
+                if (ex.rpe) extraSpecs.push(`RPE: ${ex.rpe}`);
+                const extraSpecsHtml = extraSpecs.length > 0 ? ` | ${extraSpecs.join(' | ')}` : '';
 
                 let setsHtml = '';
                 for (let s = 1; s <= totalSets; s++) {
                     const chkId = `chk_w${currentWeek}_d${selectedDayIdx}_e${exIdx}_s${s}`;
                     const wtInputId = `wt_w${currentWeek}_d${selectedDayIdx}_e${exIdx}_s${s}`;
                     const isChecked = savedProgress.checkboxes[chkId] ? 'checked' : '';
-                    const savedWtVal = (savedProgress.loads && savedProgress.loads[wtInputId] !== undefined) ? savedProgress.loads[wtInputId] : recWeight;
+                    const savedWtVal = (savedProgress.loads && savedProgress.loads[wtInputId] !== undefined) ? savedProgress.loads[wtInputId] : (savedProgress.loads && savedProgress.loads[`load_w${currentWeek}_d${selectedDayIdx}_e${exIdx}`] !== undefined ? savedProgress.loads[`load_w${currentWeek}_d${selectedDayIdx}_e${exIdx}`] : prescribedLoad);
 
                     setsHtml += `
                         <div class="flex items-center bg-[#1e293b]/80 border border-gray-700/60 rounded-lg p-1 gap-1.5">
@@ -1185,7 +1183,7 @@
                                     S${s}<i class="fa-solid fa-check text-[10px] hidden check-icon"></i>
                                 </span>
                             </label>
-                            <input type="text" id="${wtInputId}" value="${savedWtVal}" onchange="saveProgramProgress()" placeholder="Weight" class="set-weight-input bg-[#0f172a] border border-gray-700 rounded text-center text-xs text-white font-mono font-bold w-16 py-1 focus:outline-none focus:border-hyrox-yellow">
+                            <input type="text" id="${wtInputId}" value="${savedWtVal}" onchange="saveProgramProgress()" placeholder="Weight" class="set-weight-input bg-[#0f172a] border border-gray-700 rounded text-center text-xs text-white font-mono font-bold w-20 py-1 focus:outline-none focus:border-hyrox-yellow">
                         </div>
                     `;
                 }
@@ -1193,34 +1191,25 @@
                 exCard.innerHTML = `
                     <div class="flex items-center justify-between gap-2">
                         <span class="bg-[#1e3a8a]/70 text-blue-400 border border-blue-700/60 px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider">
-                            ${seriesLabel}
+                            ${categoryLabel}
                         </span>
                         <div class="text-xs text-gray-400 font-medium">
-                            Target Wt: <span class="text-sky-400 font-bold">${recWeight}</span>
+                            Target Wt: <span class="text-sky-400 font-bold">${prescribedLoad}</span>
                         </div>
                     </div>
 
                     <div>
-                        <h4 class="font-extrabold text-base text-white tracking-tight">${ex.name}</h4>
-                    </div>
-
-                    <div class="flex flex-wrap items-center justify-between text-xs gap-y-1 text-gray-400 border-b border-gray-800/80 pb-3">
-                        <div>
-                            Sets: <span class="font-bold text-white">${ex.sets || 1}</span>
-                            <span class="mx-1 text-gray-600">|</span>
-                            Reps: <span class="text-sky-400 font-bold">${ex.reps || 'Standard'}</span>
-                            <span class="mx-1 text-gray-600">|</span>
-                            Tempo: <span class="text-hyrox-yellow font-bold">${ex.tempo || '3-0-1 (3s eccentric)'}</span>
-                        </div>
-                        <div>
-                            Rest: <span class="font-bold text-white">${ex.rest || '90 sec'}</span>
-                            <span class="mx-1 text-gray-600">|</span>
-                            RPE: <span class="text-sky-400 font-bold">${ex.rpe || '8.5'}</span>
+                        <h4 class="font-black text-base text-white tracking-tight">${ex.name}</h4>
+                        <div class="text-xs text-gray-300 mt-1 font-medium">
+                            Sets: <span class="text-white font-bold">${totalSets}</span> | Reps: <span class="text-white font-bold">${targetReps}</span>${extraSpecsHtml}
                         </div>
                     </div>
 
-                    <div class="flex items-center gap-2 pt-1 flex-wrap">
-                        ${setsHtml}
+                    <div class="space-y-1 pt-1">
+                        <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Track Sets & Weight:</div>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            ${setsHtml}
+                        </div>
                     </div>
                 `;
 
@@ -1235,7 +1224,7 @@
             document.querySelectorAll('.set-checkbox').forEach(chk => {
                 progressData.checkboxes[chk.id] = chk.checked;
             });
-            document.querySelectorAll('.set-weight-input, input[id^="load_w"]').forEach(input => {
+            document.querySelectorAll('input[id^="wt_w"], input[id^="load_w"]').forEach(input => {
                 progressData.loads[input.id] = input.value;
             });
 
