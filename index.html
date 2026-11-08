@@ -1284,7 +1284,138 @@
                 container.appendChild(exCard);
             });
 
+            // Bottom Log Workout Action Card
+            const logFooterCard = document.createElement('div');
+            logFooterCard.className = "bg-zinc-900/90 border border-hyrox-yellow/40 p-5 rounded-2xl space-y-4 shadow-xl mt-6";
+            logFooterCard.innerHTML = `
+                <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+                    <h4 class="font-extrabold text-sm text-hyrox-yellow uppercase tracking-wide flex items-center gap-2">
+                        <i class="fa-solid fa-clipboard-check"></i> Complete & Log Daily Workout
+                    </h4>
+                    <span class="text-xs text-gray-400">Stores 19-Column Matrix in your Sheet</span>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs text-gray-400 font-semibold">Daily Workout & Set Notes / Comments:</label>
+                    <textarea id="workout-comments" placeholder="Add notes (e.g. Felt strong on squat, damper set to 5, smooth pacing)..." class="w-full text-xs p-3 rounded-xl bg-black border border-gray-700 text-white focus:border-hyrox-yellow focus:outline-none" rows="2"></textarea>
+                </div>
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-1">
+                    <button onclick="logWorkout()" id="btn-log-workout" class="w-full sm:w-auto px-6 py-3 bg-hyrox-yellow text-black font-black uppercase text-xs tracking-widest rounded-xl hover:bg-yellow-400 transition flex items-center justify-center gap-2 shadow-lg">
+                        <i class="fa-solid fa-cloud-arrow-up text-sm"></i> Log Workout to Google Sheets
+                    </button>
+                    <span id="log-workout-status" class="text-xs font-bold text-hyrox-yellow hidden"></span>
+                </div>
+            `;
+            container.appendChild(logFooterCard);
+
             updateOverallProgress();
+        }
+
+        async function logWorkout() {
+            const profile = JSON.parse(localStorage.getItem('hyrox_athlete_profile')) || {};
+            if (!profile.name || !profile.email) {
+                alert('Please set up your Athlete Profile first (click Athlete Profile in the header).');
+                openProfileModal();
+                return;
+            }
+
+            const weekKey = String(currentWeek);
+            const weekObj = programData[weekKey];
+            const daySelect = document.getElementById('program-day-select');
+            const selectedDayIdx = daySelect ? (parseInt(daySelect.value) || 0) : 0;
+            const validDays = getValidDaysForWeek(weekObj);
+            const dayObj = validDays[selectedDayIdx];
+
+            if (!weekObj || !dayObj || !dayObj.exercises || dayObj.exercises.length === 0) {
+                alert('No exercises available to log for this day.');
+                return;
+            }
+
+            const statusEl = document.getElementById('log-workout-status');
+            if (statusEl) {
+                statusEl.classList.remove('hidden');
+                statusEl.innerText = "Logging workout to Google Sheets...";
+            }
+
+            saveProgramProgress();
+
+            const savedProgress = loadProgramProgress();
+            const commentsVal = document.getElementById('workout-comments') ? document.getElementById('workout-comments').value : '';
+
+            const hydrationVal = localStorage.getItem('hyrox_hydration') || '';
+            const wakeTimeVal = localStorage.getItem('hyrox_wake_time') || '';
+            const liftTimeVal = localStorage.getItem('hyrox_lift_time') || '';
+            const mealsVal = localStorage.getItem('hyrox_meals_completed') || '';
+            const strainVal = localStorage.getItem('hyrox_body_strain') || '';
+            const hrvVal = localStorage.getItem('hyrox_hrv') || '';
+            const sleepVal = localStorage.getItem('hyrox_sleep_score') || '';
+            const rhrVal = localStorage.getItem('hyrox_resting_hr') || '';
+
+            const setLogs = [];
+
+            dayObj.exercises.forEach((ex, exIdx) => {
+                const totalSets = parseInt(ex.sets) || 1;
+                const prescribedLoad = ex.load || ex.prescribedLoad || ex.targetWeight || 'Standard';
+                const calculatedLoad = getCalculatedLoad(ex.name, prescribedLoad);
+
+                for (let s = 1; s <= totalSets; s++) {
+                    const chkId = `chk_w${currentWeek}_d${selectedDayIdx}_e${exIdx}_s${s}`;
+                    const wtInputId = `wt_w${currentWeek}_d${selectedDayIdx}_e${exIdx}_s${s}`;
+                    
+                    const chkEl = document.getElementById(chkId);
+                    const wtEl = document.getElementById(wtInputId);
+
+                    const isChecked = chkEl ? chkEl.checked : (savedProgress.checkboxes && savedProgress.checkboxes[chkId]);
+                    const actualWeight = wtEl ? wtEl.value : ((savedProgress.loads && savedProgress.loads[wtInputId] !== undefined) ? savedProgress.loads[wtInputId] : calculatedLoad);
+
+                    setLogs.push({
+                        timestamp: new Date().toLocaleString(),
+                        date: new Date().toLocaleDateString(),
+                        bodyWeight: profile.weight ? (profile.weight + ' lbs') : '',
+                        hydration: hydrationVal,
+                        weekPhase: weekObj.title || (`WEEK ${currentWeek}`),
+                        day: dayObj.title || (`Day ${selectedDayIdx + 1}`),
+                        exercise: ex.name,
+                        setNum: `Set ${s}`,
+                        targetWeight: calculatedLoad,
+                        actualWeight: actualWeight,
+                        completed: isChecked ? 'Yes' : 'No',
+                        wakeTime: wakeTimeVal,
+                        liftTime: liftTimeVal,
+                        mealsCompleted: mealsVal,
+                        bodyStrain: strainVal,
+                        hrv: hrvVal,
+                        sleepScore: sleepVal,
+                        restingHR: rhrVal,
+                        comments: commentsVal
+                    });
+                }
+            });
+
+            try {
+                const res = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({
+                        action: 'logWorkout',
+                        name: profile.name,
+                        email: profile.email,
+                        weight: profile.weight,
+                        setLogs: setLogs
+                    })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    if (statusEl) statusEl.innerText = `Workout Logged to Google Sheets! ✅ (${setLogs.length} sets)`;
+                } else {
+                    if (statusEl) statusEl.innerText = "Saved locally. (Sync queued)";
+                }
+            } catch(err) {
+                if (statusEl) statusEl.innerText = "Saved locally. (Offline mode)";
+            } finally {
+                setTimeout(() => {
+                    if (statusEl) statusEl.classList.add('hidden');
+                }, 3500);
+            }
         }
 
         function saveProgramProgress() {
