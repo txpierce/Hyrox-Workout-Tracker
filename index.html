@@ -41,7 +41,7 @@
             border-color: #FFCC00; outline: none; ring: 2px; ring-color: #FFCC00;
         }
         .set-checkbox:checked + span {
-            background-color: #FFCC00; color: #000; border-color: #FFCC00; font-weight: 800;
+            background-color: #FFCC00; color: #000; border-color: #FFCC00; text-decoration: line-through; font-weight: 800;
         }
         #floating-rest-dock {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -59,8 +59,7 @@
 <body class="antialiased min-h-screen flex flex-col justify-between">
     <!-- Top Navigation Header -->
 <header class="sticky top-0 z-40 bg-\[#121212]/95 backdrop-blur-md border-b border-hyrox-border px-4 py-3">
-<div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-<div class="flex items-center justify-between w-full sm:w-auto">
+<div class="max-w-6xl mx-auto flex items-center justify-between">
 <div class="flex items-center gap-3">
 <div class="bg-hyrox-yellow text-black font-black text-xl px-2.5 py-1 rounded tracking-tighter uppercase italic">
 HYROX
@@ -68,7 +67,6 @@ HYROX
 <div>
 <h1 class="font-extrabold text-sm sm:text-base tracking-tight text-white leading-none">TX_PIERCE</h1>
 <p class="text-\[10px] text-gray-400 font-medium tracking-wide">PERFORMANCE TRAINING APP</p>
-</div>
 </div>
                 <button onclick="openProfileModal()" class="flex items-center gap-1.5 bg-hyrox-yellow/10 border border-hyrox-yellow/30 hover:bg-hyrox-yellow/20 text-hyrox-yellow px-2.5 py-1 rounded-lg text-xs font-bold transition ml-2">
                     <i class="fa-solid fa-user-gear"></i>
@@ -79,9 +77,9 @@ HYROX
             <div class="flex items-center gap-1.5 bg-hyrox-card p-1 rounded-lg border border-hyrox-border text-xs overflow-x-auto w-full sm:w-auto scrollbar-none">
                 <button onclick="switchTab('dashboard')" id="btn-dashboard" class="tab-btn px-2.5 py-1.5 rounded font-semibold transition bg-hyrox-yellow text-black whitespace-nowrap">Dashboard</button>
                 <button onclick="switchTab('program')" id="btn-program" class="tab-btn px-2.5 py-1.5 rounded font-semibold transition text-gray-300 hover:bg-gray-800 whitespace-nowrap">Program</button>
+                <button onclick="switchTab('wellness')" id="btn-wellness" class="tab-btn px-2.5 py-1.5 rounded font-semibold transition text-gray-300 hover:bg-gray-800 whitespace-nowrap"><i class="fa-solid fa-heart-pulse mr-1"></i>Wellness</button>
                 <button onclick="switchTab('logger')" id="btn-logger" class="tab-btn px-2.5 py-1.5 rounded font-semibold transition text-gray-300 hover:bg-gray-800 whitespace-nowrap">Race Simulator</button>
                 <button onclick="switchTab('nutrition')" id="btn-nutrition" class="tab-btn px-2.5 py-1.5 rounded font-semibold transition text-gray-300 hover:bg-gray-800 whitespace-nowrap"><i class="fa-solid fa-apple-whole mr-1"></i>Nutrition</button>
-                <button onclick="switchTab('wellness')" id="btn-wellness" class="tab-btn px-2.5 py-1.5 rounded font-semibold transition text-gray-300 hover:bg-gray-800 whitespace-nowrap"><i class="fa-solid fa-heart-pulse mr-1"></i>Wellness</button>
                 <button onclick="switchTab('tools')" id="btn-tools" class="tab-btn px-2.5 py-1.5 rounded font-semibold transition text-gray-300 hover:bg-gray-800 whitespace-nowrap">Live Timer</button>
                 <button onclick="switchTab('cards')" id="btn-cards" class="tab-btn px-2.5 py-1.5 rounded font-semibold transition text-gray-300 hover:bg-gray-800 whitespace-nowrap">Share Cards</button>
                 <button onclick="switchTab('raceprep')" id="btn-raceprep" class="tab-btn px-2.5 py-1.5 rounded font-semibold transition text-gray-300 hover:bg-gray-800 whitespace-nowrap">Race Prep</button>
@@ -89,7 +87,1742 @@ HYROX
         </div>
     </header>
 
-    <!-- App Content Loaded -->
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto w-full px-4 py-6 flex-grow">
+        
+        <!-- Quick Stats Widget Bar -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+            <div class="bg-hyrox-card border border-hyrox-border p-3 rounded-xl flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-hyrox-yellow/10 text-hyrox-yellow flex items-center justify-center font-bold text-lg">
+                    <i class="fa-solid fa-flag-checkered"></i>
+                </div>
+                <div>
+                    <div class="text-\[11px] text-gray-400 font-medium uppercase">Target Race</div>
+                    <div id="widget-race-countdown" class="text-sm font-extrabold text-white">Loading...</div>
+                </div>
+            </div>
+            <div class="bg-hyrox-card border border-hyrox-border p-3 rounded-xl flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-hyrox-yellow/10 text-hyrox-yellow flex items-center justify-center font-bold text-lg">
+                    <i class="fa-solid fa-fire"></i>
+                </div>
+                <div>
+                    <div class="text-\[11px] text-gray-400 font-medium uppercase">Active Streak</div>
+                    <div id="widget-streak-weeks" class="text-sm font-extrabold text-white">🔥 0 Weeks</div>
+                </div>
+            </div>
+            <div class="bg-hyrox-card border border-hyrox-border p-3 rounded-xl flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-hyrox-yellow/10 text-hyrox-yellow flex items-center justify-center font-bold text-lg">
+                    <i class="fa-solid fa-list-check"></i>
+                </div>
+                <div>
+                    <div class="text-\[11px] text-gray-400 font-medium uppercase">Program Status</div>
+                    <div id="widget-completed-sets" class="text-sm font-extrabold text-white">0 Sets Logged</div>
+                </div>
+            </div>
+            <div class="bg-hyrox-card border border-hyrox-border p-3 rounded-xl flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-hyrox-yellow/10 text-hyrox-yellow flex items-center justify-center font-bold text-lg">
+                    <i class="fa-solid fa-dumbbell"></i>
+                </div>
+                <div>
+                    <div class="text-\[11px] text-gray-400 font-medium uppercase">Phase Focus</div>
+                    <div id="widget-phase-focus" class="text-sm font-extrabold text-white">Base Building</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 1: DASHBOARD -->
+        <div id="tab-dashboard" class="tab-content active space-y-6">
+            <div class="bg-gradient-to-r from-hyrox-card to-zinc-900 border border-hyrox-border rounded-2xl p-6 relative overflow-hidden shadow-2xl">
+                <div class="relative z-10 space-y-3">
+                    <div class="inline-block bg-hyrox-yellow text-black font-black text-xs px-3 py-1 rounded-full uppercase tracking-wider">
+                        Active Countdown
+                    </div>
+                    <h2 id="display-race-title" class="text-2xl sm:text-4xl font-black text-white tracking-tight uppercase">
+                        HYROX HOUSTON (WOMEN'S DOUBLES)
+                    </h2>
+                    
+                    <div class="grid grid-cols-4 gap-3 max-w-lg pt-2">
+                        <div class="bg-black/60 backdrop-blur p-3 rounded-xl border border-gray-800 text-center">
+                            <span id="days-left" class="block text-2xl sm:text-3xl font-black text-hyrox-yellow">--</span>
+                            <span class="text-\[10px] text-gray-400 uppercase font-bold">Days</span>
+                        </div>
+                        <div class="bg-black/60 backdrop-blur p-3 rounded-xl border border-gray-800 text-center">
+                            <span id="hours-left" class="block text-2xl sm:text-3xl font-black text-white">--</span>
+                            <span class="text-\[10px] text-gray-400 uppercase font-bold">Hours</span>
+                        </div>
+                        <div class="bg-black/60 backdrop-blur p-3 rounded-xl border border-gray-800 text-center">
+                            <span id="mins-left" class="block text-2xl sm:text-3xl font-black text-white">--</span>
+                            <span class="text-\[10px] text-gray-400 uppercase font-bold">Mins</span>
+                        </div>
+                        <div class="bg-black/60 backdrop-blur p-3 rounded-xl border border-gray-800 text-center">
+                            <span id="secs-left" class="block text-2xl sm:text-3xl font-black text-hyrox-yellow">--</span>
+                            <span class="text-\[10px] text-gray-400 uppercase font-bold">Secs</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Race Customization \& Specs Matrix -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="bg-hyrox-card border border-hyrox-border p-5 rounded-2xl space-y-4 shadow-xl">
+                    <h3 class="font-extrabold text-sm text-hyrox-yellow uppercase tracking-wide flex items-center gap-2">
+                        <i class="fa-solid fa-sliders"></i> Race Configuration
+                    </h3>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1 uppercase">Target Race Name</label>
+                            <input type="text" id="setting-race-name" value="HYROX Houston" onchange="updateRaceSettings()" class="w-full text-xs p-2.5 rounded font-semibold text-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1 uppercase">Target Race Date</label>
+                            <input type="date" id="setting-race-date" value="2026-03-29" onchange="updateRaceSettings()" class="w-full text-xs p-2.5 rounded font-semibold text-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 mb-1 uppercase">Division \& Standards</label>
+                            <select id="setting-division" onchange="updateRaceSettings()" class="w-full text-xs p-2.5 rounded font-semibold text-white">
+                                <option value="womens-double">Women's Doubles</option>
+                                <option value="womens-open">Women's Open</option>
+                                <option value="womens-pro">Women's Pro</option>
+                                <option value="mens-open">Men's Open</option>
+                                <option value="mens-pro">Men's Pro</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 bg-hyrox-card border border-hyrox-border p-5 rounded-2xl space-y-4 shadow-xl">
+                    <h3 id="standards-title" class="font-extrabold text-sm text-hyrox-yellow uppercase tracking-wide flex items-center gap-2">
+                        <i class="fa-solid fa-clipboard-list"></i> OFFICIAL DIVISION STANDARDS
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b border-gray-800 text-\[11px] font-bold text-gray-400 uppercase">
+                                    <th class="p-3">Station</th>
+                                    <th class="p-3">Distance / Reps</th>
+                                    <th class="p-3">Prescribed Weight</th>
+                                    <th class="p-3">Rules / Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody id="standards-table-body" class="divide-y divide-gray-800/40 text-xs">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: PROGRAM -->
+        <div id="tab-program" class="tab-content space-y-6">
+            <div class="bg-hyrox-card border border-hyrox-border rounded-xl p-5 shadow-lg flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h2 class="text-lg font-black text-white uppercase tracking-tight">12-WEEK PERIODIZED HYROX PROGRAM</h2>
+                    <p class="text-xs text-gray-400">Movement Screening, Base Engine, Heavy Sled Overload \& Race Taper</p>
+                </div>
+                <div class="flex items-center gap-3 w-full sm:w-auto">
+                    <div class="w-full sm:w-48">
+                        <label class="block text-\[10px] text-gray-400 uppercase font-bold mb-1">Select Week</label>
+                        <select id="program-week-select" onchange="onWeekChange()" class="w-full text-xs p-2 rounded font-bold text-hyrox-yellow bg-black border border-gray-700">
+                            <option value="0">Week 0: Onboarding \& Baseline</option>
+                            <option value="1">Week 1: Base Building Phase</option>
+                            <option value="2">Week 2: Aerobic Expansion</option>
+                            <option value="3">Week 3: Base → Build Transition</option>
+                            <option value="4">Week 4: Base Phase Complete</option>
+                            <option value="5">Week 5: Build Phase \& Heavy Sleds</option>
+                            <option value="6">Week 6: Volume \& Compromised Runs</option>
+                            <option value="7">Week 7: High Density Station Work</option>
+                            <option value="8">Week 8: Peak Overload Phase</option>
+                            <option value="9">Week 9: Full Race Simulation</option>
+                            <option value="10">Week 10: Sharpen \& Neural Activation</option>
+                            <option value="11">Week 11: Taper \& Race Execution</option>
+                        </select>
+                    </div>
+                    <div class="w-full sm:w-36">
+                        <label class="block text-\[10px] text-gray-400 uppercase font-bold mb-1">Filter Day</label>
+                        <select id="program-day-select" onchange="renderProgramWeek()" class="w-full text-xs p-2 rounded font-semibold text-white bg-black border border-gray-700">
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Overall Progress Bar -->
+            <div class="bg-hyrox-card border border-hyrox-border p-4 rounded-xl space-y-2">
+                <div class="flex justify-between items-center text-xs">
+                    <span class="font-bold text-white uppercase tracking-wider">Overall Program Completion</span>
+                    <span id="overall-progress-text" class="font-mono text-hyrox-yellow font-bold">0% Completed (0/0 sets)</span>
+                </div>
+                <div class="w-full bg-black rounded-full h-3 overflow-hidden border border-gray-800">
+                    <div id="overall-progress-bar" class="bg-gradient-to-r from-hyrox-yellow to-yellow-500 h-full w-0 transition-all duration-500"></div>
+                </div>
+            </div>
+
+            <!-- Program Container -->
+            <div id="program-container" class="space-y-4">
+            </div>
+        </div>
+
+        <!-- TAB: DAILY WELLNESS \& READINESS -->
+        <div id="tab-wellness" class="tab-content space-y-6">
+            <div class="bg-hyrox-card border border-hyrox-border p-5 rounded-2xl space-y-5 shadow-xl">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-hyrox-border pb-4">
+                    <div>
+                        <h2 class="text-xl font-black text-hyrox-yellow uppercase tracking-wide flex items-center gap-2">
+                            <i class="fa-solid fa-heart-pulse"></i> Daily Wellness \& Recovery Check-In
+                        </h2>
+                        <p class="text-xs text-gray-400 mt-1">Track body weight, hydration, sleep score, HRV, strain, and recovery metrics synced to your Google Sheet.</p>
+                    </div>
+                </div>
+
+                <form id="wellness-form" onsubmit="saveDailyWellnessLog(event)" class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-1 uppercase">Body Weight (lbs)</label>
+                            <input type="number" step="0.1" id="well-weight" placeholder="175.5" class="w-full text-xs p-2.5 rounded bg-black border border-gray-700 text-white font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-1 uppercase">Hydration Tracker</label>
+                            <input type="text" id="well-hydration" placeholder="e.g. 128 oz / 3.8 L" class="w-full text-xs p-2.5 rounded bg-black border border-gray-700 text-white font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-1 uppercase">Meals Completed</label>
+                            <input type="text" id="well-meals" placeholder="e.g. 4/4 Meals" class="w-full text-xs p-2.5 rounded bg-black border border-gray-700 text-white font-semibold">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-1 uppercase">Wake Time</label>
+                            <input type="text" id="well-waketime" placeholder="06:00 AM" class="w-full text-xs p-2.5 rounded bg-black border border-gray-700 text-white font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-1 uppercase">Lift Time</label>
+                            <input type="text" id="well-lifttime" placeholder="04:30 PM" class="w-full text-xs p-2.5 rounded bg-black border border-gray-700 text-white font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-1 uppercase">Sleep Score (%)</label>
+                            <input type="number" id="well-sleep" placeholder="88" class="w-full text-xs p-2.5 rounded bg-black border border-gray-700 text-white font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-1 uppercase">HRV (ms)</label>
+                            <input type="number" id="well-hrv" placeholder="72" class="w-full text-xs p-2.5 rounded bg-black border border-gray-700 text-white font-semibold">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-1 uppercase">Resting HR (bpm)</label>
+                            <input type="number" id="well-rhr" placeholder="54" class="w-full text-xs p-2.5 rounded bg-black border border-gray-700 text-white font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-1 uppercase">Body Strain (1-21)</label>
+                            <input type="number" step="0.1" id="well-strain" placeholder="14.2" class="w-full text-xs p-2.5 rounded bg-black border border-gray-700 text-white font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-300 mb-1 uppercase">Comments \& Readiness</label>
+                            <input type="text" id="well-comments" placeholder="Felt strong, legs recovered..." class="w-full text-xs p-2.5 rounded bg-black border border-gray-700 text-white font-semibold">
+                        </div>
+                    </div>
+
+                    <div id="wellness-status-msg" class="text-xs text-center font-bold hidden"></div>
+
+                    <button type="submit" class="w-full bg-hyrox-yellow hover:bg-yellow-400 text-black font-black py-3 rounded-xl text-xs transition uppercase shadow-lg">
+                        <i class="fa-solid fa-cloud-arrow-up mr-1"></i> Submit \& Sync Daily Wellness Log to Sheets
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- TAB 3: RACE SIMULATOR -->
+        <div id="tab-logger" class="tab-content space-y-6">
+            <div class="bg-hyrox-card border border-hyrox-border rounded-xl p-5 shadow-lg space-y-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-gray-800 pb-3">
+                    <div>
+                        <h2 class="text-lg font-black text-white uppercase tracking-tight">16-SEGMENT RACE PACING SIMULATOR</h2>
+                        <p class="text-xs text-gray-400">Target Pacing Calculator (55% Run / 45% Station Split Engine)</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-gray-400 uppercase">Target Race Week:</span>
+                        <select id="sim-week" class="text-xs p-1.5 rounded bg-black border border-gray-700 text-hyrox-yellow font-bold">
+                            <option value="1">Week 1 Baseline</option>
+                            <option value="4">Week 4 Checkpoint</option>
+                            <option value="8">Week 8 Peak</option>
+                            <option value="9">Week 9 Full Sim</option>
+                            <option value="11">Week 11 Race Day</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Simulation Mode Switcher -->
+                <div class="grid grid-cols-2 gap-2 bg-black/60 p-1.5 rounded-lg border border-gray-800 text-xs font-bold">
+                    <button onclick="switchSimMode('full')" id="btn-sim-full" class="py-2 rounded transition bg-hyrox-yellow text-black uppercase">Full 16-Segment Sim</button>
+                    <button onclick="switchSimMode('broken')" id="btn-sim-broken" class="py-2 rounded transition text-gray-400 hover:text-white uppercase">Broken Sim (2 Blocks)</button>
+                </div>
+
+                <!-- Calculator Controls -->
+                <div class="bg-black/40 border border-gray-800 p-4 rounded-xl space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div>
+                            <label class="block text-\[10px] text-gray-400 uppercase font-bold mb-1">Target 1km Run Pace</label>
+                            <input type="text" id="calc-run-pace" value="5:30" oninput="autoCalculateTargets()" placeholder="5:30" class="w-full text-xs p-2 rounded text-center font-mono font-bold text-hyrox-yellow">
+                        </div>
+                        <div>
+                            <label class="block text-\[10px] text-gray-400 uppercase font-bold mb-1">Est. Total Station Time</label>
+                            <input type="text" id="calc-station-total" value="33:45" readonly class="w-full text-xs p-2 rounded text-center font-mono font-bold text-gray-300 bg-zinc-900 border-gray-800">
+                        </div>
+                        <div>
+                            <label class="block text-\[10px] text-gray-400 uppercase font-bold mb-1">Projected Finish Time</label>
+                            <input type="text" id="sim-goal-total" value="1:17:45" readonly class="w-full text-xs p-2 rounded text-center font-mono font-black text-hyrox-yellow bg-hyrox-yellow/10 border-hyrox-yellow/30">
+                        </div>
+                    </div>
+
+                    <!-- Gender/Category Multiplier -->
+                    <div class="flex items-center justify-between text-xs border-t border-gray-800/80 pt-3">
+                        <span class="font-bold text-gray-300">Station Weight Class Preset:</span>
+                        <div class="flex items-center gap-2">
+                            <button onclick="setCalcGender('womens-double')" id="btn-gender-wd" class="px-2.5 py-1 rounded text-\[10px] font-bold border border-hyrox-yellow/40 bg-hyrox-yellow/20 text-hyrox-yellow">Women's Doubles</button>
+                            <button onclick="setCalcGender('womens-open')" id="btn-gender-wo" class="px-2.5 py-1 rounded text-\[10px] font-bold border border-gray-800 text-gray-400">Women's Open</button>
+                            <button onclick="setCalcGender('mens-open')" id="btn-gender-mo" class="px-2.5 py-1 rounded text-\[10px] font-bold border border-gray-800 text-gray-400">Men's Open</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Broken Sim Panel -->
+                <div id="sim-mode-broken-panel" class="hidden bg-black/40 border border-gray-800 p-4 rounded-xl space-y-3">
+                    <div class="text-xs font-bold text-hyrox-yellow uppercase">Broken Simulation Interval Settings</div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div>
+                            <label class="block text-gray-400 mb-1 font-semibold">Block 1 (Segments 1-8 Goal):</label>
+                            <input type="text" id="broken-block1-target" readonly value="38:52" class="w-full p-2 rounded text-center font-mono font-bold text-white">
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 mb-1 font-semibold">Rest Interval Between Blocks:</label>
+                            <input type="text" id="broken-rest-val" value="5:00 Mins" oninput="calculateBrokenSim()" class="w-full p-2 rounded text-center font-mono font-bold text-hyrox-yellow">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 16-Segment Target Table Grid -->
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center text-xs font-bold text-gray-400 uppercase tracking-wider px-1">
+                        <span>Segment Breakdown (1-16)</span>
+                        <span>Target Split</span>
+                    </div>
+                    
+                    <div id="simulator-segments-container" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                        <!-- Populated dynamically via buildSimulatorSegments() -->
+                    </div>
+                </div>
+
+                <!-- Logging Inputs \& Actions -->
+                <div class="bg-black/60 border border-gray-800 p-4 rounded-xl space-y-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div>
+                            <label class="block font-bold text-gray-300 mb-1">Athlete Name Log</label>
+                            <input type="text" id="sim-athlete" placeholder="Athlete Name" class="w-full p-2 rounded font-semibold text-white">
+                        </div>
+                        <div>
+                            <label class="block font-bold text-gray-300 mb-1">Simulation Date</label>
+                            <input type="date" id="sim-date" class="w-full p-2 rounded font-semibold text-white">
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end gap-2 pt-2 border-t border-gray-800">
+                        <button onclick="clearSimLog()" class="px-4 py-2 rounded text-xs font-bold bg-gray-800 text-gray-300 hover:bg-gray-700 transition">Clear</button>
+                        <button onclick="saveSimLog()" class="px-5 py-2 rounded text-xs font-black bg-hyrox-yellow text-black hover:bg-yellow-400 transition uppercase shadow">Save Race Sim Log to Sheets</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: NUTRITION \& MACRO FUELING -->
+        <div id="tab-nutrition" class="tab-content space-y-6">
+            <div class="bg-gradient-to-r from-hyrox-card to-zinc-900 border border-hyrox-border rounded-2xl p-6 shadow-2xl relative overflow-hidden">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-gray-800 pb-5">
+                    <div>
+                        <div class="inline-block bg-hyrox-yellow text-black font-black text-xs px-2.5 py-0.5 rounded uppercase tracking-wider mb-2">HYROX MACRO ENGINE</div>
+                        <h2 class="text-xl sm:text-2xl font-black text-white uppercase tracking-tight">TRAINING \& RACE DAY FUELING PLAN</h2>
+                        <p class="text-xs text-gray-400 mt-1">Carbohydrate, Protein \& Fat distribution tailored for compromise running stamina.</p>
+                    </div>
+                    
+                    <div class="flex items-center gap-2 bg-black/60 p-2 rounded-xl border border-gray-800 w-full md:w-auto">
+                        <label class="text-xs font-bold text-gray-300 uppercase whitespace-nowrap">Training Day Focus:</label>
+                        <select id="nutr-day-type" onchange="calculateMacros()" class="text-xs p-2 rounded font-bold text-hyrox-yellow bg-black border border-gray-700">
+                            <option value="strength">Strength \& Sled Days</option>
+                            <option value="run">Aerobic / Compromised Run Days</option>
+                            <option value="race">Full Simulation / Race Day</option>
+                            <option value="rest">Active Recovery / Rest Days</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Live Macro Stat Cards -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-5">
+                    <div class="bg-black/50 border border-gray-800 p-4 rounded-xl text-center space-y-1">
+                        <span class="text-\[10px] text-gray-400 uppercase font-bold tracking-wider">Target Calories</span>
+                        <span id="macro-cals" class="block text-2xl font-black text-hyrox-yellow font-mono">2,850 kcal</span>
+                        <span class="text-\[9px] text-gray-400 block">High Energy Output</span>
+                    </div>
+                    <div class="bg-black/50 border border-gray-800 p-4 rounded-xl text-center space-y-1">
+                        <span class="text-\[10px] text-gray-400 uppercase font-bold tracking-wider">Carbohydrates</span>
+                        <span id="macro-carbs" class="block text-2xl font-black text-blue-400 font-mono">350g</span>
+                        <span class="text-\[9px] text-gray-400 block">50% Total Energy</span>
+                    </div>
+                    <div class="bg-black/50 border border-gray-800 p-4 rounded-xl text-center space-y-1">
+                        <span class="text-\[10px] text-gray-400 uppercase font-bold tracking-wider">Protein</span>
+                        <span id="macro-protein" class="block text-2xl font-black text-green-400 font-mono">180g</span>
+                        <span class="text-\[9px] text-gray-400 block">1.0g per lb BW</span>
+                    </div>
+                    <div class="bg-black/50 border border-gray-800 p-4 rounded-xl text-center space-y-1">
+                        <span class="text-\[10px] text-gray-400 uppercase font-bold tracking-wider">Fats</span>
+                        <span id="macro-fats" class="block text-2xl font-black text-purple-400 font-mono">75g</span>
+                        <span class="text-\[9px] text-gray-400 block">Hormonal \& Joint Support</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4 Fueling Protocol Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <!-- 1. Strength \& Sled Days -->
+                <div class="bg-hyrox-card border border-hyrox-border p-5 rounded-2xl space-y-3 shadow-lg">
+                    <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                        <h3 class="font-extrabold text-sm text-hyrox-yellow uppercase flex items-center gap-2">
+                            <i class="fa-solid fa-dumbbell text-white"></i> 1. Strength \& Heavy Sled Days
+                        </h3>
+                        <span class="text-\[10px] bg-hyrox-yellow/10 text-hyrox-yellow px-2 py-0.5 rounded font-bold uppercase">Glycogen Loading</span>
+                    </div>
+                    <ul class="text-xs text-gray-300 space-y-2 list-disc list-inside">
+                        <li><strong class="text-white">Pre-Workout (60-90m):</strong> 50g fast-acting carbs (oatmeal + banana or bagel) + 25g whey protein.</li>
+                        <li><strong class="text-white">Intra-Workout:</strong> 30g intra-carbs (hydrogel or cluster dextrin) + 500mg sodium electrolytes for sled push drive.</li>
+                        <li><strong class="text-white">Post-Workout (Within 45m):</strong> 40g whey protein + 60g simple carbs (rice cereal or fruit juice) to accelerate muscle repair.</li>
+                    </ul>
+                </div>
+
+                <!-- 2. Compromised Run Days -->
+                <div class="bg-hyrox-card border border-hyrox-border p-5 rounded-2xl space-y-3 shadow-lg">
+                    <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                        <h3 class="font-extrabold text-sm text-blue-400 uppercase flex items-center gap-2">
+                            <i class="fa-solid fa-person-running text-white"></i> 2. Compromised Run Days
+                        </h3>
+                        <span class="text-\[10px] bg-blue-500/10 text-blue-400 px-2 py-0.5 rounded font-bold uppercase">Stamina Focus</span>
+                    </div>
+                    <ul class="text-xs text-gray-300 space-y-2 list-disc list-inside">
+                        <li><strong class="text-white">Pre-Run (2h Prior):</strong> Low-fiber, high-carb meal (white rice + lean chicken breast or applesauce).</li>
+                        <li><strong class="text-white">Hydration Strategy:</strong> Drink 16-20oz water with 1 electrolyte tablet 2 hours before starting run intervals.</li>
+                        <li><strong class="text-white">Intra-Run (Runs > 45m):</strong> 1 energy gel (25g carbs) every 30 minutes to maintain steady blood glucose.</li>
+                    </ul>
+                </div>
+
+                <!-- 3. Full Race Simulation / Race Day -->
+                <div class="bg-hyrox-card border border-hyrox-border p-5 rounded-2xl space-y-3 shadow-lg">
+                    <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                        <h3 class="font-extrabold text-sm text-green-400 uppercase flex items-center gap-2">
+                            <i class="fa-solid fa-flag-checkered text-white"></i> 3. Full Race Sim \& Race Day
+                        </h3>
+                        <span class="text-\[10px] bg-green-500/10 text-green-400 px-2 py-0.5 rounded font-bold uppercase">Peak Performance</span>
+                    </div>
+                    <ul class="text-xs text-gray-300 space-y-2 list-disc list-inside">
+                        <li><strong class="text-white">48 Hours Pre-Race:</strong> Increase daily carbohydrate intake to 7-8g per kg body weight; reduce fats \& heavy fiber.</li>
+                        <li><strong class="text-white">3 Hours Pre-Race:</strong> 75-100g simple carbs (white toast with honey + banana). Avoid high fats or slow-digesting protein.</li>
+                        <li><strong class="text-white">45 Minutes Pre-Race:</strong> 200mg Caffeine + 1 Hydrogel gel + 300ml sodium electrolyte water.</li>
+                    </ul>
+                </div>
+
+                <!-- 4. Active Recovery \& Rest Days -->
+                <div class="bg-hyrox-card border border-hyrox-border p-5 rounded-2xl space-y-3 shadow-lg">
+                    <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                        <h3 class="font-extrabold text-sm text-purple-400 uppercase flex items-center gap-2">
+                            <i class="fa-solid fa-heart-pulse text-white"></i> 4. Active Recovery \& Rest Days
+                        </h3>
+                        <span class="text-\[10px] bg-purple-500/10 text-purple-400 px-2 py-0.5 rounded font-bold uppercase">Tissue Repair</span>
+                    </div>
+                    <ul class="text-xs text-gray-300 space-y-2 list-disc list-inside">
+                        <li><strong class="text-white">Caloric Intake:</strong> Reduce carbohydrate intake to baseline; maintain high protein (1.0-1.1g per lb) for muscle repair.</li>
+                        <li><strong class="text-white">Healthy Fats:</strong> Increase Omega-3 fatty acids (salmon, walnuts, avocado) to reduce systemic inflammation.</li>
+                        <li><strong class="text-white">Nighttime Protocol:</strong> 400mg Magnesium Glycinate + Tart Cherry juice 30 minutes before sleep to optimize REM recovery.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: COACH LIVE TIMER -->
+        <div id="tab-tools" class="tab-content space-y-6">
+            <div class="bg-hyrox-card border border-hyrox-border rounded-xl p-5 shadow-lg space-y-5">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-gray-800 pb-4">
+                    <div>
+                        <h2 class="text-lg font-black text-white uppercase tracking-tight">COACH LIVE SPLIT TIMER \& RUN TRACKER</h2>
+                        <p class="text-xs text-gray-400">Track Live Segment Splits During Simulations \& Dynamic Estimated Finish</p>
+                    </div>
+                    <div id="coach-active-badge" class="bg-gray-800 text-gray-400 text-\[10px] px-2.5 py-1 rounded font-bold uppercase">
+                        STANDBY
+                    </div>
+                </div>
+
+                <!-- Current Segment \& Live Clock -->
+                <div class="bg-black/60 border border-gray-800 p-5 rounded-xl space-y-4 text-center">
+                    <div class="flex justify-between items-center text-xs">
+                        <span id="coach-current-segment" class="font-black text-hyrox-yellow uppercase tracking-wider text-sm">Segment 1: 1. Run 1 (1,000m)</span>
+                        <span id="coach-segment-progress" class="text-hyrox-yellow font-mono font-bold">1 / 16</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div class="bg-zinc-900 border border-gray-800 p-3.5 rounded-lg">
+                            <div class="text-\[10px] text-gray-400 uppercase font-bold">Total Elapsed Time</div>
+                            <div id="coach-total-timer" class="text-3xl font-black text-white font-mono mt-1">00:00:00</div>
+                        </div>
+                        <div class="bg-zinc-900 border border-gray-800 p-3.5 rounded-lg">
+                            <div class="text-\[10px] text-gray-400 uppercase font-bold">Current Segment Split</div>
+                            <div id="coach-segment-timer" class="text-3xl font-black text-hyrox-yellow font-mono mt-1">00:00</div>
+                        </div>
+                        <div class="bg-zinc-900 border border-gray-800 p-3.5 rounded-lg">
+                            <div class="text-\[10px] text-gray-400 uppercase font-bold">Projected Finish Time</div>
+                            <div id="coach-est-finish" class="text-3xl font-black text-green-400 font-mono mt-1">--:--:--</div>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-2 pt-2">
+                        <button onclick="recordCoachSplit()" class="flex-1 bg-hyrox-yellow text-black font-black text-xs py-3.5 rounded-xl hover:bg-yellow-400 transition uppercase shadow-lg">
+                            <i class="fa-solid fa-flag mr-1"></i> Record Split / Next Segment
+                        </button>
+                        <button onclick="pauseCoachLiveRace()" class="bg-gray-800 text-gray-300 font-bold text-xs px-4 py-3.5 rounded-xl hover:bg-gray-700 transition">Pause</button>
+                        <button onclick="resetCoachLiveRace()" class="bg-gray-800 text-gray-300 font-bold text-xs px-4 py-3.5 rounded-xl hover:bg-gray-700 transition">Reset</button>
+                    </div>
+                </div>
+
+                <!-- Live Splits History Table -->
+                <div class="space-y-2">
+                    <div class="text-xs font-bold text-gray-400 uppercase tracking-wider">Recorded Segment Splits</div>
+                    <div class="overflow-x-auto border border-gray-800 rounded-lg">
+                        <table class="w-full text-left text-xs border-collapse">
+                            <thead>
+                                <tr class="bg-black/50 border-b border-gray-800 text-\[10px] font-bold text-gray-400 uppercase">
+                                    <th class="p-2.5">#</th>
+                                    <th class="p-2.5">Segment Name</th>
+                                    <th class="p-2.5">Split Time</th>
+                                    <th class="p-2.5">Cumulative Time</th>
+                                    <th class="p-2.5">Pace Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="coach-splits-table-body" class="divide-y divide-gray-800/40 font-mono">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 6: SHARE CARDS -->
+        <div id="tab-cards" class="tab-content space-y-6">
+            <div class="bg-hyrox-card border border-hyrox-border rounded-xl p-5 shadow-lg space-y-4">
+                <div class="border-b border-gray-800 pb-3">
+                    <h2 class="text-lg font-black text-white uppercase tracking-tight">ATHLETE SOCIAL SHARE CARDS</h2>
+                    <p class="text-xs text-gray-400">Generate Custom Graphic Summaries for Instagram \& Strava</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="space-y-3">
+                        <button onclick="generateShareCard('daily')" class="w-full bg-black/60 hover:bg-hyrox-yellow hover:text-black border border-gray-800 font-bold p-3.5 rounded-xl text-xs transition text-left flex items-center justify-between">
+                            <span>Daily Workout Completion Card</span>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                        <button onclick="generateShareCard('sim')" class="w-full bg-black/60 hover:bg-hyrox-yellow hover:text-black border border-gray-800 font-bold p-3.5 rounded-xl text-xs transition text-left flex items-center justify-between">
+                            <span>Race Simulation Split Summary Card</span>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <div id="share-card-graphic" class="bg-black border-2 border-hyrox-yellow p-6 rounded-2xl space-y-4 text-center relative shadow-2xl">
+                        <div class="text-xs font-black text-hyrox-yellow tracking-widest uppercase italic">TX\_PIERCE HYROX PROGRAM</div>
+                        <div id="card-race-tag" class="text-xl font-black text-white uppercase">HYROX HOUSTON</div>
+                        <div id="card-athlete-name" class="text-sm font-bold text-gray-300">ATHLETE LOG</div>
+                        <div class="py-2 border-y border-gray-800">
+                            <div id="card-target-time" class="text-3xl font-black text-hyrox-yellow font-mono">1:17:45</div>
+                            <div id="card-division-tag" class="text-\[10px] text-gray-400 font-bold uppercase mt-1">Women's Doubles Target</div>
+                        </div>
+                        <div id="card-date-tag" class="text-\[10px] text-gray-500 font-mono">Verified Session Split</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 7: RACE PREP -->
+        <div id="tab-raceprep" class="tab-content space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Checklist -->
+                <div class="bg-hyrox-card border border-hyrox-border p-5 rounded-2xl space-y-4 shadow-xl">
+                    <h3 class="font-extrabold text-sm text-hyrox-yellow uppercase tracking-wide flex items-center gap-2">
+                        <i class="fa-solid fa-suitcase"></i> Race-Week Logistics Checklist
+                    </h3>
+                    <div class="space-y-2 text-xs">
+                        <label class="flex items-center gap-2 bg-black/40 p-2.5 rounded-lg border border-gray-800 cursor-pointer hover:border-hyrox-yellow transition">
+                            <input type="checkbox" class="accent-hyrox-yellow">
+                            <span>Check-in \& Registration QR Code Saved</span>
+                        </label>
+                        <label class="flex items-center gap-2 bg-black/40 p-2.5 rounded-lg border border-gray-800 cursor-pointer hover:border-hyrox-yellow transition">
+                            <input type="checkbox" class="accent-hyrox-yellow">
+                            <span>Official Race Shoes \& Grip Verified</span>
+                        </label>
+                        <label class="flex items-center gap-2 bg-black/40 p-2.5 rounded-lg border border-gray-800 cursor-pointer hover:border-hyrox-yellow transition">
+                            <input type="checkbox" class="accent-hyrox-yellow">
+                            <span>Race Nutrition Gels \& Electrolytes Packed</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Reflection Form -->
+                <div class="bg-hyrox-card border border-hyrox-border p-5 rounded-2xl space-y-4 shadow-xl">
+                    <h3 class="font-extrabold text-sm text-hyrox-yellow uppercase tracking-wide flex items-center gap-2">
+                        <i class="fa-solid fa-book-bookmark"></i> Post-Race Reflection Journal
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="text" id="post-time" placeholder="Actual Finish Time" class="text-xs p-2 rounded text-white font-mono">
+                            <input type="text" id="post-place" placeholder="Overall Division Rank" class="text-xs p-2 rounded text-white">
+                        </div>
+                        <input type="text" id="post-achieved" placeholder="Pacing Goals Achieved..." class="w-full text-xs p-2 rounded text-white">
+                        <textarea id="post-reflection" rows="3" placeholder="Key station learnings, nutrition feedback..." class="w-full text-xs p-2 rounded text-white"></textarea>
+                        <button onclick="savePostRaceLog()" class="w-full bg-hyrox-yellow hover:bg-yellow-400 text-black font-black py-2 rounded-lg text-xs transition uppercase">Save Journal Entry</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Athlete Profile Modal -->
+    <div id="modal-profile" class="fixed inset-0 z-50 modal-backdrop flex items-center justify-center p-4 hidden">
+        <div class="bg-hyrox-card border-2 border-hyrox-yellow rounded-2xl p-6 max-w-lg w-full space-y-5 shadow-2xl relative">
+            <div class="flex justify-between items-center border-b border-gray-800 pb-3">
+                <div class="flex items-center gap-2">
+                    <div class="bg-hyrox-yellow text-black font-black text-xs px-2 py-0.5 rounded uppercase">PROFILE</div>
+                    <h3 class="text-base font-extrabold text-white uppercase">ATHLETE REGISTRATION \& 1RM METRICS</h3>
+                </div>
+                <button onclick="closeProfileModal()" class="text-gray-400 hover:text-white text-lg font-bold">\&times;</button>
+            </div>
+
+            <div class="space-y-3 text-xs">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-gray-300 mb-1">Full Name \*</label>
+                        <input type="text" id="profile-name" placeholder="John Doe" class="w-full p-2.5 rounded font-medium">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-gray-300 mb-1">Email Address \*</label>
+                        <input type="email" id="profile-email" placeholder="john@example.com" class="w-full p-2.5 rounded font-medium">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+                    <div>
+                        <label class="block font-bold text-gray-300 mb-1">Body Weight (lbs)</label>
+                        <input type="number" id="profile-weight" placeholder="165" class="w-full p-2.5 rounded font-medium text-center">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-gray-300 mb-1">Back Squat 1RM (lbs)</label>
+                        <input type="number" id="profile-squat" placeholder="275" class="w-full p-2.5 rounded font-medium text-center">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-gray-300 mb-1">Deadlift 1RM (lbs)</label>
+                        <input type="number" id="profile-deadlift" placeholder="335" class="w-full p-2.5 rounded font-medium text-center">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-gray-300 mb-1">Bench / Overhead Press 1RM (lbs)</label>
+                        <input type="number" id="profile-bench" placeholder="185" class="w-full p-2.5 rounded font-medium text-center">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-gray-300 mb-1">Est. Sled Push 1RM (lbs)</label>
+                        <input type="number" id="profile-sled" placeholder="400" class="w-full p-2.5 rounded font-medium text-center">
+                    </div>
+                </div>
+            </div>
+
+            <div id="profile-sync-status" class="text-\[11px] text-gray-400 text-center italic hidden">Syncing with Google Sheets database...</div>
+
+            <div class="flex items-center gap-3 pt-2">
+                <button onclick="saveAthleteProfile()" class="flex-1 bg-hyrox-yellow text-black font-black text-xs py-3 rounded-xl hover:bg-yellow-400 transition uppercase shadow-lg">Save Profile \& Create User Tab</button>
+                <button onclick="closeProfileModal()" class="bg-gray-800 text-gray-300 font-bold text-xs px-4 py-3 rounded-xl hover:bg-gray-700 transition uppercase">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT ENGINE -->
+    <script>
+        const SCRIPT\_URL = 'https://script.google.com/macros/s/AKfycbwEYfIpaVzecSGuiIXHi4T3ITzLwc\_8zzMm8Hj8pMtl86YfqD0PEKiSfXPDQX9-MSsU/exec';
+
+        const segmentNamesList = \[
+            "1. Run 1 (1,000m)", "2. SkiErg (1,000m)", "3. Run 2 (1,000m)", "4. Sled Push (50m)",
+            "5. Run 3 (1,000m)", "6. Sled Pull (50m)", "7. Run 4 (1,000m)", "8. Burpee Broad Jumps (80m)",
+            "9. Run 5 (1,000m)", "10. Rowing (1,000m)", "11. Run 6 (1,000m)", "12. Farmer Carry (200m)",
+            "13. Run 7 (1,000m)", "14. Sandbag Lunges (100m)", "15. Run 8 (1,000m)", "16. Wall Balls (100 reps)"
+        ];
+
+        // Official HYROX Division Standards Dictionary
+        const divisionStandards = {
+            'womens-double': {
+                name: "Women's Doubles Standards",
+                tableRows: \[
+                    { s: "1. SkiErg", d: "1,000m", l: "Standard Resistance", n: "Share work as desired" },
+                    { s: "2. Sled Push", d: "50m (4x12.5m)", l: "102 kg / 225 lbs", n: "Includes sled weight" },
+                    { s: "3. Sled Pull", d: "50m (4x12.5m)", l: "78 kg / 172 lbs", n: "Includes sled weight" },
+                    { s: "4. Burpee Broad Jump", d: "80m", l: "Bodyweight", n: "Both athletes complete full distance or alternate" },
+                    { s: "5. Rowing", d: "1,000m", l: "Damper 4-5", n: "Share work as desired" },
+                    { s: "6. Farmers Carry", d: "200m", l: "2 x 16 kg (35 lbs)", n: "Kettlebells" },
+                    { s: "7. Sandbag Lunges", d: "100m", l: "10 kg / 22 lbs", n: "Sandbag on shoulders" },
+                    { s: "8. Wall Balls", d: "100 Reps", l: "4 kg / 9 lbs", n: "Target: 9 ft (2.75m)" }
+                ]
+            },
+            'womens-open': {
+                name: "Women's Open Standards",
+                tableRows: \[
+                    { s: "1. SkiErg", d: "1,000m", l: "Standard Resistance", n: "Single athlete" },
+                    { s: "2. Sled Push", d: "50m", l: "102 kg / 225 lbs", n: "Includes sled weight" },
+                    { s: "3. Sled Pull", d: "50m", l: "78 kg / 172 lbs", n: "Includes sled weight" },
+                    { s: "4. Burpee Broad Jump", d: "80m", l: "Bodyweight", n: "Single athlete" },
+                    { s: "5. Rowing", d: "1,000m", l: "Damper 4-5", n: "Single athlete" },
+                    { s: "6. Farmers Carry", d: "200m", l: "2 x 16 kg", n: "Single athlete" },
+                    { s: "7. Sandbag Lunges", d: "100m", l: "10 kg", n: "Single athlete" },
+                    { s: "8. Wall Balls", d: "100 Reps", l: "4 kg", n: "Target: 9 ft" }
+                ]
+            },
+            'womens-pro': {
+                name: "Women's Pro Standards",
+                tableRows: \[
+                    { s: "1. SkiErg", d: "1,000m", l: "Standard Resistance", n: "Single athlete" },
+                    { s: "2. Sled Push", d: "50m", l: "152 kg / 335 lbs", n: "Includes sled weight" },
+                    { s: "3. Sled Pull", d: "50m", l: "103 kg / 227 lbs", n: "Includes sled weight" },
+                    { s: "4. Burpee Broad Jump", d: "80m", l: "Bodyweight", n: "Single athlete" },
+                    { s: "5. Rowing", d: "1,000m", l: "Damper 4-5", n: "Single athlete" },
+                    { s: "6. Farmers Carry", d: "200m", l: "2 x 24 kg", n: "Kettlebells" },
+                    { s: "7. Sandbag Lunges", d: "100m", l: "20 kg", n: "Sandbag on shoulders" },
+                    { s: "8. Wall Balls", d: "100 Reps", l: "6 kg", n: "Target: 9 ft" }
+                ]
+            },
+            'mens-open': {
+                name: "Men's Open Standards",
+                tableRows: \[
+                    { s: "1. SkiErg", d: "1,000m", l: "Standard Resistance", n: "Single athlete" },
+                    { s: "2. Sled Push", d: "50m", l: "152 kg / 335 lbs", n: "Includes sled weight" },
+                    { s: "3. Sled Pull", d: "50m", l: "103 kg / 227 lbs", n: "Includes sled weight" },
+                    { s: "4. Burpee Broad Jump", d: "80m", l: "Bodyweight", n: "Single athlete" },
+                    { s: "5. Rowing", d: "1,000m", l: "Damper 4-5", n: "Single athlete" },
+                    { s: "6. Farmers Carry", d: "200m", l: "2 x 24 kg", n: "Kettlebells" },
+                    { s: "7. Sandbag Lunges", d: "100m", l: "20 kg", n: "Sandbag on shoulders" },
+                    { s: "8. Wall Balls", d: "100 Reps", l: "6 kg", n: "Target: 9 ft" }
+                ]
+            },
+            'mens-pro': {
+                name: "Men's Pro Standards",
+                tableRows: \[
+                    { s: "1. SkiErg", d: "1,000m", l: "Standard Resistance", n: "Single athlete" },
+                    { s: "2. Sled Push", d: "50m", l: "202 kg / 445 lbs", n: "Includes sled weight" },
+                    { s: "3. Sled Pull", d: "50m", l: "153 kg / 337 lbs", n: "Includes sled weight" },
+                    { s: "4. Burpee Broad Jump", d: "80m", l: "Bodyweight", n: "Single athlete" },
+                    { s: "5. Rowing", d: "1,000m", l: "Damper 4-5", n: "Single athlete" },
+                    { s: "6. Farmers Carry", d: "200m", l: "2 x 32 kg", n: "Kettlebells" },
+                    { s: "7. Sandbag Lunges", d: "100m", l: "30 kg", n: "Sandbag on shoulders" },
+                    { s: "8. Wall Balls", d: "100 Reps", l: "9 kg", n: "Target: 10 ft" }
+                ]
+            }
+        };
+
+        let programData = {};
+
+        async function fetchProgramData() {
+            try {
+                let response = await fetch(`${SCRIPT\_URL}?action=getWorkouts`);
+                if (response.ok) {
+                    const resData = await response.json();
+                    if (resData.status === 'success' \&\& resData.programData \&\& Object.keys(resData.programData).length > 0) {
+                        programData = resData.programData;
+                        localStorage.setItem('hyrox\_cached\_program', JSON.stringify(programData));
+                    }
+                }
+            } catch (error) {
+                console.log('Using embedded program fallback data.');
+                const cached = localStorage.getItem('hyrox\_cached\_program');
+                if (cached) {
+                    programData = JSON.parse(cached);
+                }
+            } finally {
+                updateDayDropdownOptions();
+                renderProgramWeek();
+                updateOverallProgress();
+            }
+        }
+
+        function initApp() {
+            loadCustomSettings();
+            updateRaceSettings();
+            updateCountdown();
+            buildSimulatorSegments();
+            fetchProgramData();
+            loadAthleteProfile();
+            calculateMacros();
+            setInterval(updateCountdown, 1000);
+            if(document.getElementById('sim-date')) {
+                document.getElementById('sim-date').valueAsDate = new Date();
+            }
+            if(document.getElementById('well-date-display')) {
+                document.getElementById('well-date-display').innerText = new Date().toLocaleDateString();
+            }
+        }
+
+        function openProfileModal() {
+            document.getElementById('modal-profile').classList.remove('hidden');
+        }
+
+        function closeProfileModal() {
+            document.getElementById('modal-profile').classList.add('hidden');
+        }
+
+        function loadAthleteProfile() {
+            const profile = JSON.parse(localStorage.getItem('hyrox\_athlete\_profile'));
+            if (profile \&\& profile.name) {
+                document.getElementById('profile-name').value = profile.name || '';
+                document.getElementById('profile-email').value = profile.email || '';
+                document.getElementById('profile-weight').value = profile.weight || '';
+                document.getElementById('profile-squat').value = profile.backSquat1RM || '';
+                document.getElementById('profile-deadlift').value = profile.deadlift1RM || '';
+                document.getElementById('profile-bench').value = profile.benchPress1RM || '';
+                document.getElementById('profile-sled').value = profile.sledPush1RM || '';
+                
+                document.getElementById('header-athlete-name').innerText = profile.name;
+                if (document.getElementById('sim-athlete')) document.getElementById('sim-athlete').value = profile.name;
+                if (document.getElementById('well-weight') \&\& profile.weight) document.getElementById('well-weight').value = profile.weight;
+            } else {
+                setTimeout(openProfileModal, 1000);
+            }
+        }
+
+        async function saveAthleteProfile() {
+            const name = document.getElementById('profile-name').value.trim();
+            const email = document.getElementById('profile-email').value.trim();
+            const weight = document.getElementById('profile-weight').value;
+            const backSquat1RM = document.getElementById('profile-squat').value;
+            const deadlift1RM = document.getElementById('profile-deadlift').value;
+            const benchPress1RM = document.getElementById('profile-bench').value;
+            const sledPush1RM = document.getElementById('profile-sled').value;
+
+            if (!name || !email) {
+                alert('Please enter your Name and Email address.');
+                return;
+            }
+
+            const profile = { name, email, weight, backSquat1RM, deadlift1RM, benchPress1RM, sledPush1RM };
+            localStorage.setItem('hyrox\_athlete\_profile', JSON.stringify(profile));
+
+            document.getElementById('header-athlete-name').innerText = name;
+            if (document.getElementById('sim-athlete')) document.getElementById('sim-athlete').value = name;
+            if (document.getElementById('well-weight') \&\& weight) document.getElementById('well-weight').value = weight;
+            calculateMacros();
+
+            const statusEl = document.getElementById('profile-sync-status');
+            statusEl.classList.remove('hidden');
+            statusEl.innerText = "Syncing profile with Google Sheets...";
+
+            try {
+                const res = await fetch(SCRIPT\_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'registerAthlete', ...profile })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    statusEl.innerText = "Synced to Google Sheets ✅ (User Tab Created)";
+                    setTimeout(() => { closeProfileModal(); statusEl.classList.add('hidden'); }, 1200);
+                } else {
+                    statusEl.innerText = "Saved locally. Google Sheets update queued.";
+                    setTimeout(() => { closeProfileModal(); statusEl.classList.add('hidden'); }, 1500);
+                }
+            } catch(err) {
+                statusEl.innerText = "Saved locally. (Offline mode)";
+                setTimeout(() => { closeProfileModal(); statusEl.classList.add('hidden'); }, 1500);
+            }
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('bg-hyrox-yellow', 'text-black');
+                el.classList.add('text-gray-300', 'hover:bg-gray-800');
+            });
+            const targetTab = document.getElementById('tab-' + tabId);
+            if(targetTab) targetTab.classList.add('active');
+            const btn = document.getElementById('btn-' + tabId);
+            if(btn) {
+                btn.classList.remove('text-gray-300', 'hover:bg-gray-800');
+                btn.classList.add('bg-hyrox-yellow', 'text-black');
+            }
+        }
+
+        function loadCustomSettings() {
+            const savedName = localStorage.getItem('hyrox\_race\_name');
+            const savedDate = localStorage.getItem('hyrox\_race\_date');
+            const savedDiv = localStorage.getItem('hyrox\_division');
+            if(savedName) document.getElementById('setting-race-name').value = savedName;
+            if(savedDate) document.getElementById('setting-race-date').value = savedDate;
+            if(savedDiv) document.getElementById('setting-division').value = savedDiv;
+        }
+
+        function updateRaceSettings() {
+            const rName = document.getElementById('setting-race-name').value;
+            const rDate = document.getElementById('setting-race-date').value;
+            const rDivKey = document.getElementById('setting-division').value;
+
+            localStorage.setItem('hyrox\_race\_name', rName);
+            localStorage.setItem('hyrox\_race\_date', rDate);
+            localStorage.setItem('hyrox\_division', rDivKey);
+
+            const divData = divisionStandards\[rDivKey] || divisionStandards\['womens-double'];
+            document.getElementById('display-race-title').innerText = `${rName.toUpperCase()} (${divData.name.toUpperCase()})`;
+            document.getElementById('standards-title').innerText = `OFFICIAL STANDARDS — ${divData.name.toUpperCase()}`;
+            
+            const tbody = document.getElementById('standards-table-body');
+            tbody.innerHTML = '';
+            divData.tableRows.forEach(row => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-zinc-800/50 transition">
+                        <td class="p-3 font-bold text-white">${row.s}</td>
+                        <td class="p-3 text-hyrox-yellow font-semibold">${row.d}</td>
+                        <td class="p-3 font-mono font-bold text-gray-200">${row.l}</td>
+                        <td class="p-3 text-gray-400 text-\[11px]">${row.n}</td>
+                    </tr>
+                `;
+            });
+            updateCountdown();
+        }
+
+        function updateCountdown() {
+            const targetStr = document.getElementById('setting-race-date').value;
+            if (!targetStr) return;
+            const targetDate = new Date(targetStr + "T08:00:00");
+            const now = new Date();
+            const diff = targetDate - now;
+
+            if (diff <= 0) {
+                document.getElementById('days-left').innerText = "00";
+                document.getElementById('hours-left').innerText = "00";
+                document.getElementById('mins-left').innerText = "00";
+                document.getElementById('secs-left').innerText = "00";
+                document.getElementById('widget-race-countdown').innerText = "RACE DAY!";
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 \* 60 \* 60 \* 24));
+            const hours = Math.floor((diff % (1000 \* 60 \* 60 \* 24)) / (1000 \* 60 \* 60));
+            const mins = Math.floor((diff % (1000 \* 60 \* 60)) / (1000 \* 60));
+            const secs = Math.floor((diff % (1000 \* 60)) / 1000);
+
+            document.getElementById('days-left').innerText = String(days).padStart(2, '0');
+            document.getElementById('hours-left').innerText = String(hours).padStart(2, '0');
+            document.getElementById('mins-left').innerText = String(mins).padStart(2, '0');
+            document.getElementById('secs-left').innerText = String(secs).padStart(2, '0');
+            document.getElementById('widget-race-countdown').innerText = `${days}d ${hours}h ${mins}m`;
+        }
+
+        function onWeekChange() {
+            updateDayDropdownOptions();
+            renderProgramWeek();
+        }
+
+        function updateDayDropdownOptions() {
+            const weekNum = document.getElementById('program-week-select').value;
+            const daySelect = document.getElementById('program-day-select');
+            daySelect.innerHTML = '<option value="all">Show All Days</option>';
+
+            if (programData\[weekNum] \&\& programData\[weekNum].days) {
+                programData\[weekNum].days.forEach((dayObj, idx) => {
+                    const option = document.createElement('option');
+                    option.value = idx;
+                    option.textContent = dayObj.title || dayObj.day || `Day ${idx + 1}`;
+                    daySelect.appendChild(option);
+                });
+            }
+        }
+
+        function renderProgramWeek() {
+            const weekNum = document.getElementById('program-week-select').value;
+            const selectedDayFilter = document.getElementById('program-day-select').value;
+            const container = document.getElementById('program-container');
+
+            if (!programData\[weekNum]) {
+                container.innerHTML = `<div class="p-4 text-center text-gray-400">Loading program data...</div>`;
+                return;
+            }
+
+            const data = programData\[weekNum];
+
+            let html = `
+                <div class="bg-\[#1E1E1E] border border-gray-800 rounded-xl p-4 sm:p-5 shadow-lg space-y-4">
+                    <div class="border-b border-gray-800 pb-3">
+                        <h3 class="text-base sm:text-lg font-black text-hyrox-yellow">${data.title}</h3>
+                        <p class="text-xs text-gray-400 mt-1"><strong class="text-white">Primary Focus:</strong> ${data.focus}</p>
+                    </div>
+                    <div class="space-y-4">
+            `;
+
+            data.days.forEach((dayObj, dayIdx) => {
+                if (selectedDayFilter !== "all" \&\& parseInt(selectedDayFilter) !== dayIdx) {
+                    return;
+                }
+
+                html += `
+                    <div class="bg-black/40 border border-gray-800 p-3.5 sm:p-4 rounded-xl space-y-3">
+                        <div class="font-bold text-xs text-hyrox-yellow uppercase tracking-wide">${dayObj.title || dayObj.day}</div>
+                        <div class="space-y-2.5">
+                `;
+
+                dayObj.exercises.forEach((ex, exIdx) => {
+                    let setsHtml = '';
+                    const numSets = ex.sets || 1;
+                    const targetWeightStr = calculateTargetWeight(ex.name, ex.load);
+
+                    for(let s = 1; s <= numSets; s++) {
+                        const checkboxId = `chk\_w${weekNum}\_d${dayIdx}\_e${exIdx}\_s${s}`;
+                        const setLoadInputId = `load\_w${weekNum}\_d${dayIdx}\_e${exIdx}\_s${s}`;
+                        setsHtml += `
+                            <div class="flex items-center gap-1.5 bg-black/60 p-1 rounded-lg border border-gray-800">
+                                <label class="cursor-pointer flex items-center gap-1">
+                                    <input type="checkbox" class="set-checkbox hidden" id="${checkboxId}" onchange="saveProgramProgress()">
+                                    <span class="w-6 h-6 rounded border border-gray-700 bg-black text-\[10px] font-bold flex items-center justify-center text-gray-300 hover:border-hyrox-yellow transition">${s}</span>
+                                </label>
+                                <input type="text" id="${setLoadInputId}" oninput="saveProgramProgress()" placeholder="wt..." class="w-14 text-\[10px] p-1 rounded bg-zinc-900 border border-gray-700 text-center text-white font-semibold">
+                            </div>
+                        `;
+                    }
+
+                    const loadInputId = `load\_w${weekNum}\_d${dayIdx}\_e${exIdx}`;
+                    html += `
+                        <div class="bg-zinc-900/80 border border-gray-800/90 p-3 rounded-lg flex flex-col gap-3">
+                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1">
+                                <div>
+                                    <div class="text-xs font-bold text-white">${ex.name}</div>
+                                    <div class="text-\[11px] text-gray-400">Target Reps: <strong class="text-white">${ex.reps}</strong> | Recommended: <strong class="text-hyrox-yellow">${targetWeightStr}</strong></div>
+                                </div>
+                                <div class="w-full sm:w-36 mt-1 sm:mt-0">
+                                    <input type="text" id="${loadInputId}" oninput="saveProgramProgress()" placeholder="Exercise Notes / Load..." class="w-full text-xs p-1.5 rounded bg-black border border-gray-700 font-semibold text-center text-white">
+                                </div>
+                            </div>
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 border-t border-gray-800/60">
+                                <span class="text-\[10px] text-gray-400 uppercase font-bold">Set Checkboxes \& Actual Weights:</span>
+                                <div class="flex items-center gap-1.5 flex-wrap justify-start sm:justify-end">
+                                    ${setsHtml}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += `
+                    <div class="pt-2 border-t border-gray-800 flex justify-end">
+                        <button onclick="syncDayWorkoutToSheets(${weekNum}, ${dayIdx})" class="bg-hyrox-yellow hover:bg-yellow-400 text-black font-black text-xs px-3.5 py-2 rounded-lg transition uppercase flex items-center gap-1.5 shadow-lg">
+                            <i class="fa-solid fa-cloud-arrow-up"></i> Complete \& Sync Day Workout to Sheets
+                        </button>
+                    </div>
+                `;
+                html += `</div></div>`;
+            });
+
+            html += `</div></div>`;
+            container.innerHTML = html;
+            loadProgramProgress();
+            updateOverallProgress();
+        }
+
+        function saveProgramProgress() {
+            const saved = JSON.parse(localStorage.getItem('hyrox\_program\_progress')) || { checkboxes: {}, loads: {} };
+            if (!saved.checkboxes) saved.checkboxes = {};
+            if (!saved.loads) saved.loads = {};
+
+            document.querySelectorAll('.set-checkbox').forEach(chk => { saved.checkboxes\[chk.id] = chk.checked; });
+            document.querySelectorAll('input\[id^="load\_w"]').forEach(input => { saved.loads\[input.id] = input.value; });
+
+            localStorage.setItem('hyrox\_program\_progress', JSON.stringify(saved));
+            updateOverallProgress();
+
+            const profile = JSON.parse(localStorage.getItem('hyrox\_athlete\_profile')) || {};
+            if (profile.email) {
+                fetch(SCRIPT\_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'syncAthleteData', name: profile.name, email: profile.email, progressData: saved })
+                }).catch(e => console.log('Offline progress save', e));
+            }
+        }
+
+        function loadProgramProgress() {
+            const saved = JSON.parse(localStorage.getItem('hyrox\_program\_progress'));
+            if (!saved) return;
+            if (saved.checkboxes) {
+                Object.keys(saved.checkboxes).forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.checked = saved.checkboxes\[id];
+                });
+            }
+            if (saved.loads) {
+                Object.keys(saved.loads).forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.value = saved.loads\[id];
+                });
+            }
+        }
+
+        function updateOverallProgress() {
+            let totalSets = 0;
+            let checkedSets = 0;
+
+            const saved = JSON.parse(localStorage.getItem('hyrox\_program\_progress'));
+            const checkedMap = (saved \&\& saved.checkboxes) ? saved.checkboxes : {};
+
+            Object.keys(programData).forEach(wKey => {
+                programData\[wKey].days.forEach((dObj, dIdx) => {
+                    dObj.exercises.forEach((exObj, eIdx) => {
+                        const numSets = exObj.sets || 1;
+                        for (let s = 1; s <= numSets; s++) {
+                            totalSets++;
+                            const chkId = `chk\_w${wKey}\_d${dIdx}\_e${eIdx}\_s${s}`;
+                            if (checkedMap\[chkId]) {
+                                checkedSets++;
+                            }
+                        }
+                    });
+                });
+            });
+
+            const pct = totalSets > 0 ? Math.round((checkedSets / totalSets) \* 100) : 0;
+            const bar = document.getElementById('overall-progress-bar');
+            const txt = document.getElementById('overall-progress-text');
+
+            if (bar) bar.style.width = `${pct}%`;
+            if (txt) txt.innerText = `${pct}% Completed (${checkedSets}/${totalSets} sets)`;
+
+            const widgetSets = document.getElementById('widget-completed-sets');
+            if (widgetSets) widgetSets.innerText = `${checkedSets} / ${totalSets} Sets Logged`;
+            
+            const widgetStreak = document.getElementById('widget-streak-weeks');
+            if (widgetStreak) {
+                const activeWeeks = Math.ceil(checkedSets / 25);
+                widgetStreak.innerText = `🔥 ${activeWeeks} Weeks`;
+            }
+        }
+
+        // AUDIO ENGINE FOR REST TIMER
+        let globalAudioCtx = null;
+        function getAudioContext() {
+            if (!globalAudioCtx) {
+                const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+                if (AudioCtxClass) {
+                    globalAudioCtx = new AudioCtxClass();
+                }
+            }
+            if (globalAudioCtx \&\& globalAudioCtx.state === 'suspended') {
+                globalAudioCtx.resume();
+            }
+            return globalAudioCtx;
+        }
+
+        function beep(freq = 880, type = 'sine', duration = 0.15, vol = 0.5) {
+            try {
+                const ctx = getAudioContext();
+                if (!ctx) return;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, ctx.currentTime);
+                gain.gain.setValueAtTime(vol, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + duration);
+            } catch (e) {
+                console.log('Audio playback error', e);
+            }
+        }
+
+        function playCompletionBeeps() {
+            beep(600, 'sine', 0.15, 0.6);
+            setTimeout(() => beep(800, 'sine', 0.15, 0.6), 200);
+            setTimeout(() => beep(1200, 'sine', 0.4, 0.8), 400);
+        }
+
+        // FLOATING REST TIMER LOGIC
+        let restIntervalId = null;
+        let restSecondsLeft = 0;
+        let restTotalSeconds = 0;
+
+        function startRestTimer(seconds) {
+            getAudioContext();
+            clearInterval(restIntervalId);
+            restTotalSeconds = seconds;
+            restSecondsLeft = seconds;
+
+            const dock = document.getElementById('floating-rest-dock');
+            const statusText = document.getElementById('rest-status-text');
+            const displayContainer = document.getElementById('rest-display-container');
+            const progressWrapper = document.getElementById('rest-progress-wrapper');
+            const progressBar = document.getElementById('rest-progress-bar');
+            const clock = document.getElementById('rest-countdown-clock');
+
+            dock.classList.add('timer-active-glow');
+            statusText.innerText = "Resting...";
+            displayContainer.classList.remove('hidden');
+            displayContainer.classList.add('flex');
+            progressWrapper.classList.remove('hidden');
+
+            beep(440, 'sine', 0.1, 0.3);
+            updateRestDisplay();
+
+            restIntervalId = setInterval(() => {
+                restSecondsLeft--;
+                if (restSecondsLeft <= 0) {
+                    clearInterval(restIntervalId);
+                    clock.innerText = "00:00";
+                    progressBar.style.width = "0%";
+                    statusText.innerText = "REST COMPLETE - NEXT SET!";
+                    playCompletionBeeps();
+
+                    setTimeout(() => {
+                        dock.classList.remove('timer-active-glow');
+                        statusText.innerText = "Rest Timer";
+                        displayContainer.classList.add('hidden');
+                        displayContainer.classList.remove('flex');
+                        progressWrapper.classList.add('hidden');
+                    }, 4000);
+                } else {
+                    if (restSecondsLeft <= 3) {
+                        beep(880, 'sine', 0.1, 0.5);
+                    }
+                    updateRestDisplay();
+                }
+            }, 1000);
+        }
+
+        function updateRestDisplay() {
+            const m = Math.floor(restSecondsLeft / 60);
+            const s = restSecondsLeft % 60;
+            document.getElementById('rest-countdown-clock').innerText = 
+                `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+            
+            const pct = Math.max(0, (restSecondsLeft / restTotalSeconds) \* 100);
+            document.getElementById('rest-progress-bar').style.width = `${pct}%`;
+        }
+
+        function cancelRestTimer() {
+            clearInterval(restIntervalId);
+            const dock = document.getElementById('floating-rest-dock');
+            const statusText = document.getElementById('rest-status-text');
+            const displayContainer = document.getElementById('rest-display-container');
+            const progressWrapper = document.getElementById('rest-progress-wrapper');
+
+            dock.classList.remove('timer-active-glow');
+            statusText.innerText = "Rest Timer";
+            displayContainer.classList.add('hidden');
+            displayContainer.classList.remove('flex');
+            progressWrapper.classList.add('hidden');
+        }
+
+        // 16-SEGMENT RACE PACING SIMULATOR ENGINE
+        let simMode = 'full';
+        let calcGenderPreset = 'womens-double';
+
+        function switchSimMode(mode) {
+            simMode = mode;
+            const btnFull = document.getElementById('btn-sim-full');
+            const btnBroken = document.getElementById('btn-sim-broken');
+            const brokenPanel = document.getElementById('sim-mode-broken-panel');
+
+            if (mode === 'full') {
+                btnFull.classList.remove('text-gray-400', 'hover:text-white');
+                btnFull.classList.add('bg-hyrox-yellow', 'text-black');
+                btnBroken.classList.remove('bg-hyrox-yellow', 'text-black');
+                btnBroken.classList.add('text-gray-400', 'hover:text-white');
+                brokenPanel.classList.add('hidden');
+            } else {
+                btnBroken.classList.remove('text-gray-400', 'hover:text-white');
+                btnBroken.classList.add('bg-hyrox-yellow', 'text-black');
+                btnFull.classList.remove('bg-hyrox-yellow', 'text-black');
+                btnFull.classList.add('text-gray-400', 'hover:text-white');
+                brokenPanel.classList.remove('hidden');
+            }
+            calculateIndividualPace();
+        }
+
+        function setCalcGender(preset) {
+            calcGenderPreset = preset;
+            \['wd', 'wo', 'mo'].forEach(p => {
+                const btn = document.getElementById(`btn-gender-${p}`);
+                if (btn) {
+                    btn.classList.remove('bg-hyrox-yellow/20', 'text-hyrox-yellow', 'border-hyrox-yellow/40');
+                    btn.classList.add('border-gray-800', 'text-gray-400');
+                }
+            });
+            const activeKey = preset === 'womens-double' ? 'wd' : (preset === 'womens-open' ? 'wo' : 'mo');
+            const activeBtn = document.getElementById(`btn-gender-${activeKey}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('border-gray-800', 'text-gray-400');
+                activeBtn.classList.add('bg-hyrox-yellow/20', 'text-hyrox-yellow', 'border-hyrox-yellow/40');
+            }
+            calculateIndividualPace();
+        }
+
+        function parseTimeToSeconds(timeStr) {
+            if (!timeStr) return 0;
+            const parts = timeStr.split(':').map(Number);
+            if (parts.length === 3) return parts\[0] \* 3600 + parts\[1] \* 60 + parts\[2];
+            if (parts.length === 2) return parts\[0] \* 60 + parts\[1];
+            return parts\[0] || 0;
+        }
+
+        function formatSecondsToMMSS(sec) {
+            const m = Math.floor(sec / 60);
+            const s = Math.round(sec % 60);
+            return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+
+        function formatSecondsToHHMMSS(sec) {
+            const h = Math.floor(sec / 3600);
+            const m = Math.floor((sec % 3600) / 60);
+            const s = Math.round(sec % 60);
+            if (h > 0) {
+                return `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+            }
+            return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+
+        function buildSimulatorSegments() {
+            const container = document.getElementById('simulator-segments-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            segmentNamesList.forEach((segName, idx) => {
+                const isRun = idx % 2 === 0;
+                container.innerHTML += `
+                    <div class="bg-black/50 border border-gray-800 p-2.5 rounded-lg flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="w-5 h-5 rounded ${isRun ? 'bg-hyrox-yellow/20 text-hyrox-yellow' : 'bg-blue-500/20 text-blue-400'} text-\[10px] font-bold flex items-center justify-center">${idx + 1}</span>
+                            <span class="font-semibold text-white">${segName}</span>
+                        </div>
+                        <span id="sim-seg-target-${idx}" class="font-mono font-bold ${isRun ? 'text-hyrox-yellow' : 'text-blue-400'}">--:--</span>
+                    </div>
+                `;
+            });
+            calculateIndividualPace();
+        }
+
+        function calculateIndividualPace() {
+            const runPaceInput = document.getElementById('calc-run-pace').value;
+            const runPaceSec = parseTimeToSeconds(runPaceInput) || 330; // default 5:30/km
+            const totalRunSec = runPaceSec \* 8; // 8x 1km runs
+
+            // Station proportions based on division preset
+            const stationRatios = \[0.12, 0.14, 0.13, 0.12, 0.13, 0.11, 0.13, 0.12]; // \~33:45 total
+            const totalStationSec = 2025; // 33m 45s
+
+            document.getElementById('calc-station-total').value = formatSecondsToMMSS(totalStationSec);
+            const totalGoalSec = totalRunSec + totalStationSec;
+            document.getElementById('sim-goal-total').value = formatSecondsToHHMMSS(totalGoalSec);
+
+            let cumulativeSec = 0;
+            segmentNamesList.forEach((\_, idx) => {
+                let segTimeSec = 0;
+                if (idx % 2 === 0) {
+                    segTimeSec = runPaceSec;
+                } else {
+                    const stIdx = Math.floor(idx / 2);
+                    segTimeSec = totalStationSec \* stationRatios\[stIdx];
+                }
+                cumulativeSec += segTimeSec;
+
+                const targetEl = document.getElementById(`sim-seg-target-${idx}`);
+                if (targetEl) {
+                    targetEl.innerText = `${formatSecondsToMMSS(segTimeSec)} (Cum: ${formatSecondsToHHMMSS(cumulativeSec)})`;
+                }
+            });
+
+            if (document.getElementById('broken-block1-target')) {
+                const block1Sec = (runPaceSec \* 4) + (totalStationSec \* (stationRatios\[0] + stationRatios\[1] + stationRatios\[2] + stationRatios\[3]));
+                document.getElementById('broken-block1-target').value = formatSecondsToMMSS(block1Sec);
+            }
+        }
+
+        function calculateBrokenSim() {
+            calculateIndividualPace();
+        }
+
+        function autoCalculateTargets() {
+            calculateIndividualPace();
+        }
+
+        function saveSimLog() {
+            const profile = JSON.parse(localStorage.getItem('hyrox\_athlete\_profile')) || {};
+            const simData = {
+                date: document.getElementById('sim-date').value,
+                week: document.getElementById('sim-week').value,
+                athlete: document.getElementById('sim-athlete').value || profile.name,
+                totalTime: document.getElementById('sim-goal-total').value,
+                isBrokenSim: !document.getElementById('sim-mode-broken-panel').classList.contains('hidden')
+            };
+
+            localStorage.setItem('hyrox\_sim\_log', JSON.stringify(simData));
+            alert('Race simulation log saved locally!');
+
+            if (profile.email) {
+                fetch(SCRIPT\_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'syncAthleteData', name: profile.name, email: profile.email, simLog: simData })
+                }).then(() => alert('Sim log synced to Google Sheets user tab!')).catch(e => console.log('Offline sim save', e));
+            }
+        }
+
+        function clearSimLog() {
+            \['sim-athlete'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.value = '';
+            });
+            alert('Simulation log fields cleared.');
+        }
+
+        function savePostRaceLog() {
+            const profile = JSON.parse(localStorage.getItem('hyrox\_athlete\_profile')) || {};
+            const logData = {
+                time: document.getElementById('post-time').value,
+                place: document.getElementById('post-place').value,
+                achieved: document.getElementById('post-achieved').value,
+                reflection: document.getElementById('post-reflection').value
+            };
+
+            localStorage.setItem('hyrox\_post\_race', JSON.stringify(logData));
+            alert('Post-race journal saved locally!');
+
+            if (profile.email) {
+                fetch(SCRIPT\_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'syncAthleteData', name: profile.name, email: profile.email, postRaceLog: logData })
+                }).then(() => alert('Post-race reflection synced to Google Sheets user tab!')).catch(e => console.log('Offline journal save', e));
+            }
+        }
+
+        // COACH LIVE TIMER FUNCTIONS
+        let coachTimerInterval = null;
+        let coachStartTime = 0;
+        let coachElapsedTime = 0;
+        let coachCurrentSegIdx = 0;
+        let coachSplits = \[];
+        let coachSegStartTime = 0;
+
+        function startCoachLiveRace() {
+            if (coachTimerInterval) return;
+            getAudioContext();
+            coachStartTime = Date.now() - coachElapsedTime;
+            coachSegStartTime = Date.now();
+
+            const badge = document.getElementById('coach-active-badge');
+            if (badge) {
+                badge.className = "bg-green-500/20 text-green-400 border border-green-500/30 text-\[10px] px-2.5 py-1 rounded font-bold uppercase animate-pulse";
+                badge.innerText = "LIVE SIMULATION RUNNING";
+            }
+
+            coachTimerInterval = setInterval(() => {
+                const now = Date.now();
+                coachElapsedTime = now - coachStartTime;
+                const segElapsed = now - coachSegStartTime;
+
+                document.getElementById('coach-total-timer').innerText = formatSecondsToHHMMSS(coachElapsedTime / 1000);
+                document.getElementById('coach-segment-timer').innerText = formatSecondsToMMSS(segElapsed / 1000);
+                updateLiveEstFinish();
+            }, 500);
+        }
+
+        function recordCoachSplit() {
+            if (!coachTimerInterval \&\& coachElapsedTime === 0) {
+                startCoachLiveRace();
+                return;
+            }
+
+            const now = Date.now();
+            const segElapsedSec = (now - coachSegStartTime) / 1000;
+            const totalElapsedSec = coachElapsedTime / 1000;
+
+            coachSplits.push({
+                idx: coachCurrentSegIdx + 1,
+                name: segmentNamesList\[coachCurrentSegIdx] || `Segment ${coachCurrentSegIdx + 1}`,
+                splitSec: segElapsedSec,
+                cumSec: totalElapsedSec
+            });
+
+            beep(880, 'sine', 0.1, 0.5);
+            renderCoachLiveTable();
+
+            coachCurrentSegIdx++;
+            if (coachCurrentSegIdx >= 16) {
+                pauseCoachLiveRace();
+                alert(`🏁 Race Simulation Complete! Final Time: ${formatSecondsToHHMMSS(totalElapsedSec)}`);
+                return;
+            }
+
+            coachSegStartTime = Date.now();
+            document.getElementById('coach-current-segment').innerText = `Segment ${coachCurrentSegIdx + 1}: ${segmentNamesList\[coachCurrentSegIdx]}`;
+            if (document.getElementById('coach-segment-progress')) {
+                document.getElementById('coach-segment-progress').innerText = `${coachCurrentSegIdx + 1} / 16`;
+            }
+        }
+
+        function renderCoachLiveTable() {
+            const tbody = document.getElementById('coach-splits-table-body');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+            coachSplits.forEach(sp => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-zinc-800/40 transition">
+                        <td class="p-2.5 font-bold text-hyrox-yellow">${sp.idx}</td>
+                        <td class="p-2.5 font-semibold text-white">${sp.name}</td>
+                        <td class="p-2.5 font-mono text-hyrox-yellow">${formatSecondsToMMSS(sp.splitSec)}</td>
+                        <td class="p-2.5 font-mono text-white">${formatSecondsToHHMMSS(sp.cumSec)}</td>
+                        <td class="p-2.5 text-\[10px] text-green-400 font-bold">ON TARGET</td>
+                    </tr>
+                `;
+            });
+        }
+
+        function updateLiveEstFinish() {
+            if (coachCurrentSegIdx === 0) return;
+            const avgSegSec = (coachElapsedTime / 1000) / coachCurrentSegIdx;
+            const projSec = avgSegSec \* 16;
+            document.getElementById('coach-est-finish').innerText = formatSecondsToHHMMSS(projSec);
+        }
+
+        function pauseCoachLiveRace() {
+            clearInterval(coachTimerInterval);
+            coachTimerInterval = null;
+            const badge = document.getElementById('coach-active-badge');
+            if (badge) {
+                badge.className = "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 text-\[10px] px-2.5 py-1 rounded font-bold uppercase";
+                badge.innerText = "PAUSED";
+            }
+        }
+
+        function resetCoachLiveRace() {
+            pauseCoachLiveRace();
+            coachElapsedTime = 0;
+            coachCurrentSegIdx = 0;
+            coachSplits = \[];
+            document.getElementById('coach-total-timer').innerText = "00:00:00";
+            document.getElementById('coach-segment-timer').innerText = "00:00";
+            document.getElementById('coach-est-finish').innerText = "--:--:--";
+            document.getElementById('coach-current-segment').innerText = `Segment 1: ${segmentNamesList\[0]}`;
+            renderCoachLiveTable();
+            const badge = document.getElementById('coach-active-badge');
+            if (badge) {
+                badge.className = "bg-gray-800 text-gray-400 text-\[10px] px-2.5 py-1 rounded font-bold uppercase";
+                badge.innerText = "STANDBY";
+            }
+        }
+
+        function generateShareCard(type) {
+            const profile = JSON.parse(localStorage.getItem('hyrox\_athlete\_profile')) || {};
+            const athleteName = profile.name || "TX\_PIERCE ATHLETE";
+            document.getElementById('card-athlete-name').innerText = athleteName.toUpperCase();
+            
+            if (type === 'daily') {
+                document.getElementById('card-race-tag').innerText = "WORKOUT SESSION LOG";
+                document.getElementById('card-target-time').innerText = "COMPLETED";
+                document.getElementById('card-division-tag').innerText = "12-Week Periodized Master Plan";
+            } else {
+                document.getElementById('card-race-tag').innerText = "HYROX RACE SIMULATION";
+                document.getElementById('card-target-time').innerText = document.getElementById('sim-goal-total').value || "1:17:45";
+                document.getElementById('card-division-tag').innerText = "Projected Finish Pace (55/45 Split)";
+            }
+            document.getElementById('card-date-tag').innerText = `Logged on ${new Date().toLocaleDateString()}`;
+            alert('📱 Share Graphic Card updated below!');
+        }
+
+        function calculateMacros() {
+            const profile = JSON.parse(localStorage.getItem('hyrox\_athlete\_profile')) || {};
+            const bw = parseFloat(profile.weight) || 165;
+            const dayType = document.getElementById('nutr-day-type').value;
+
+            let cals = 0, carbs = 0, protein = Math.round(bw \* 1.0), fats = Math.round(bw \* 0.4);
+
+            if (dayType === 'strength') {
+                cals = Math.round(bw \* 17);
+                carbs = Math.round((cals \* 0.50) / 4);
+            } else if (dayType === 'run') {
+                cals = Math.round(bw \* 18);
+                carbs = Math.round((cals \* 0.55) / 4);
+            } else if (dayType === 'race') {
+                cals = Math.round(bw \* 20);
+                carbs = Math.round((cals \* 0.60) / 4);
+            } else {
+                cals = Math.round(bw \* 14);
+                carbs = Math.round((cals \* 0.35) / 4);
+            }
+
+            document.getElementById('macro-cals').innerText = `${cals.toLocaleString()} kcal`;
+            document.getElementById('macro-carbs').innerText = `${carbs}g`;
+            document.getElementById('macro-protein').innerText = `${protein}g`;
+            document.getElementById('macro-fats').innerText = `${fats}g`;
+        }
+
+        function calculateTargetWeight(exName, prescribedLoad) {
+            const profile = JSON.parse(localStorage.getItem('hyrox\_athlete\_profile')) || {};
+            if (!prescribedLoad) return 'Bodyweight';
+            
+            const pctMatch = prescribedLoad.match(/(\\d+)%/);
+            if (pctMatch) {
+                const pct = parseFloat(pctMatch\[1]) / 100;
+                const nameLower = (exName || '').toLowerCase();
+                let baseMax = 0;
+                
+                if (nameLower.includes('squat')) baseMax = parseFloat(profile.backSquat1RM) || 0;
+                else if (nameLower.includes('deadlift')) baseMax = parseFloat(profile.deadlift1RM) || 0;
+                else if (nameLower.includes('bench') || nameLower.includes('press') || nameLower.includes('ohp')) baseMax = parseFloat(profile.benchPress1RM) || 0;
+                else if (nameLower.includes('sled')) baseMax = parseFloat(profile.sledPush1RM) || 0;
+                else baseMax = parseFloat(profile.backSquat1RM) || parseFloat(profile.weight) || 0;
+
+                if (baseMax > 0) {
+                    return `${Math.round(baseMax \* pct)} lbs (${pctMatch\[1]}% 1RM)`;
+                }
+            }
+            return prescribedLoad;
+        }
+
+        async function syncDayWorkoutToSheets(weekNum, dayIdx) {
+            const profile = JSON.parse(localStorage.getItem('hyrox\_athlete\_profile')) || {};
+            if (!profile.email) {
+                alert('Please complete your Athlete Profile first.');
+                openProfileModal();
+                return;
+            }
+
+            if (!programData\[weekNum] || !programData\[weekNum].days\[dayIdx]) return;
+            const weekData = programData\[weekNum];
+            const dayData = weekData.days\[dayIdx];
+
+            const savedProgress = JSON.parse(localStorage.getItem('hyrox\_program\_progress')) || { checkboxes: {}, loads: {} };
+            const setLogs = \[];
+
+            dayData.exercises.forEach((ex, exIdx) => {
+                const numSets = ex.sets || 1;
+                const targetWeightStr = calculateTargetWeight(ex.name, ex.load);
+
+                for (let s = 1; s <= numSets; s++) {
+                    const chkId = `chk\_w${weekNum}\_d${dayIdx}\_e${exIdx}\_s${s}`;
+                    const isCompleted = savedProgress.checkboxes \&\& savedProgress.checkboxes\[chkId] ? 'Yes' : 'No';
+                    
+                    const setLoadId = `load\_w${weekNum}\_d${dayIdx}\_e${exIdx}\_s${s}`;
+                    const generalLoadId = `load\_w${weekNum}\_d${dayIdx}\_e${exIdx}`;
+                    
+                    let actualWt = '';
+                    if (savedProgress.loads) {
+                        actualWt = savedProgress.loads\[setLoadId] || savedProgress.loads\[generalLoadId] || ex.load || '';
+                    }
+
+                    setLogs.push({
+                        timestamp: new Date().toLocaleString(),
+                        date: new Date().toLocaleDateString(),
+                        bodyWeight: profile.weight ? (profile.weight + ' lbs') : '',
+                        hydration: '',
+                        weekPhase: `Week ${weekNum} — ${weekData.title || ''}`,
+                        day: dayData.title || dayData.day || `Day ${dayIdx + 1}`,
+                        exercise: ex.name,
+                        setNum: `Set ${s}`,
+                        targetWeight: targetWeightStr,
+                        actualWeight: actualWt,
+                        completed: isCompleted,
+                        comments: `Target Reps: ${ex.reps}`
+                    });
+                }
+            });
+
+            try {
+                const res = await fetch(SCRIPT\_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({
+                        action: 'syncAthleteData',
+                        name: profile.name,
+                        email: profile.email,
+                        setLogs: setLogs
+                    })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    alert(`✓ Day Workout (${dayData.title || dayData.day}) synced to Google Sheets across 19 structured columns!`);
+                } else {
+                    alert('Saved locally. (Google Sheets sync offline)');
+                }
+            } catch (err) {
+                console.log('Sync error:', err);
+                alert('Saved locally. (Offline mode)');
+            }
+        }
+
+        async function saveDailyWellnessLog(event) {
+            if (event) event.preventDefault();
+            const profile = JSON.parse(localStorage.getItem('hyrox\_athlete\_profile')) || {};
+            if (!profile.email) {
+                alert('Please register your Athlete Profile first.');
+                openProfileModal();
+                return;
+            }
+
+            const wellnessLog = {
+                date: new Date().toLocaleDateString(),
+                bodyWeight: document.getElementById('well-weight').value || profile.weight || '',
+                hydration: document.getElementById('well-hydration').value || '',
+                wakeTime: document.getElementById('well-waketime').value || '',
+                liftTime: document.getElementById('well-lifttime').value || '',
+                mealsCompleted: document.getElementById('well-meals').value || '',
+                bodyStrain: document.getElementById('well-strain').value || '',
+                hrv: document.getElementById('well-hrv').value || '',
+                sleepScore: document.getElementById('well-sleep').value || '',
+                restingHR: document.getElementById('well-rhr').value || '',
+                comments: document.getElementById('well-comments').value || ''
+            };
+
+            localStorage.setItem('hyrox\_wellness\_log', JSON.stringify(wellnessLog));
+            const statusMsg = document.getElementById('wellness-status-msg');
+            if (statusMsg) {
+                statusMsg.className = 'text-xs text-center font-bold text-hyrox-yellow block';
+                statusMsg.innerText = 'Syncing wellness check-in to Google Sheets...';
+            }
+
+            try {
+                const res = await fetch(SCRIPT\_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({
+                        action: 'syncAthleteData',
+                        name: profile.name,
+                        email: profile.email,
+                        wellnessLog: wellnessLog
+                    })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    if (statusMsg) {
+                        statusMsg.className = 'text-xs text-center font-bold text-green-400 block';
+                        statusMsg.innerText = '✓ Daily Wellness Log Synced to Google Sheets!';
+                    }
+                    alert('✓ Daily Wellness Log Synced to Google Sheets!');
+                }
+            } catch (err) {
+                if (statusMsg) {
+                    statusMsg.className = 'text-xs text-center font-bold text-yellow-400 block';
+                    statusMsg.innerText = 'Saved locally! (Sheet sync offline)';
+                }
+            }
+        }
+
+        window.onload = initApp;
+    </script>
 
 </body>
 </html>
