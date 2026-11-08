@@ -67,8 +67,7 @@
         .set-checkbox:checked + .set-badge .check-icon {
             display: inline-block !important;
         }
-
-    </style>
+</style>
 </head>
 <body class="antialiased min-h-screen flex flex-col justify-between">
     <!-- Top Navigation Header -->
@@ -1123,7 +1122,17 @@
                     opt.innerText = dayObj.title || `Day ${idx + 1}`;
                     daySelect.appendChild(opt);
                 });
-            } el        function renderProgramWeek() {
+            } else {
+                for (let i = 0; i < 7; i++) {
+                    const opt = document.createElement('option');
+                    opt.value = i;
+                    opt.innerText = `Day ${i + 1}`;
+                    daySelect.appendChild(opt);
+                }
+            }
+        }
+
+        function renderProgramWeek() {
             const container = document.getElementById('program-container');
             container.innerHTML = '';
 
@@ -1137,8 +1146,9 @@
             }
 
             const dayObj = weekObj.days[selectedDayIdx];
-            if (document.getElementById('widget-phase-focus')) {
-                document.getElementById('widget-phase-focus').innerText = weekObj.focus ? weekObj.focus.split(' ')[0] : 'Phase Focus';
+            const phaseWidget = document.getElementById('widget-phase-focus');
+            if (phaseWidget) {
+                phaseWidget.innerText = weekObj.focus ? weekObj.focus.split(' ')[0] : 'Phase Focus';
             }
 
             const headerCard = document.createElement('div');
@@ -1152,6 +1162,11 @@
 
             const savedProgress = JSON.parse(localStorage.getItem('hyrox_program_progress')) || { checkboxes: {}, loads: {} };
 
+            if (!dayObj.exercises || dayObj.exercises.length === 0) {
+                container.innerHTML += `<div class="p-8 text-center text-gray-500 font-medium">No exercises scheduled for this session.</div>`;
+                return;
+            }
+
             dayObj.exercises.forEach((ex, exIdx) => {
                 const exCard = document.createElement('div');
                 exCard.className = "bg-[#0f172a] border border-[#1e293b] p-4 rounded-xl space-y-3 shadow-md hover:border-gray-700 transition";
@@ -1161,7 +1176,6 @@
                 const prescribedLoad = ex.load || ex.prescribedLoad || ex.targetWeight || 'Standard';
                 const categoryLabel = (ex.category || ex.series || (exIdx === 0 ? 'A-SERIES' : exIdx === 1 ? 'B-SERIES' : 'MAIN')).toUpperCase();
 
-                // Build Optional Specs string if present in sheet data (e.g. tempo, rest, rpe)
                 let extraSpecs = [];
                 if (ex.tempo) extraSpecs.push(`Tempo: <span class="text-hyrox-yellow font-bold">${ex.tempo}</span>`);
                 if (ex.rest) extraSpecs.push(`Rest: ${ex.rest}`);
@@ -1172,7 +1186,7 @@
                 for (let s = 1; s <= totalSets; s++) {
                     const chkId = `chk_w${currentWeek}_d${selectedDayIdx}_e${exIdx}_s${s}`;
                     const wtInputId = `wt_w${currentWeek}_d${selectedDayIdx}_e${exIdx}_s${s}`;
-                    const isChecked = savedProgress.checkboxes[chkId] ? 'checked' : '';
+                    const isChecked = (savedProgress.checkboxes && savedProgress.checkboxes[chkId]) ? 'checked' : '';
                     const savedWtVal = (savedProgress.loads && savedProgress.loads[wtInputId] !== undefined) ? savedProgress.loads[wtInputId] : (savedProgress.loads && savedProgress.loads[`load_w${currentWeek}_d${selectedDayIdx}_e${exIdx}`] !== undefined ? savedProgress.loads[`load_w${currentWeek}_d${selectedDayIdx}_e${exIdx}`] : prescribedLoad);
 
                     setsHtml += `
@@ -1199,14 +1213,14 @@
                     </div>
 
                     <div>
-                        <h4 class="font-black text-base text-white tracking-tight">${ex.name}</h4>
-                        <div class="text-xs text-gray-300 mt-1 font-medium">
+                        <h4 class="font-black text-base text-white tracking-wide uppercase">${ex.name}</h4>
+                        <div class="text-xs text-gray-400 mt-0.5">
                             Sets: <span class="text-white font-bold">${totalSets}</span> | Reps: <span class="text-white font-bold">${targetReps}</span>${extraSpecsHtml}
                         </div>
                     </div>
 
-                    <div class="space-y-1 pt-1">
-                        <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Track Sets & Weight:</div>
+                    <div class="space-y-1.5 pt-1">
+                        <div class="text-[10px] font-extrabold uppercase text-gray-400 tracking-wider">Completed Sets & Weight:</div>
                         <div class="flex items-center gap-2 flex-wrap">
                             ${setsHtml}
                         </div>
@@ -1224,7 +1238,7 @@
             document.querySelectorAll('.set-checkbox').forEach(chk => {
                 progressData.checkboxes[chk.id] = chk.checked;
             });
-            document.querySelectorAll('input[id^="wt_w"], input[id^="load_w"]').forEach(input => {
+            document.querySelectorAll('input[id^="load_w"], input[id^="wt_w"]').forEach(input => {
                 progressData.loads[input.id] = input.value;
             });
 
