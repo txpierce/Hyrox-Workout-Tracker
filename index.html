@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TX\\\_Pierce HYROX Training App</title>
+    <title>TX\_Pierce HYROX Training App</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -34,7 +34,7 @@
         }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        input\\\[type="date"], input\\\[type="text"], input\\\[type="number"], select, textarea {
+        input\[type="date"], input\[type="text"], input\[type="number"], select, textarea {
             background-color: #1E1E1E; border: 1px solid #374151; color: #F3F4F6;
         }
         input:focus, select:focus, textarea:focus {
@@ -58,7 +58,7 @@
 </head>
 <body class="antialiased min-h-screen flex flex-col justify-between">
     <!-- Top Navigation Header -->
-<header class="sticky top-0 z-40 bg-\\\[#121212]/95 backdrop-blur-md border-b border-hyrox-border px-4 py-3">
+<header class="sticky top-0 z-40 bg-\[#121212]/95 backdrop-blur-md border-b border-hyrox-border px-4 py-3">
 <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
 <div class="flex items-center justify-between w-full sm:w-auto">
 <div class="flex items-center gap-3">
@@ -66,15 +66,16 @@
 HYROX
 </div>
 <div>
-<h1 class="font-extrabold text-sm sm:text-base tracking-tight text-white leading-none">TX\_PIERCE</h1>
-<p class="text-\\\[10px] text-gray-400 font-medium tracking-wide">PERFORMANCE TRAINING APP</p>
+<h1 class="font-extrabold text-sm sm:text-base tracking-tight text-white leading-none">TX_PIERCE</h1>
+<p class="text-\[10px] text-gray-400 font-medium tracking-wide">PERFORMANCE TRAINING APP</p>
 </div>
 </div>
                 <button onclick="openProfileModal()" class="flex items-center gap-1.5 bg-hyrox-yellow/10 border border-hyrox-yellow/30 hover:bg-hyrox-yellow/20 text-hyrox-yellow px-2.5 py-1 rounded-lg text-xs font-bold transition ml-2">
-<i class="fa-solid fa-user-gear">
-<span id="header-athlete-name">Athlete Profile</span>
-</button>
-</div>
+                    <i class="fa-solid fa-user-gear"></i>
+                    <span id="header-athlete-name">Athlete Profile</span>
+                </button>
+            </div>
+            
             <div class="flex items-center gap-1.5 bg-hyrox-card p-1 rounded-lg border border-hyrox-border text-xs overflow-x-auto w-full sm:w-auto scrollbar-none">
                 <button onclick="switchTab('dashboard')" id="btn-dashboard" class="tab-btn px-2.5 py-1.5 rounded font-semibold transition bg-hyrox-yellow text-black whitespace-nowrap">Dashboard</button>
                 <button onclick="switchTab('program')" id="btn-program" class="tab-btn px-2.5 py-1.5 rounded font-semibold transition text-gray-300 hover:bg-gray-800 whitespace-nowrap">Program</button>
@@ -89,8 +90,6 @@ HYROX
     </header>
 
     <!-- App Content Loaded -->
-
-
 
 </body>
 </html>
