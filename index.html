@@ -402,6 +402,67 @@
                     <button onclick="switchSimMode('custom')" id="sim-tab-custom" class="px-4 py-2 rounded-lg font-bold text-gray-400 hover:bg-gray-800 transition whitespace-nowrap">Custom Sim Builder</button>
                 </div>
 
+                
+                <!-- RACE SIMULATOR LIVE TIMER WIDGET -->
+                <div id="sim-live-timer-card" class="bg-gradient-to-r from-hyrox-card via-zinc-900 to-black border border-hyrox-yellow/50 rounded-2xl p-5 space-y-4 shadow-2xl relative overflow-hidden">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-gray-800 pb-3">
+                        <div class="flex items-center gap-2.5 flex-wrap">
+                            <span id="sim-timer-status-badge" class="bg-yellow-500/20 text-hyrox-yellow border border-hyrox-yellow/40 text-[10px] px-2.5 py-1 rounded-full font-bold uppercase">
+                                TIMER READY
+                            </span>
+                            <span id="sim-timer-mode-badge" class="text-xs font-black text-white uppercase tracking-wider">
+                                MODE: FULL 16-SEGMENT SIM
+                            </span>
+                        </div>
+                        <div class="text-xs text-gray-400 font-semibold flex items-center gap-1.5">
+                            <i class="fa-solid fa-stopwatch text-hyrox-yellow animate-pulse"></i> Athlete Live Sim Stopwatch
+                        </div>
+                    </div>
+
+                    <!-- Active Segment Banner & Timer Displays -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                        <!-- Current Segment Info -->
+                        <div class="bg-black/60 p-4 rounded-xl border border-gray-800 space-y-1">
+                            <span id="sim-timer-seg-number" class="text-[10px] font-black text-hyrox-yellow uppercase tracking-widest block">SEGMENT 1 OF 16</span>
+                            <h4 id="sim-timer-seg-name" class="font-black text-base text-white uppercase truncate">RUN 1 (1KM)</h4>
+                            <div class="text-xs text-gray-400 font-medium">
+                                Target Time: <span id="sim-timer-seg-target" class="text-hyrox-yellow font-bold">05:30</span>
+                            </div>
+                        </div>
+
+                        <!-- Timer Displays (Total + Current Segment) -->
+                        <div class="md:col-span-2 grid grid-cols-2 gap-3 text-center font-mono">
+                            <div class="bg-black/80 border border-gray-800 p-3 rounded-xl">
+                                <span class="text-[10px] text-gray-400 font-bold uppercase block tracking-wider">Overall Sim Stopwatch</span>
+                                <span id="sim-timer-total-display" class="text-2xl sm:text-3xl font-black text-white">00:00:00</span>
+                            </div>
+                            <div class="bg-black/80 border border-hyrox-yellow/40 p-3 rounded-xl">
+                                <span class="text-[10px] text-hyrox-yellow font-bold uppercase block tracking-wider">Current Segment Timer</span>
+                                <span id="sim-timer-seg-display" class="text-2xl sm:text-3xl font-black text-hyrox-yellow">00:00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Control Buttons -->
+                    <div class="flex flex-wrap items-center justify-between gap-3 pt-1 border-t border-gray-800/80">
+                        <div class="flex items-center gap-2 w-full sm:w-auto">
+                            <button onclick="startSimTimer()" id="btn-sim-timer-start" class="flex-1 sm:flex-initial px-5 py-2.5 bg-hyrox-yellow text-black font-black uppercase text-xs rounded-xl hover:bg-yellow-400 transition flex items-center justify-center gap-1.5 shadow-md">
+                                <i class="fa-solid fa-play text-xs"></i> Start Timer
+                            </button>
+                            <button onclick="pauseSimTimer()" id="btn-sim-timer-pause" class="flex-1 sm:flex-initial px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white font-bold uppercase text-xs rounded-xl transition flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-pause text-xs"></i> Pause
+                            </button>
+                            <button onclick="resetSimTimer()" class="flex-1 sm:flex-initial px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-gray-300 hover:text-white font-bold uppercase text-xs rounded-xl transition flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-rotate-left text-xs"></i> Reset
+                            </button>
+                        </div>
+
+                        <button onclick="recordSimSplit()" id="btn-sim-timer-split" class="w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-hyrox-yellow to-yellow-400 text-black font-black uppercase text-xs tracking-wider rounded-xl hover:opacity-90 transition flex items-center justify-center gap-2 shadow-lg">
+                            <i class="fa-solid fa-flag-checkered"></i> Record Split & Next Segment
+                        </button>
+                    </div>
+                </div>
+
                 <!-- MODE 1: FULL 16-SEGMENT SIMULATOR -->
                 <div id="sim-view-full" class="space-y-4">
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -1251,6 +1312,7 @@
             updateRaceSettings();
             updateCountdown();
             buildSimulatorSegments();
+            updateSimTimerDisplay();
             fetchProgramData();
             loadDailyWellness();
             calculateIndividualPace();
@@ -1386,8 +1448,229 @@
         }
 
         // SIMULATOR MODE SWITCHER
+        
+        // RACE SIMULATOR LIVE TIMER FUNCTIONS
+        let simTimerIsRunning = false;
+        let simTimerInterval = null;
+        let simStartTime = 0;
+        let simSegmentStartTime = 0;
+        let simCurrentSegmentIndex = 0;
+
+        function getSimTimerSegments() {
+            let segments = [];
+            if (activeSimMode === 'full') {
+                const runPaceStr = document.getElementById('calc-run-pace') ? document.getElementById('calc-run-pace').value : "5:30";
+                segmentNamesList.forEach((segName, idx) => {
+                    const tgtInput = document.getElementById(`sim-target-${idx}`);
+                    const tgtVal = tgtInput ? tgtInput.value : (segName.includes('Run') ? runPaceStr : '04:30');
+                    segments.push({
+                        index: idx,
+                        name: segName,
+                        target: tgtVal,
+                        actualInputId: `sim-actual-${idx}`,
+                        targetInputId: `sim-target-${idx}`
+                    });
+                });
+            } else if (activeSimMode === 'broken') {
+                let indices = [];
+                if (currentBrokenBlock === 'b1') indices = [0, 1, 2, 3, 4, 5, 6, 7];
+                else if (currentBrokenBlock === 'b2') indices = [8, 9, 10, 11, 12, 13, 14, 15];
+                else indices = Array.from({length: 16}, (_, i) => i);
+
+                indices.forEach((idx, i) => {
+                    const segName = segmentNamesList[idx];
+                    const tgtInput = document.getElementById(`broken-target-${idx}`);
+                    const tgtVal = tgtInput ? tgtInput.value : "05:30";
+                    segments.push({
+                        index: i,
+                        segIdx: idx,
+                        name: segName,
+                        target: tgtVal,
+                        actualInputId: `broken-actual-${idx}`,
+                        targetInputId: `broken-target-${idx}`
+                    });
+                });
+            } else if (activeSimMode === 'custom') {
+                const chks = document.querySelectorAll('.custom-sim-chk:checked');
+                chks.forEach((chk, i) => {
+                    const val = chk.value;
+                    const config = customStationMap[val] || { name: `1km Run + ${val}`, defaultTarget: '9:30' };
+                    const tgtInput = document.getElementById(`custom-target-${val}`);
+                    const tgtVal = tgtInput ? tgtInput.value : config.defaultTarget;
+                    segments.push({
+                        index: i,
+                        stationKey: val,
+                        name: config.name,
+                        target: tgtVal,
+                        actualInputId: `custom-actual-${val}`,
+                        targetInputId: `custom-target-${val}`
+                    });
+                });
+            }
+            return segments;
+        }
+
+        function updateSimTimerDisplay() {
+            const segments = getSimTimerSegments();
+            const numEl = document.getElementById('sim-timer-seg-number');
+            const nameEl = document.getElementById('sim-timer-seg-name');
+            const tgtEl = document.getElementById('sim-timer-seg-target');
+            const modeBadge = document.getElementById('sim-timer-mode-badge');
+
+            if (segments.length === 0) {
+                if (numEl) numEl.innerText = "NO EVENTS SELECTED";
+                if (nameEl) nameEl.innerText = "SELECT STATIONS OR MODE";
+                if (tgtEl) tgtEl.innerText = "--:--";
+                return;
+            }
+
+            if (simCurrentSegmentIndex >= segments.length) {
+                simCurrentSegmentIndex = segments.length - 1;
+            }
+
+            const currentSeg = segments[simCurrentSegmentIndex];
+            if (numEl) numEl.innerText = `SEGMENT ${simCurrentSegmentIndex + 1} OF ${segments.length}`;
+            if (nameEl) nameEl.innerText = currentSeg.name.toUpperCase();
+            if (tgtEl) tgtEl.innerText = currentSeg.target || "--:--";
+
+            let modeText = "MODE: FULL 16-SEGMENT SIM";
+            if (activeSimMode === 'broken') {
+                const blockLabel = currentBrokenBlock === 'b1' ? 'BLOCK 1 (SEGMENTS 1–8)' : (currentBrokenBlock === 'b2' ? 'BLOCK 2 (SEGMENTS 9–16)' : 'BOTH BLOCKS (1–16)');
+                modeText = `MODE: BROKEN SIM (${blockLabel})`;
+            } else if (activeSimMode === 'custom') {
+                modeText = `MODE: CUSTOM SIM (${segments.length} EVENT${segments.length === 1 ? '' : 'S'})`;
+            }
+            if (modeBadge) modeBadge.innerText = modeText;
+        }
+
+        function startSimTimer() {
+            if (simTimerIsRunning) return;
+            getAudioContext();
+
+            const segments = getSimTimerSegments();
+            const badge = document.getElementById('sim-timer-status-badge');
+
+            if (segments.length === 0) {
+                alert("Please select at least 1 station or event for your simulation timer!");
+                if (badge) {
+                    badge.className = "bg-yellow-500/20 text-hyrox-yellow border border-hyrox-yellow/40 text-[10px] px-2.5 py-1 rounded-full font-bold uppercase";
+                    badge.innerText = "TIMER READY";
+                }
+                return;
+            }
+
+            simTimerIsRunning = true;
+
+            if (badge) {
+                badge.className = "bg-green-500/20 text-green-400 border border-green-500/40 text-[10px] px-2.5 py-1 rounded-full font-bold uppercase animate-pulse";
+                badge.innerText = "LIVE RECORDING";
+            }
+
+            if (simStartTime === 0) {
+                simStartTime = Date.now();
+                simSegmentStartTime = Date.now();
+            } else {
+                const pausedOffset = Date.now() - simSegmentStartTime;
+                simStartTime += pausedOffset;
+                simSegmentStartTime = Date.now();
+            }
+
+            simTimerInterval = setInterval(() => {
+                const now = Date.now();
+                const totalElapsedSecs = Math.floor((now - simStartTime) / 1000);
+                const segElapsedSecs = Math.floor((now - simSegmentStartTime) / 1000);
+
+                const totDisp = document.getElementById('sim-timer-total-display');
+                const segDisp = document.getElementById('sim-timer-seg-display');
+
+                if (totDisp) totDisp.innerText = formatSecondsToHHMMSS(totalElapsedSecs);
+                if (segDisp) segDisp.innerText = formatSecondsToMMSS(segElapsedSecs);
+            }, 1000);
+
+            beep(900, 'sine', 0.2);
+        }
+
+        function pauseSimTimer() {
+            if (!simTimerIsRunning) return;
+            simTimerIsRunning = false;
+            clearInterval(simTimerInterval);
+
+            const badge = document.getElementById('sim-timer-status-badge');
+            if (badge) {
+                badge.className = "bg-yellow-500/20 text-hyrox-yellow border border-hyrox-yellow/40 text-[10px] px-2.5 py-1 rounded-full font-bold uppercase";
+                badge.innerText = "TIMER PAUSED";
+            }
+        }
+
+        function resetSimTimer() {
+            pauseSimTimer();
+            simStartTime = 0;
+            simSegmentStartTime = 0;
+            simCurrentSegmentIndex = 0;
+
+            const totDisp = document.getElementById('sim-timer-total-display');
+            const segDisp = document.getElementById('sim-timer-seg-display');
+
+            if (totDisp) totDisp.innerText = "00:00:00";
+            if (segDisp) segDisp.innerText = "00:00";
+
+            const badge = document.getElementById('sim-timer-status-badge');
+            if (badge) {
+                badge.className = "bg-yellow-500/20 text-hyrox-yellow border border-hyrox-yellow/40 text-[10px] px-2.5 py-1 rounded-full font-bold uppercase";
+                badge.innerText = "TIMER READY";
+            }
+            updateSimTimerDisplay();
+        }
+
+        function recordSimSplit() {
+            if (!simTimerIsRunning) {
+                alert("Please start the Live Timer first!");
+                return;
+            }
+
+            const segments = getSimTimerSegments();
+            if (segments.length === 0 || simCurrentSegmentIndex >= segments.length) return;
+
+            const now = Date.now();
+            const segElapsedSecs = Math.floor((now - simSegmentStartTime) / 1000);
+            const currentSeg = segments[simCurrentSegmentIndex];
+            const actualTimeStr = formatSecondsToMMSS(segElapsedSecs);
+
+            const actualInput = document.getElementById(currentSeg.actualInputId);
+            if (actualInput) {
+                actualInput.value = actualTimeStr;
+            }
+
+            if (activeSimMode === 'broken') {
+                calculateBrokenSim();
+            } else if (activeSimMode === 'custom') {
+                calculateCustomSimTotals();
+            }
+
+            beep(1000, 'sine', 0.15);
+
+            simCurrentSegmentIndex++;
+            simSegmentStartTime = Date.now();
+
+            if (simCurrentSegmentIndex >= segments.length) {
+                pauseSimTimer();
+                playCompletionBeeps();
+                const badge = document.getElementById('sim-timer-status-badge');
+                if (badge) {
+                    badge.className = "bg-green-500/20 text-green-400 border border-green-500/40 text-[10px] px-2.5 py-1 rounded-full font-bold uppercase";
+                    badge.innerText = "SIM COMPLETE ✅";
+                }
+                alert(`Race Simulation Complete! Outstanding performance! All ${segments.length} actual split time${segments.length === 1 ? '' : 's'} have been recorded on screen. Click "Save Simulation Log" below to sync with Google Sheets!`);
+            } else {
+                updateSimTimerDisplay();
+                const segDisp = document.getElementById('sim-timer-seg-display');
+                if (segDisp) segDisp.innerText = "00:00";
+            }
+        }
+
         function switchSimMode(mode) {
             activeSimMode = mode;
+            resetSimTimer();
             ['full', 'broken', 'custom'].forEach(m => {
                 const view = document.getElementById(`sim-view-${m}`);
                 const tab = document.getElementById(`sim-tab-${m}`);
@@ -1415,6 +1698,7 @@
 
         function selectBrokenBlock(blockChoice) {
             currentBrokenBlock = blockChoice;
+            resetSimTimer();
             ['b1', 'b2', 'both'].forEach(b => {
                 const btn = document.getElementById(`broken-btn-${b}`);
                 if (btn) {
@@ -1516,6 +1800,7 @@
         }
 
         function renderCustomSimEvents() {
+            updateSimTimerDisplay();
             const grid = document.getElementById('custom-events-grid');
             if (!grid) return;
 
