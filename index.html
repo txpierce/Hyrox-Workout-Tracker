@@ -93,6 +93,7 @@
                     <button onclick="switchTab('nutrition')" id="btn-nutrition" class="tab-btn px-3 py-1.5 rounded font-semibold transition text-gray-300 hover:bg-gray-800">Nutrition</button>
                     <button onclick="switchTab('cards')" id="btn-cards" class="tab-btn px-3 py-1.5 rounded font-semibold transition text-gray-300 hover:bg-gray-800">Share Cards</button>
                     <button onclick="switchTab('raceprep')" id="btn-raceprep" class="tab-btn px-3 py-1.5 rounded font-semibold transition text-gray-300 hover:bg-gray-800">Race Prep</button>
+                    <button onclick="switchTab('wellness')" id="btn-wellness" class="tab-btn px-3 py-1.5 rounded font-semibold transition text-gray-300 hover:bg-gray-800">Daily Wellness</button>
                 </div>
 
                 <!-- Profile Switcher Badge -->
@@ -620,6 +621,90 @@
             </div>
         </div>
 
+                <!-- TAB 8: DAILY WELLNESS -->
+        <div id="tab-wellness" class="tab-content space-y-6 hidden">
+            <div class="bg-hyrox-card border border-hyrox-border p-6 rounded-2xl space-y-6 shadow-xl">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-hyrox-border pb-4">
+                    <div>
+                        <h2 class="text-xl font-black text-hyrox-yellow uppercase tracking-wide flex items-center gap-2">
+                            <i class="fa-solid fa-heart-pulse"></i> Daily Wellness & Recovery Journal
+                        </h2>
+                        <p class="text-xs text-gray-400 mt-1">Track daily biometrics, strain, sleep score, and hydration to optimize readiness and recovery.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                    <!-- Body Weight -->
+                    <div class="space-y-1.5">
+                        <label class="font-bold text-gray-300 uppercase tracking-wider block">Body Weight (lbs)</label>
+                        <input type="number" step="0.1" id="wellness-weight" placeholder="e.g. 185" class="w-full text-xs p-2.5 rounded-xl bg-black border border-gray-700 text-white font-mono font-bold focus:outline-none focus:border-hyrox-yellow">
+                    </div>
+
+                    <!-- Hydration -->
+                    <div class="space-y-1.5">
+                        <label class="font-bold text-gray-300 uppercase tracking-wider block">Hydration Tracker</label>
+                        <input type="text" id="wellness-hydration" placeholder="e.g. 128 oz / 3.8 L" class="w-full text-xs p-2.5 rounded-xl bg-black border border-gray-700 text-white font-mono focus:outline-none focus:border-hyrox-yellow">
+                    </div>
+
+                    <!-- Wake Time -->
+                    <div class="space-y-1.5">
+                        <label class="font-bold text-gray-300 uppercase tracking-wider block">Wake Time</label>
+                        <input type="text" id="wellness-wake-time" placeholder="e.g. 06:15 AM" class="w-full text-xs p-2.5 rounded-xl bg-black border border-gray-700 text-white font-mono focus:outline-none focus:border-hyrox-yellow">
+                    </div>
+
+                    <!-- Lift Time -->
+                    <div class="space-y-1.5">
+                        <label class="font-bold text-gray-300 uppercase tracking-wider block">Lift / Training Time</label>
+                        <input type="text" id="wellness-lift-time" placeholder="e.g. 05:30 PM" class="w-full text-xs p-2.5 rounded-xl bg-black border border-gray-700 text-white font-mono focus:outline-none focus:border-hyrox-yellow">
+                    </div>
+
+                    <!-- Meals Completed -->
+                    <div class="space-y-1.5">
+                        <label class="font-bold text-gray-300 uppercase tracking-wider block">Meals Completed</label>
+                        <input type="text" id="wellness-meals" placeholder="e.g. 4/4" class="w-full text-xs p-2.5 rounded-xl bg-black border border-gray-700 text-white font-mono focus:outline-none focus:border-hyrox-yellow">
+                    </div>
+
+                    <!-- Body Strain -->
+                    <div class="space-y-1.5">
+                        <label class="font-bold text-gray-300 uppercase tracking-wider block">Body Strain (1–21 Scale)</label>
+                        <input type="number" step="0.1" min="1" max="21" id="wellness-strain" placeholder="e.g. 14.5" class="w-full text-xs p-2.5 rounded-xl bg-black border border-gray-700 text-white font-mono focus:outline-none focus:border-hyrox-yellow">
+                    </div>
+
+                    <!-- HRV -->
+                    <div class="space-y-1.5">
+                        <label class="font-bold text-gray-300 uppercase tracking-wider block">HRV (ms)</label>
+                        <input type="number" id="wellness-hrv" placeholder="e.g. 65 ms" class="w-full text-xs p-2.5 rounded-xl bg-black border border-gray-700 text-white font-mono focus:outline-none focus:border-hyrox-yellow">
+                    </div>
+
+                    <!-- Resting HR -->
+                    <div class="space-y-1.5">
+                        <label class="font-bold text-gray-300 uppercase tracking-wider block">Resting HR (bpm)</label>
+                        <input type="number" id="wellness-rhr" placeholder="e.g. 52 bpm" class="w-full text-xs p-2.5 rounded-xl bg-black border border-gray-700 text-white font-mono focus:outline-none focus:border-hyrox-yellow">
+                    </div>
+
+                    <!-- Sleep Score -->
+                    <div class="space-y-1.5 md:col-span-2 lg:col-span-4">
+                        <label class="font-bold text-gray-300 uppercase tracking-wider block">Sleep Score (1–100%)</label>
+                        <input type="number" min="1" max="100" id="wellness-sleep" placeholder="e.g. 88%" class="w-full text-xs p-2.5 rounded-xl bg-black border border-gray-700 text-white font-mono focus:outline-none focus:border-hyrox-yellow">
+                    </div>
+
+                    <!-- Daily Comments -->
+                    <div class="space-y-1.5 md:col-span-2 lg:col-span-4">
+                        <label class="font-bold text-gray-300 uppercase tracking-wider block">Daily Comments & Recovery Notes</label>
+                        <textarea id="wellness-comments" rows="3" placeholder="Notes on recovery, soreness, energy levels, or fatigue..." class="w-full text-xs p-2.5 rounded-xl bg-black border border-gray-700 text-white font-sans focus:outline-none focus:border-hyrox-yellow"></textarea>
+                    </div>
+                </div>
+
+                <div class="pt-2 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <button onclick="logDailyWellness()" id="btn-log-wellness" class="w-full sm:w-auto px-6 py-3 bg-hyrox-yellow text-black font-black uppercase text-xs tracking-widest rounded-xl hover:bg-yellow-400 transition flex items-center justify-center gap-2 shadow-lg">
+                        Submit Wellness Log <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                    <div id="wellness-log-status" class="hidden text-xs font-bold text-hyrox-yellow"></div>
+                </div>
+            </div>
+        </div>
+
+
         <!-- TAB 7: RACE PREP & JOURNAL -->
         <div id="tab-raceprep" class="tab-content space-y-6">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -840,12 +925,123 @@
             }
         }
 
+        
+        function loadDailyWellness() {
+            const profile = JSON.parse(localStorage.getItem('hyrox_athlete_profile')) || {};
+            if (profile.weight && document.getElementById('wellness-weight')) {
+                document.getElementById('wellness-weight').value = profile.weight;
+            }
+            if (document.getElementById('wellness-hydration')) {
+                document.getElementById('wellness-hydration').value = localStorage.getItem('hyrox_hydration') || '';
+            }
+            if (document.getElementById('wellness-wake-time')) {
+                document.getElementById('wellness-wake-time').value = localStorage.getItem('hyrox_wake_time') || '';
+            }
+            if (document.getElementById('wellness-lift-time')) {
+                document.getElementById('wellness-lift-time').value = localStorage.getItem('hyrox_lift_time') || '';
+            }
+            if (document.getElementById('wellness-meals')) {
+                document.getElementById('wellness-meals').value = localStorage.getItem('hyrox_meals_completed') || '';
+            }
+            if (document.getElementById('wellness-strain')) {
+                document.getElementById('wellness-strain').value = localStorage.getItem('hyrox_body_strain') || '';
+            }
+            if (document.getElementById('wellness-hrv')) {
+                document.getElementById('wellness-hrv').value = localStorage.getItem('hyrox_hrv') || '';
+            }
+            if (document.getElementById('wellness-rhr')) {
+                document.getElementById('wellness-rhr').value = localStorage.getItem('hyrox_resting_hr') || '';
+            }
+            if (document.getElementById('wellness-sleep')) {
+                document.getElementById('wellness-sleep').value = localStorage.getItem('hyrox_sleep_score') || '';
+            }
+            if (document.getElementById('wellness-comments')) {
+                document.getElementById('wellness-comments').value = localStorage.getItem('hyrox_wellness_comments') || '';
+            }
+        }
+
+        async function logDailyWellness() {
+            const profile = JSON.parse(localStorage.getItem('hyrox_athlete_profile')) || {};
+            if (!profile.name || !profile.email) {
+                alert('Please set up your Athlete Profile first (click Setup Profile in the header).');
+                openProfileModal();
+                return;
+            }
+
+            const weightVal = document.getElementById('wellness-weight') ? document.getElementById('wellness-weight').value : (profile.weight || '');
+            const hydrationVal = document.getElementById('wellness-hydration') ? document.getElementById('wellness-hydration').value : '';
+            const wakeTimeVal = document.getElementById('wellness-wake-time') ? document.getElementById('wellness-wake-time').value : '';
+            const liftTimeVal = document.getElementById('wellness-lift-time') ? document.getElementById('wellness-lift-time').value : '';
+            const mealsVal = document.getElementById('wellness-meals') ? document.getElementById('wellness-meals').value : '';
+            const strainVal = document.getElementById('wellness-strain') ? document.getElementById('wellness-strain').value : '';
+            const hrvVal = document.getElementById('wellness-hrv') ? document.getElementById('wellness-hrv').value : '';
+            const rhrVal = document.getElementById('wellness-rhr') ? document.getElementById('wellness-rhr').value : '';
+            const sleepVal = document.getElementById('wellness-sleep') ? document.getElementById('wellness-sleep').value : '';
+            const commentsVal = document.getElementById('wellness-comments') ? document.getElementById('wellness-comments').value : '';
+
+            if (weightVal) {
+                profile.weight = weightVal;
+                localStorage.setItem('hyrox_athlete_profile', JSON.stringify(profile));
+            }
+            localStorage.setItem('hyrox_hydration', hydrationVal);
+            localStorage.setItem('hyrox_wake_time', wakeTimeVal);
+            localStorage.setItem('hyrox_lift_time', liftTimeVal);
+            localStorage.setItem('hyrox_meals_completed', mealsVal);
+            localStorage.setItem('hyrox_body_strain', strainVal);
+            localStorage.setItem('hyrox_hrv', hrvVal);
+            localStorage.setItem('hyrox_resting_hr', rhrVal);
+            localStorage.setItem('hyrox_sleep_score', sleepVal);
+            localStorage.setItem('hyrox_wellness_comments', commentsVal);
+
+            const statusEl = document.getElementById('wellness-log-status');
+            if (statusEl) {
+                statusEl.classList.remove('hidden');
+                statusEl.innerText = "Submitting wellness log to Google Sheets...";
+            }
+
+            const payload = {
+                action: 'logWellness',
+                name: profile.name,
+                email: profile.email,
+                weight: weightVal,
+                hydration: hydrationVal,
+                wakeTime: wakeTimeVal,
+                liftTime: liftTimeVal,
+                mealsCompleted: mealsVal,
+                bodyStrain: strainVal,
+                hrv: hrvVal,
+                sleepScore: sleepVal,
+                restingHR: rhrVal,
+                comments: commentsVal,
+                timestamp: new Date().toLocaleString(),
+                date: new Date().toLocaleDateString()
+            };
+
+            try {
+                const res = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    if (statusEl) statusEl.innerText = "Daily Wellness Logged to Google Sheets! ✅";
+                } else {
+                    if (statusEl) statusEl.innerText = "Saved locally. (Sync queued)";
+                }
+            } catch(err) {
+                if (statusEl) statusEl.innerText = "Saved locally. (Offline mode)";
+            }
+        }
+
+
         function initApp() {
             loadCustomSettings();
             updateRaceSettings();
             updateCountdown();
             buildSimulatorSegments();
             fetchProgramData();
+            loadDailyWellness();
             calculateIndividualPace();
             calculateMacros();
             loadAthleteProfile();
