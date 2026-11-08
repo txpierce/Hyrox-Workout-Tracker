@@ -379,6 +379,7 @@
         </div>
 
         <!-- TAB 3: RACE SIMULATOR -->
+                <!-- TAB 3: RACE SIMULATOR -->
         <div id="tab-logger" class="tab-content space-y-6">
             <div class="bg-hyrox-card border border-hyrox-border p-5 rounded-2xl space-y-5 shadow-xl">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-hyrox-border pb-4">
@@ -395,10 +396,10 @@
                 </div>
 
                 <!-- Simulation Mode Selector Tabs -->
-                <div class="flex items-center gap-2 bg-black/60 p-1.5 rounded-xl border border-gray-800 text-xs">
-                    <button onclick="switchSimMode('full')" id="sim-tab-full" class="px-4 py-2 rounded-lg font-bold bg-hyrox-yellow text-black transition">Full 16-Segment Sim</button>
-                    <button onclick="switchSimMode('broken')" id="sim-tab-broken" class="px-4 py-2 rounded-lg font-bold text-gray-400 hover:bg-gray-800 transition">Broken Sim (2 Blocks)</button>
-                    <button onclick="switchSimMode('custom')" id="sim-tab-custom" class="px-4 py-2 rounded-lg font-bold text-gray-400 hover:bg-gray-800 transition">Custom Sim Builder</button>
+                <div class="flex items-center gap-2 bg-black/60 p-1.5 rounded-xl border border-gray-800 text-xs overflow-x-auto">
+                    <button onclick="switchSimMode('full')" id="sim-tab-full" class="px-4 py-2 rounded-lg font-bold bg-hyrox-yellow text-black transition whitespace-nowrap">Full 16-Segment Sim</button>
+                    <button onclick="switchSimMode('broken')" id="sim-tab-broken" class="px-4 py-2 rounded-lg font-bold text-gray-400 hover:bg-gray-800 transition whitespace-nowrap">Broken Sim (2 Blocks)</button>
+                    <button onclick="switchSimMode('custom')" id="sim-tab-custom" class="px-4 py-2 rounded-lg font-bold text-gray-400 hover:bg-gray-800 transition whitespace-nowrap">Custom Sim Builder</button>
                 </div>
 
                 <!-- MODE 1: FULL 16-SEGMENT SIMULATOR -->
@@ -426,48 +427,47 @@
                         </div>
                     </div>
 
-                    <!-- 16-Segment Target Breakdown Grid -->
-                    <div id="simulator-segments-container" class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                         <div id="sim-segments-col-1" class="space-y-2.5"></div>
                         <div id="sim-segments-col-2" class="space-y-2.5"></div>
                     </div>
                 </div>
 
-                <!-- MODE 2: BROKEN SIM (2 BLOCKS WITH REST) -->
+                <!-- MODE 2: BROKEN SIMULATOR (2 BLOCKS) -->
                 <div id="sim-view-broken" class="hidden space-y-4">
                     <div class="bg-black/40 border border-gray-800 p-4 rounded-xl space-y-3">
-                        <div class="flex justify-between items-center">
-                            <h3 class="font-extrabold text-sm text-hyrox-yellow uppercase">Broken Simulation Structure</h3>
-                            <span class="text-xs text-gray-400">Target Rest: 5:00 Minutes</span>
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-gray-800 pb-2">
+                            <div>
+                                <h3 class="font-extrabold text-sm text-hyrox-yellow uppercase">Broken Simulation Block Selection</h3>
+                                <p class="text-xs text-gray-400 mt-0.5">Select Block 1 (Segments 1–8), Block 2 (Segments 9–16), or Both Blocks to enter Goal & Actual split times.</p>
+                            </div>
+                            <span class="text-xs text-gray-400 font-semibold bg-zinc-900 px-2.5 py-1 rounded border border-gray-800">Target Rest: 5:00 Mins</span>
                         </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-xs font-bold text-gray-400 mb-1">Block 1 Goal (Runs 1-4 + Stations 1-4)</label>
-                                <input type="text" id="broken-b1-target" readonly class="w-full p-2.5 rounded text-sm font-mono font-bold text-white bg-zinc-900">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-gray-400 mb-1">Block 2 Goal (Runs 5-8 + Stations 5-8)</label>
-                                <input type="text" id="broken-b2-target" readonly class="w-full p-2.5 rounded text-sm font-mono font-bold text-white bg-zinc-900">
-                            </div>
+
+                        <!-- Block Switcher Buttons -->
+                        <div class="flex items-center gap-2 bg-black/60 p-1.5 rounded-xl border border-gray-800 text-xs overflow-x-auto pt-1">
+                            <button onclick="selectBrokenBlock('b1')" id="broken-btn-b1" class="px-3.5 py-1.5 rounded-lg font-bold bg-hyrox-yellow text-black transition whitespace-nowrap">Block 1 (Segments 1–8)</button>
+                            <button onclick="selectBrokenBlock('b2')" id="broken-btn-b2" class="px-3.5 py-1.5 rounded-lg font-bold text-gray-400 hover:bg-gray-800 transition whitespace-nowrap">Block 2 (Segments 9–16)</button>
+                            <button onclick="selectBrokenBlock('both')" id="broken-btn-both" class="px-3.5 py-1.5 rounded-lg font-bold text-gray-400 hover:bg-gray-800 transition whitespace-nowrap">Both Blocks (1–16)</button>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="bg-zinc-900/60 p-4 rounded-xl border border-gray-800 space-y-3">
-                            <h4 class="font-bold text-xs text-hyrox-yellow uppercase">Log Block 1 Actuals</h4>
-                            <input type="text" id="broken-b1-actual" placeholder="Block 1 Time (e.g. 37:15)" class="w-full text-xs p-2.5 rounded">
-                        </div>
-                        <div class="bg-zinc-900/60 p-4 rounded-xl border border-gray-800 space-y-3">
-                            <h4 class="font-bold text-xs text-hyrox-yellow uppercase">Log Block 2 Actuals</h4>
-                            <input type="text" id="broken-b2-actual" placeholder="Block 2 Time (e.g. 41:20)" class="w-full text-xs p-2.5 rounded">
-                        </div>
+                    <!-- Dynamic Broken Events Grid -->
+                    <div id="broken-events-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-3 pt-1">
+                        <!-- Populated dynamically by renderBrokenBlockEvents() -->
                     </div>
-                    
-                    <button onclick="calculateBrokenSim()" class="w-full bg-hyrox-yellow text-black font-black p-3 rounded-xl text-xs uppercase hover:bg-yellow-400 transition">Calculate Total Moving Time</button>
-                    
-                    <div id="broken-sim-result" class="hidden bg-black border border-hyrox-yellow/40 p-4 rounded-xl text-center font-mono">
-                        <span class="text-xs text-gray-400 block uppercase">Net Race Moving Time</span>
-                        <span id="broken-total-display" class="text-2xl font-black text-hyrox-yellow">--:--:--</span>
+
+                    <!-- Broken Sim Net Moving Time Result -->
+                    <div id="broken-sim-result" class="bg-black border border-hyrox-yellow/40 p-4 rounded-xl flex flex-col sm:flex-row items-center justify-around gap-3 font-mono text-center">
+                        <div>
+                            <span class="text-[10px] text-gray-400 block uppercase font-bold">Block Total Goal Time</span>
+                            <span id="broken-goal-display" class="text-xl font-black text-white">--:--:--</span>
+                        </div>
+                        <div class="w-px h-8 bg-gray-800 hidden sm:block"></div>
+                        <div>
+                            <span class="text-[10px] text-gray-400 block uppercase font-bold">Block Total Actual Time</span>
+                            <span id="broken-actual-display" class="text-2xl font-black text-hyrox-yellow">--:--:--</span>
+                        </div>
                     </div>
                 </div>
 
@@ -475,48 +475,68 @@
                 <div id="sim-view-custom" class="hidden space-y-4">
                     <div class="bg-black/40 border border-gray-800 p-4 rounded-xl space-y-3">
                         <h3 class="font-extrabold text-sm text-hyrox-yellow uppercase">Custom Station & Run Pairings</h3>
-                        <p class="text-xs text-gray-400">Select specific stations to build a mini-simulation for today's training session.</p>
+                        <p class="text-xs text-gray-400">Select specific stations below to build your custom mini-simulation and log split times for each chosen event.</p>
                         
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs pt-2">
-                            <label class="flex items-center gap-2 bg-zinc-900 p-2 rounded border border-gray-800 cursor-pointer">
-                                <input type="checkbox" value="SkiErg" class="custom-sim-chk accent-hyrox-yellow"> SkiErg
+                            <label class="flex items-center gap-2 bg-zinc-900 p-2 rounded border border-gray-800 cursor-pointer hover:border-hyrox-yellow/40 transition">
+                                <input type="checkbox" value="SkiErg" onchange="renderCustomSimEvents()" class="custom-sim-chk accent-hyrox-yellow"> SkiErg
                             </label>
-                            <label class="flex items-center gap-2 bg-zinc-900 p-2 rounded border border-gray-800 cursor-pointer">
-                                <input type="checkbox" value="Sled Push" class="custom-sim-chk accent-hyrox-yellow"> Sled Push
+                            <label class="flex items-center gap-2 bg-zinc-900 p-2 rounded border border-gray-800 cursor-pointer hover:border-hyrox-yellow/40 transition">
+                                <input type="checkbox" value="Sled Push" onchange="renderCustomSimEvents()" class="custom-sim-chk accent-hyrox-yellow"> Sled Push
                             </label>
-                            <label class="flex items-center gap-2 bg-zinc-900 p-2 rounded border border-gray-800 cursor-pointer">
-                                <input type="checkbox" value="Sled Pull" class="custom-sim-chk accent-hyrox-yellow"> Sled Pull
+                            <label class="flex items-center gap-2 bg-zinc-900 p-2 rounded border border-gray-800 cursor-pointer hover:border-hyrox-yellow/40 transition">
+                                <input type="checkbox" value="Sled Pull" onchange="renderCustomSimEvents()" class="custom-sim-chk accent-hyrox-yellow"> Sled Pull
                             </label>
-                            <label class="flex items-center gap-2 bg-zinc-900 p-2 rounded border border-gray-800 cursor-pointer">
-                                <input type="checkbox" value="Burpees" class="custom-sim-chk accent-hyrox-yellow"> Burpee Broad
+                            <label class="flex items-center gap-2 bg-zinc-900 p-2 rounded border border-gray-800 cursor-pointer hover:border-hyrox-yellow/40 transition">
+                                <input type="checkbox" value="Burpees" onchange="renderCustomSimEvents()" class="custom-sim-chk accent-hyrox-yellow"> Burpee Broad Jump
                             </label>
-                            <label class="flex items-center gap-2 bg-zinc-900 p-2 rounded border border-gray-800 cursor-pointer">
-                                <input type="checkbox" value="Rowing" class="custom-sim-chk accent-hyrox-yellow"> Rowing
+                            <label class="flex items-center gap-2 bg-zinc-900 p-2 rounded border border-gray-800 cursor-pointer hover:border-hyrox-yellow/40 transition">
+                                <input type="checkbox" value="Rowing" onchange="renderCustomSimEvents()" class="custom-sim-chk accent-hyrox-yellow"> Rowing
                             </label>
-                            <label class="flex items-center gap-2 bg-zinc-900 p-2 rounded border border-gray-800 cursor-pointer">
-                                <input type="checkbox" value="Farmers" class="custom-sim-chk accent-hyrox-yellow"> Farmers Carry
+                            <label class="flex items-center gap-2 bg-zinc-900 p-2 rounded border border-gray-800 cursor-pointer hover:border-hyrox-yellow/40 transition">
+                                <input type="checkbox" value="Farmers" onchange="renderCustomSimEvents()" class="custom-sim-chk accent-hyrox-yellow"> Farmers Carry
                             </label>
-                            <label class="flex items-center gap-2 bg-zinc-900 p-2 rounded border border-gray-800 cursor-pointer">
-                                <input type="checkbox" value="Lunges" class="custom-sim-chk accent-hyrox-yellow"> Sandbag Lunges
+                            <label class="flex items-center gap-2 bg-zinc-900 p-2 rounded border border-gray-800 cursor-pointer hover:border-hyrox-yellow/40 transition">
+                                <input type="checkbox" value="Lunges" onchange="renderCustomSimEvents()" class="custom-sim-chk accent-hyrox-yellow"> Sandbag Lunges
                             </label>
-                            <label class="flex items-center gap-2 bg-zinc-900 p-2 rounded border border-gray-800 cursor-pointer">
-                                <input type="checkbox" value="WallBalls" class="custom-sim-chk accent-hyrox-yellow"> Wall Balls
+                            <label class="flex items-center gap-2 bg-zinc-900 p-2 rounded border border-gray-800 cursor-pointer hover:border-hyrox-yellow/40 transition">
+                                <input type="checkbox" value="WallBalls" onchange="renderCustomSimEvents()" class="custom-sim-chk accent-hyrox-yellow"> Wall Balls
                             </label>
                         </div>
                     </div>
                     
-                    <button onclick="calcCustomSim()" class="w-full bg-hyrox-yellow text-black font-black p-3 rounded-xl text-xs uppercase hover:bg-yellow-400 transition">Generate Custom Session Targets</button>
-                    <div id="custom-sim-output" class="hidden bg-black p-4 rounded-xl border border-gray-800 space-y-2 text-xs"></div>
+                    <!-- Dynamic Custom Events Grid -->
+                    <div id="custom-events-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-3 pt-1">
+                        <!-- Populated dynamically by renderCustomSimEvents() -->
+                    </div>
+
+                    <!-- Custom Sim Total Calculator -->
+                    <div id="custom-sim-result" class="bg-black border border-hyrox-yellow/40 p-4 rounded-xl flex flex-col sm:flex-row items-center justify-around gap-3 font-mono text-center">
+                        <div>
+                            <span class="text-[10px] text-gray-400 block uppercase font-bold">Custom Total Goal Time</span>
+                            <span id="custom-goal-display" class="text-xl font-black text-white">--:--:--</span>
+                        </div>
+                        <div class="w-px h-8 bg-gray-800 hidden sm:block"></div>
+                        <div>
+                            <span class="text-[10px] text-gray-400 block uppercase font-bold">Custom Total Actual Time</span>
+                            <span id="custom-actual-display" class="text-2xl font-black text-hyrox-yellow">--:--:--</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="flex justify-end gap-3 border-t border-gray-800 pt-4">
-                    <button onclick="clearSimLog()" class="bg-zinc-800 hover:bg-zinc-700 text-white font-bold px-4 py-2 rounded-lg text-xs transition">Clear Log</button>
-                    <button onclick="saveSimLog()" class="bg-hyrox-yellow hover:bg-yellow-400 text-black font-black px-5 py-2 rounded-lg text-xs transition uppercase">Save Simulation Log</button>
+                <!-- SAVE & CLEAR SIMULATION LOG ACTION FOOTER -->
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-gray-800 pt-4">
+                    <span id="sim-save-status" class="text-xs font-bold text-hyrox-yellow hidden"></span>
+                    <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+                        <button onclick="clearSimLog()" class="w-full sm:w-auto bg-zinc-800 hover:bg-zinc-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition">Clear Log</button>
+                        <button onclick="saveSimLog()" id="btn-save-sim" class="w-full sm:w-auto bg-hyrox-yellow hover:bg-yellow-400 text-black font-black px-6 py-2.5 rounded-xl text-xs transition uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg">
+                            <i class="fa-solid fa-cloud-arrow-up"></i> Save Simulation Log
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <!-- TAB 4: COACH LIVE TIMER -->
+<!-- TAB 4: COACH LIVE TIMER -->
         <div id="tab-tools" class="tab-content space-y-6">
             <div class="bg-hyrox-card border border-hyrox-border p-5 rounded-2xl space-y-5 shadow-xl">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-hyrox-border pb-4">
@@ -903,6 +923,20 @@
         };
 
         let programData = {};
+        let activeSimMode = 'full';
+        let currentBrokenBlock = 'b1';
+
+        const customStationMap = {
+            'SkiErg': { name: '1km Run + SkiErg (1000m)', defaultTarget: '9:30', stationSecs: 270 },
+            'Sled Push': { name: '1km Run + Sled Push (50m)', defaultTarget: '9:45', stationSecs: 285 },
+            'Sled Pull': { name: '1km Run + Sled Pull (50m)', defaultTarget: '9:00', stationSecs: 240 },
+            'Burpees': { name: '1km Run + Burpee Broad Jump (80m)', defaultTarget: '10:00', stationSecs: 300 },
+            'Rowing': { name: '1km Run + Rowing (1000m)', defaultTarget: '9:30', stationSecs: 270 },
+            'Farmers': { name: '1km Run + Farmers Carry (200m)', defaultTarget: '7:30', stationSecs: 150 },
+            'Lunges': { name: '1km Run + Sandbag Lunges (100m)', defaultTarget: '8:45', stationSecs: 225 },
+            'WallBalls': { name: '1km Run + Wall Balls (100 Reps)', defaultTarget: '9:45', stationSecs: 285 }
+        };
+
         let currentWeek = 0;
         let globalAudioCtx = null;
         let restInterval = null;
@@ -1353,43 +1387,208 @@
 
         // SIMULATOR MODE SWITCHER
         function switchSimMode(mode) {
+            activeSimMode = mode;
             ['full', 'broken', 'custom'].forEach(m => {
                 const view = document.getElementById(`sim-view-${m}`);
                 const tab = document.getElementById(`sim-tab-${m}`);
                 if (m === mode) {
-                    view.classList.remove('hidden');
-                    tab.classList.remove('text-gray-400', 'hover:bg-gray-800');
-                    tab.classList.add('bg-hyrox-yellow', 'text-black');
+                    if (view) view.classList.remove('hidden');
+                    if (tab) {
+                        tab.classList.remove('text-gray-400', 'hover:bg-gray-800');
+                        tab.classList.add('bg-hyrox-yellow', 'text-black');
+                    }
                 } else {
-                    view.classList.add('hidden');
-                    tab.classList.remove('bg-hyrox-yellow', 'text-black');
-                    tab.classList.add('text-gray-400', 'hover:bg-gray-800');
+                    if (view) view.classList.add('hidden');
+                    if (tab) {
+                        tab.classList.remove('bg-hyrox-yellow', 'text-black');
+                        tab.classList.add('text-gray-400', 'hover:bg-gray-800');
+                    }
                 }
             });
+
+            if (mode === 'broken') {
+                renderBrokenBlockEvents();
+            } else if (mode === 'custom') {
+                renderCustomSimEvents();
+            }
+        }
+
+        function selectBrokenBlock(blockChoice) {
+            currentBrokenBlock = blockChoice;
+            ['b1', 'b2', 'both'].forEach(b => {
+                const btn = document.getElementById(`broken-btn-${b}`);
+                if (btn) {
+                    if (b === blockChoice) {
+                        btn.classList.remove('text-gray-400', 'hover:bg-gray-800');
+                        btn.classList.add('bg-hyrox-yellow', 'text-black');
+                    } else {
+                        btn.classList.remove('bg-hyrox-yellow', 'text-black');
+                        btn.classList.add('text-gray-400', 'hover:bg-gray-800');
+                    }
+                }
+            });
+            renderBrokenBlockEvents();
+        }
+
+        function renderBrokenBlockEvents() {
+            const grid = document.getElementById('broken-events-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            let indices = [];
+            if (currentBrokenBlock === 'b1') {
+                indices = [0, 1, 2, 3, 4, 5, 6, 7];
+            } else if (currentBrokenBlock === 'b2') {
+                indices = [8, 9, 10, 11, 12, 13, 14, 15];
+            } else {
+                indices = Array.from({length: 16}, (_, i) => i);
+            }
+
+            const runPaceStr = document.getElementById('calc-run-pace') ? document.getElementById('calc-run-pace').value : "5:30";
+            const runPaceSecs = parseTimeToSeconds(runPaceStr || "5:30");
+            const stationPaces = [270, 285, 240, 300, 270, 150, 225, 285];
+
+            indices.forEach(idx => {
+                const segName = segmentNamesList[idx];
+                const isRun = segName.includes("Run");
+
+                let defaultTargetSecs = isRun ? runPaceSecs : stationPaces[Math.floor(idx / 2)];
+                let defaultTargetStr = formatSecondsToMMSS(defaultTargetSecs);
+
+                const card = document.createElement('div');
+                card.className = "bg-zinc-900/90 border border-gray-800 p-3 rounded-xl flex items-center justify-between gap-2 hover:border-gray-700 transition";
+
+                card.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-md ${isRun ? 'bg-hyrox-yellow/20 text-hyrox-yellow' : 'bg-gray-800 text-gray-300'} text-[10px] font-black flex items-center justify-center">
+                            ${idx + 1}
+                        </span>
+                        <span class="text-xs font-bold ${isRun ? 'text-white' : 'text-gray-200'}">${segName}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="flex flex-col items-end">
+                            <span class="text-[9px] text-gray-400 font-bold uppercase">Goal</span>
+                            <input type="text" id="broken-target-${idx}" value="${defaultTargetStr}" onchange="calculateBrokenSim()" class="w-16 text-center text-xs p-1 rounded font-mono font-bold text-hyrox-yellow bg-black border border-gray-800">
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span class="text-[9px] text-gray-400 font-bold uppercase">Actual</span>
+                            <input type="text" id="broken-actual-${idx}" placeholder="--:--" onchange="calculateBrokenSim()" class="w-16 text-center text-xs p-1 rounded font-mono text-white bg-black border border-gray-700">
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            calculateBrokenSim();
         }
 
         function calculateBrokenSim() {
-            const b1 = parseTimeToSeconds(document.getElementById('broken-b1-actual').value || '0:0');
-            const b2 = parseTimeToSeconds(document.getElementById('broken-b2-actual').value || '0:0');
-            const totalSecs = b1 + b2;
-            
-            document.getElementById('broken-sim-result').classList.remove('hidden');
-            document.getElementById('broken-total-display').innerText = formatSecondsToHHMMSS(totalSecs);
+            let indices = [];
+            if (currentBrokenBlock === 'b1') indices = [0, 1, 2, 3, 4, 5, 6, 7];
+            else if (currentBrokenBlock === 'b2') indices = [8, 9, 10, 11, 12, 13, 14, 15];
+            else indices = Array.from({length: 16}, (_, i) => i);
+
+            let totalGoalSecs = 0;
+            let totalActualSecs = 0;
+            let hasActuals = false;
+
+            indices.forEach(idx => {
+                const tgtEl = document.getElementById(`broken-target-${idx}`);
+                const actEl = document.getElementById(`broken-actual-${idx}`);
+
+                if (tgtEl && tgtEl.value) totalGoalSecs += parseTimeToSeconds(tgtEl.value);
+                if (actEl && actEl.value.trim() !== '') {
+                    totalActualSecs += parseTimeToSeconds(actEl.value);
+                    hasActuals = true;
+                }
+            });
+
+            const resBox = document.getElementById('broken-sim-result');
+            if (resBox) {
+                resBox.classList.remove('hidden');
+                if (document.getElementById('broken-goal-display')) document.getElementById('broken-goal-display').innerText = formatSecondsToHHMMSS(totalGoalSecs);
+                if (document.getElementById('broken-actual-display')) document.getElementById('broken-actual-display').innerText = hasActuals ? formatSecondsToHHMMSS(totalActualSecs) : '--:--:--';
+            }
         }
 
         function calcCustomSim() {
+            renderCustomSimEvents();
+        }
+
+        function renderCustomSimEvents() {
+            const grid = document.getElementById('custom-events-grid');
+            if (!grid) return;
+
             const chks = document.querySelectorAll('.custom-sim-chk:checked');
             if (chks.length === 0) {
-                alert('Please select at least 1 station.');
+                grid.innerHTML = '<div class="p-4 text-center text-gray-500 font-medium sm:col-span-2">Select one or more stations above to build your custom session.</div>';
+                const resBox = document.getElementById('custom-sim-result');
+                if (resBox) resBox.classList.add('hidden');
                 return;
             }
-            const out = document.getElementById('custom-sim-output');
-            out.classList.remove('hidden');
-            let html = '<div class="font-bold text-hyrox-yellow uppercase pb-1 border-b border-gray-800">Custom Session Targets:</div>';
-            chks.forEach(chk => {
-                html += `<div class="flex justify-between py-1 border-b border-gray-800/40"><span>1km Run + ${chk.value}</span><span class="font-mono text-white">Target: ~9:30 mins</span></div>`;
+
+            grid.innerHTML = '';
+            const runPaceStr = document.getElementById('calc-run-pace') ? document.getElementById('calc-run-pace').value : "5:30";
+            const runPaceSecs = parseTimeToSeconds(runPaceStr || "5:30");
+
+            chks.forEach((chk, idx) => {
+                const val = chk.value;
+                const info = customStationMap[val] || { name: `1km Run + ${val}`, defaultTarget: '9:30', stationSecs: 240 };
+                
+                let targetSecs = runPaceSecs + info.stationSecs;
+                let targetStr = formatSecondsToMMSS(targetSecs);
+
+                const card = document.createElement('div');
+                card.className = "bg-zinc-900/90 border border-gray-800 p-3 rounded-xl flex items-center justify-between gap-2 hover:border-gray-700 transition";
+
+                card.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-md bg-hyrox-yellow/20 text-hyrox-yellow text-[10px] font-black flex items-center justify-center">
+                            C${idx + 1}
+                        </span>
+                        <span class="text-xs font-bold text-white">${info.name}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="flex flex-col items-end">
+                            <span class="text-[9px] text-gray-400 font-bold uppercase">Goal</span>
+                            <input type="text" id="custom-target-${val}" value="${targetStr}" onchange="calculateCustomSimTotals()" class="w-16 text-center text-xs p-1 rounded font-mono font-bold text-hyrox-yellow bg-black border border-gray-800">
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span class="text-[9px] text-gray-400 font-bold uppercase">Actual</span>
+                            <input type="text" id="custom-actual-${val}" placeholder="--:--" onchange="calculateCustomSimTotals()" class="w-16 text-center text-xs p-1 rounded font-mono text-white bg-black border border-gray-700">
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
             });
-            out.innerHTML = html;
+
+            calculateCustomSimTotals();
+        }
+
+        function calculateCustomSimTotals() {
+            const chks = document.querySelectorAll('.custom-sim-chk:checked');
+            let totalGoalSecs = 0;
+            let totalActualSecs = 0;
+            let hasActuals = false;
+
+            chks.forEach(chk => {
+                const val = chk.value;
+                const tgtEl = document.getElementById(`custom-target-${val}`);
+                const actEl = document.getElementById(`custom-actual-${val}`);
+
+                if (tgtEl && tgtEl.value) totalGoalSecs += parseTimeToSeconds(tgtEl.value);
+                if (actEl && actEl.value.trim() !== '') {
+                    totalActualSecs += parseTimeToSeconds(actEl.value);
+                    hasActuals = true;
+                }
+            });
+
+            const resBox = document.getElementById('custom-sim-result');
+            if (resBox) {
+                resBox.classList.remove('hidden');
+                if (document.getElementById('custom-goal-display')) document.getElementById('custom-goal-display').innerText = formatSecondsToHHMMSS(totalGoalSecs);
+                if (document.getElementById('custom-actual-display')) document.getElementById('custom-actual-display').innerText = hasActuals ? formatSecondsToHHMMSS(totalActualSecs) : '--:--:--';
+            }
         }
 
         function switchTab(tabId) {
@@ -2209,39 +2408,184 @@
         }
 
         // LOGGING & SYNCING FUNCTIONS
-        function saveSimLog() {
-            const simData = {
-                athlete: document.getElementById('sim-athlete').value || 'Athlete',
-                date: document.getElementById('sim-date').value || new Date().toLocaleDateString(),
-                runPace: document.getElementById('calc-run-pace').value,
-                totalTime: document.getElementById('sim-goal-total').value,
-                splits: {}
-            };
-
-            for (let i = 0; i < 16; i++) {
-                simData.splits[i] = {
-                    target: document.getElementById(`sim-target-${i}`).value,
-                    actual: document.getElementById(`sim-actual-${i}`).value
-                };
+        async function saveSimLog() {
+            const profile = JSON.parse(localStorage.getItem('hyrox_athlete_profile')) || {};
+            if (!profile.name || !profile.email) {
+                alert('Please set up your Athlete Profile first (click Setup Profile in the header).');
+                openProfileModal();
+                return;
             }
 
-            localStorage.setItem('hyrox_sim_log', JSON.stringify(simData));
-            alert('Race simulation log saved locally!');
+            const statusEl = document.getElementById('sim-save-status');
+            if (statusEl) {
+                statusEl.classList.remove('hidden');
+                statusEl.innerText = "Saving simulation log to Google Sheets...";
+            }
 
-            const profile = JSON.parse(localStorage.getItem('hyrox_athlete_profile')) || {};
-            if (profile.email) {
-                fetch(SCRIPT_URL, {
+            let modeLabel = "Full 16-Segment Race Sim";
+            let blockPicked = "All 16 Segments";
+            let customEventsPicked = [];
+            let events = [];
+            let totalGoalTime = "--:--:--";
+            let totalActualTime = "--:--:--";
+
+            if (activeSimMode === 'full') {
+                modeLabel = "Full 16-Segment Race Sim";
+                blockPicked = "All 16 Segments";
+                totalGoalTime = document.getElementById('sim-goal-total') ? document.getElementById('sim-goal-total').value : "1:17:45";
+
+                let sumActualSecs = 0;
+                let hasActuals = false;
+
+                segmentNamesList.forEach((segName, i) => {
+                    const tgtVal = document.getElementById(`sim-target-${i}`) ? document.getElementById(`sim-target-${i}`).value : '';
+                    const actVal = document.getElementById(`sim-actual-${i}`) ? document.getElementById(`sim-actual-${i}`).value : '';
+                    
+                    if (actVal.trim() !== '') {
+                        sumActualSecs += parseTimeToSeconds(actVal);
+                        hasActuals = true;
+                    }
+
+                    events.push({
+                        name: segName,
+                        goalTime: tgtVal,
+                        actualTime: actVal
+                    });
+                });
+
+                if (hasActuals) {
+                    totalActualTime = formatSecondsToHHMMSS(sumActualSecs);
+                }
+
+            } else if (activeSimMode === 'broken') {
+                let blockLabel = "Block 1 (Segments 1–8)";
+                let indices = [0, 1, 2, 3, 4, 5, 6, 7];
+                if (currentBrokenBlock === 'b2') {
+                    blockLabel = "Block 2 (Segments 9–16)";
+                    indices = [8, 9, 10, 11, 12, 13, 14, 15];
+                } else if (currentBrokenBlock === 'both') {
+                    blockLabel = "Both Blocks (1–16)";
+                    indices = Array.from({length: 16}, (_, i) => i);
+                }
+
+                modeLabel = `Broken Race Sim (${blockLabel})`;
+                blockPicked = blockLabel;
+
+                let sumGoalSecs = 0;
+                let sumActualSecs = 0;
+                let hasActuals = false;
+
+                indices.forEach(idx => {
+                    const segName = segmentNamesList[idx];
+                    const tgtVal = document.getElementById(`broken-target-${idx}`) ? document.getElementById(`broken-target-${idx}`).value : '';
+                    const actVal = document.getElementById(`broken-actual-${idx}`) ? document.getElementById(`broken-actual-${idx}`).value : '';
+
+                    if (tgtVal) sumGoalSecs += parseTimeToSeconds(tgtVal);
+                    if (actVal.trim() !== '') {
+                        sumActualSecs += parseTimeToSeconds(actVal);
+                        hasActuals = true;
+                    }
+
+                    events.push({
+                        name: segName,
+                        goalTime: tgtVal,
+                        actualTime: actVal
+                    });
+                });
+
+                totalGoalTime = formatSecondsToHHMMSS(sumGoalSecs);
+                if (hasActuals) totalActualTime = formatSecondsToHHMMSS(sumActualSecs);
+
+            } else if (activeSimMode === 'custom') {
+                const chks = document.querySelectorAll('.custom-sim-chk:checked');
+                chks.forEach(chk => customEventsPicked.push(chk.value));
+
+                const eventsListStr = customEventsPicked.length > 0 ? customEventsPicked.join(', ') : 'Custom Events';
+                modeLabel = `Custom Race Sim (${eventsListStr})`;
+                blockPicked = `Custom Events: ${eventsListStr}`;
+
+                let sumGoalSecs = 0;
+                let sumActualSecs = 0;
+                let hasActuals = false;
+
+                chks.forEach(chk => {
+                    const val = chk.value;
+                    const info = customStationMap[val] || { name: `1km Run + ${val}` };
+                    const tgtVal = document.getElementById(`custom-target-${val}`) ? document.getElementById(`custom-target-${val}`).value : '';
+                    const actVal = document.getElementById(`custom-actual-${val}`) ? document.getElementById(`custom-actual-${val}`).value : '';
+
+                    if (tgtVal) sumGoalSecs += parseTimeToSeconds(tgtVal);
+                    if (actVal.trim() !== '') {
+                        sumActualSecs += parseTimeToSeconds(actVal);
+                        hasActuals = true;
+                    }
+
+                    events.push({
+                        name: info.name,
+                        goalTime: tgtVal,
+                        actualTime: actVal
+                    });
+                });
+
+                totalGoalTime = formatSecondsToHHMMSS(sumGoalSecs);
+                if (hasActuals) totalActualTime = formatSecondsToHHMMSS(sumActualSecs);
+            }
+
+            const payload = {
+                action: 'saveSimLog',
+                name: profile.name,
+                email: profile.email,
+                mode: activeSimMode,
+                modeLabel: modeLabel,
+                blockPicked: blockPicked,
+                customEventsPicked: customEventsPicked,
+                totalGoalTime: totalGoalTime,
+                totalActualTime: totalActualTime,
+                events: events
+            };
+
+            localStorage.setItem('hyrox_sim_log', JSON.stringify(payload));
+
+            try {
+                const res = await fetch(SCRIPT_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ action: 'syncAthleteData', name: profile.name, email: profile.email, simLog: simData })
-                }).then(() => alert('Sim log synced to Google Sheets!'));
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    if (statusEl) statusEl.innerText = `Simulation Logged to Google Sheets! ✅ (${modeLabel})`;
+                } else {
+                    if (statusEl) statusEl.innerText = "Saved locally. (Sync queued)";
+                }
+            } catch (err) {
+                if (statusEl) statusEl.innerText = "Saved locally. (Offline mode)";
+            } finally {
+                setTimeout(() => {
+                    if (statusEl) statusEl.classList.add('hidden');
+                }, 3500);
             }
         }
 
         function clearSimLog() {
-            for (let i = 0; i < 16; i++) {
-                const actual = document.getElementById(`sim-actual-${i}`);
-                if (actual) actual.value = '';
+            if (activeSimMode === 'full') {
+                for (let i = 0; i < 16; i++) {
+                    const actual = document.getElementById(`sim-actual-${i}`);
+                    if (actual) actual.value = '';
+                }
+            } else if (activeSimMode === 'broken') {
+                for (let i = 0; i < 16; i++) {
+                    const actual = document.getElementById(`broken-actual-${i}`);
+                    if (actual) actual.value = '';
+                }
+                calculateBrokenSim();
+            } else if (activeSimMode === 'custom') {
+                const chks = document.querySelectorAll('.custom-sim-chk:checked');
+                chks.forEach(chk => {
+                    const actual = document.getElementById(`custom-actual-${chk.value}`);
+                    if (actual) actual.value = '';
+                });
+                calculateCustomSimTotals();
             }
             localStorage.removeItem('hyrox_sim_log');
         }
