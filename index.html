@@ -266,7 +266,15 @@
                         </div>
                         <div>
                             <label class="block text-gray-400 font-bold mb-1">Hydration Tracker (oz / L)</label>
-                            <input type="text" id="dash-hydration" placeholder="e.g. 120 oz / 3.5L" class="w-full text-xs p-2 rounded bg-black border border-gray-700 text-white focus:border-hyrox-yellow focus:outline-none">
+                            <select id="dash-hydration" class="w-full text-xs p-2 rounded bg-black border border-gray-700 text-white font-semibold focus:border-hyrox-yellow focus:outline-none">
+                                <option value="">Select Hydration Target...</option>
+                                <option value="32 oz / 1.0 L">32 oz / 1.0 L</option>
+                                <option value="64 oz / 1.9 L">64 oz / 1.9 L (0.5 Gal)</option>
+                                <option value="96 oz / 2.8 L">96 oz / 2.8 L</option>
+                                <option value="128 oz / 3.8 L">128 oz / 3.8 L (1.0 Gal)</option>
+                                <option value="160 oz / 4.7 L">160 oz / 4.7 L (1.25 Gal)</option>
+                                <option value="200+ oz / 5.9+ L">200+ oz / 5.9+ L</option>
+                            </select>
                         </div>
                         <div>
                             <label class="block text-gray-400 font-bold mb-1">Wake Time</label>
@@ -278,7 +286,14 @@
                         </div>
                         <div>
                             <label class="block text-gray-400 font-bold mb-1">Meals Completed</label>
-                            <input type="text" id="dash-meals" placeholder="e.g. 4/4" class="w-full text-xs p-2 rounded bg-black border border-gray-700 text-white focus:border-hyrox-yellow focus:outline-none">
+                            <select id="dash-meals" class="w-full text-xs p-2 rounded bg-black border border-gray-700 text-white font-semibold focus:border-hyrox-yellow focus:outline-none">
+                                <option value="">Select Meals Completed...</option>
+                                <option value="1/4 Meals (25%)">1/4 Meals (25%)</option>
+                                <option value="2/4 Meals (50%)">2/4 Meals (50%)</option>
+                                <option value="3/4 Meals (75%)">3/4 Meals (75%)</option>
+                                <option value="4/4 Meals (100% Target)">4/4 Meals (100% Target)</option>
+                                <option value="5/5 Meals (Surplus)">5/5 Meals (Surplus)</option>
+                            </select>
                         </div>
                         <div>
                             <label class="block text-gray-400 font-bold mb-1">Body Strain (1–21 Scale)</label>
@@ -1648,28 +1663,7 @@
                 container.appendChild(exCard);
             });
 
-            // Bottom Log Workout Action Card
-            const logFooterCard = document.createElement('div');
-            logFooterCard.className = "bg-zinc-900/90 border border-hyrox-yellow/40 p-5 rounded-2xl space-y-4 shadow-xl mt-6";
-            logFooterCard.innerHTML = `
-                <div class="flex items-center justify-between border-b border-gray-800 pb-3">
-                    <h4 class="font-extrabold text-sm text-hyrox-yellow uppercase tracking-wide flex items-center gap-2">
-                        <i class="fa-solid fa-clipboard-check"></i> Complete & Log Daily Workout
-                    </h4>
-                    <span class="text-xs text-gray-400">Stores 19-Column Matrix in your Sheet</span>
-                </div>
-                <div class="space-y-1">
-                    <label class="text-xs text-gray-400 font-semibold">Daily Workout & Set Notes / Comments:</label>
-                    <textarea id="workout-comments" placeholder="Add notes (e.g. Felt strong on squat, damper set to 5, smooth pacing)..." class="w-full text-xs p-3 rounded-xl bg-black border border-gray-700 text-white focus:border-hyrox-yellow focus:outline-none" rows="2"></textarea>
-                </div>
-                <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-1">
-                    <button onclick="logWorkout()" id="btn-log-workout" class="w-full sm:w-auto px-6 py-3 bg-hyrox-yellow text-black font-black uppercase text-xs tracking-widest rounded-xl hover:bg-yellow-400 transition flex items-center justify-center gap-2 shadow-lg">
-                        <i class="fa-solid fa-cloud-arrow-up text-sm"></i> Log Workout to Google Sheets
-                    </button>
-                    <span id="log-workout-status" class="text-xs font-bold text-hyrox-yellow hidden"></span>
-                </div>
-            `;
-            container.appendChild(logFooterCard);
+            
 
             updateOverallProgress();
         }
