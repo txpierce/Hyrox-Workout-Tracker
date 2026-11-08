@@ -1147,6 +1147,41 @@
             }
         }
 
+        function getCalculatedLoad(exName, loadStr) {
+            if (!loadStr || typeof loadStr !== 'string') return loadStr || 'Standard';
+            if (!loadStr.includes('%')) return loadStr;
+
+            const profile = JSON.parse(localStorage.getItem('hyrox_athlete_profile')) || {};
+            let maxVal = 0;
+            const nameLower = (exName || '').toLowerCase();
+            const loadLower = loadStr.toLowerCase();
+
+            if (nameLower.includes('squat') || loadLower.includes('squat')) {
+                maxVal = parseFloat(profile.backSquat1RM) || 0;
+            } else if (nameLower.includes('deadlift') || loadLower.includes('deadlift')) {
+                maxVal = parseFloat(profile.deadlift1RM) || 0;
+            } else if (nameLower.includes('bench') || nameLower.includes('press') || loadLower.includes('bench') || loadLower.includes('press')) {
+                maxVal = parseFloat(profile.benchPress1RM) || 0;
+            } else if (nameLower.includes('sled') || loadLower.includes('sled')) {
+                maxVal = parseFloat(profile.sledPush1RM) || 0;
+            }
+
+            if (!maxVal) {
+                maxVal = parseFloat(profile.backSquat1RM) || parseFloat(profile.deadlift1RM) || parseFloat(profile.benchPress1RM) || parseFloat(profile.sledPush1RM) || 0;
+            }
+
+            if (!maxVal) return loadStr;
+
+            const match = loadStr.match(/(\d+(?:\.\d+)?)%/);
+            if (!match) return loadStr;
+
+            const pct = parseFloat(match[1]);
+            if (isNaN(pct) || pct <= 0) return loadStr;
+
+            const calcWeight = Math.round((pct / 100) * maxVal);
+            return `${calcWeight} lbs (${loadStr})`;
+        }
+
         function renderProgramWeek() {
             const container = document.getElementById('program-container');
             if (!container) return;
@@ -1191,7 +1226,8 @@
 
                 const totalSets = parseInt(ex.sets) || 1;
                 const targetReps = ex.reps || 'Standard';
-                const prescribedLoad = ex.load || ex.prescribedLoad || ex.targetWeight || 'Standard';
+                const rawPrescribedLoad = ex.load || ex.prescribedLoad || ex.targetWeight || 'Standard';
+                const calculatedLoad = getCalculatedLoad(ex.name, rawPrescribedLoad);
                 const categoryLabel = (ex.category || ex.series || (exIdx === 0 ? 'A-SERIES' : exIdx === 1 ? 'B-SERIES' : 'MAIN')).toUpperCase();
 
                 let extraSpecs = [];
@@ -1205,17 +1241,17 @@
                     const chkId = `chk_w${currentWeek}_d${selectedDayIdx}_e${exIdx}_s${s}`;
                     const wtInputId = `wt_w${currentWeek}_d${selectedDayIdx}_e${exIdx}_s${s}`;
                     const isChecked = (savedProgress.checkboxes && savedProgress.checkboxes[chkId]) ? 'checked' : '';
-                    const savedWtVal = (savedProgress.loads && savedProgress.loads[wtInputId] !== undefined) ? savedProgress.loads[wtInputId] : prescribedLoad;
+                    const savedWtVal = (savedProgress.loads && savedProgress.loads[wtInputId] !== undefined) ? savedProgress.loads[wtInputId] : calculatedLoad;
 
                     setsHtml += `
-                        <div class="flex items-center bg-black/60 border border-gray-800 rounded-lg p-1 gap-1.5">
+                        <div class="flex items-center bg-black/60 border border-gray-800 rounded-lg p-1.5 gap-2 flex-1 min-w-[180px] sm:min-w-[210px]">
                             <label class="cursor-pointer inline-flex items-center select-none">
                                 <input type="checkbox" id="${chkId}" ${isChecked} onchange="saveProgramProgress()" class="set-checkbox hidden">
                                 <span class="set-badge px-2.5 py-1 rounded bg-gray-800 text-gray-300 border border-gray-700 text-xs font-bold transition flex items-center gap-1">
                                     S${s}<i class="fa-solid fa-check text-[10px] hidden check-icon"></i>
                                 </span>
                             </label>
-                            <input type="text" id="${wtInputId}" value="${savedWtVal}" onchange="saveProgramProgress()" placeholder="Weight" class="set-weight-input bg-zinc-900 border border-gray-700 rounded text-center text-xs text-white font-mono font-bold w-24 py-1 focus:outline-none focus:border-hyrox-yellow">
+                            <input type="text" id="${wtInputId}" value="${savedWtVal}" onchange="saveProgramProgress()" placeholder="Weight" class="set-weight-input bg-zinc-900 border border-gray-700 rounded px-2.5 text-center text-xs text-white font-mono font-bold w-full py-1.5 focus:outline-none focus:border-hyrox-yellow">
                         </div>
                     `;
                 }
@@ -1226,7 +1262,7 @@
                             ${categoryLabel}
                         </span>
                         <div class="text-xs text-gray-400 font-medium">
-                            Target Wt: <span class="text-hyrox-yellow font-bold">${prescribedLoad}</span>
+                            Target Wt: <span class="text-hyrox-yellow font-bold">${calculatedLoad}</span>
                         </div>
                     </div>
 
@@ -1239,7 +1275,7 @@
 
                     <div class="space-y-1.5 pt-1">
                         <div class="text-[10px] font-extrabold uppercase text-gray-400 tracking-wider">Completed Sets & Weight:</div>
-                        <div class="flex items-center gap-2 flex-wrap">
+                        <div class="flex items-center gap-2.5 flex-wrap">
                             ${setsHtml}
                         </div>
                     </div>
