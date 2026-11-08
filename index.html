@@ -339,8 +339,8 @@
                         <p class="text-xs text-gray-400 mt-1">Structured baseline testing, aerobic engine building, heavy sled overload, and race taper.</p>
                     </div>
                     
-                    <div class="flex items-center gap-2 w-full sm:w-auto">
-                        <select id="program-week-select" onchange="onWeekChange()" class="text-xs p-2 rounded bg-black border border-gray-700 font-bold text-hyrox-yellow">
+                    <div class="flex items-center gap-2 w-full sm:w-auto flex-wrap sm:flex-nowrap">
+                        <select id="program-week-select" onchange="onWeekChange()" class="text-xs p-2 rounded bg-black border border-gray-700 font-bold text-hyrox-yellow max-w-[65%] sm:max-w-none truncate">
                             <option value="0">Week 0 — Baseline Assessment</option>
                             <option value="1">Week 1 — Base & Movement</option>
                             <option value="2">Week 2 — Base Progression</option>
@@ -1507,7 +1507,8 @@
                 validDays.forEach((dayObj, idx) => {
                     const opt = document.createElement('option');
                     opt.value = idx;
-                    opt.innerText = dayObj.title || `Day ${idx + 1}`;
+                    const dayNum = dayObj.dayNum || (idx + 1);
+                    opt.innerText = `Day ${dayNum}`;
                     daySelect.appendChild(opt);
                 });
             } else {
