@@ -58,6 +58,16 @@
             background-color: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(4px);
         }
+    
+        .set-checkbox:checked + .set-badge {
+            background-color: #2563EB !important;
+            color: #ffffff !important;
+            border-color: #3B82F6 !important;
+        }
+        .set-checkbox:checked + .set-badge .check-icon {
+            display: inline-block !important;
+        }
+
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col justify-between">
@@ -77,7 +87,7 @@
             <div class="flex items-center gap-2">
                 <div class="hidden md:flex items-center gap-2 bg-hyrox-card p-1 rounded-lg border border-hyrox-border text-xs">
                     <button onclick="switchTab('dashboard')" id="btn-dashboard" class="tab-btn px-3 py-1.5 rounded font-semibold transition bg-hyrox-yellow text-black">Dashboard</button>
-                    <button onclick="switchTab('program')" id="btn-program" class="tab-btn px-3 py-1.5 rounded font-semibold transition text-gray-300 hover:bg-gray-800">12-Wk Program</button>
+                    <button onclick="switchTab('program')" id="btn-program" class="tab-btn px-3 py-1.5 rounded font-semibold transition text-gray-300 hover:bg-gray-800">Program</button>
                     <button onclick="switchTab('logger')" id="btn-logger" class="tab-btn px-3 py-1.5 rounded font-semibold transition text-gray-300 hover:bg-gray-800">Race Simulator</button>
                     <button onclick="switchTab('tools')" id="btn-tools" class="tab-btn px-3 py-1.5 rounded font-semibold transition text-gray-300 hover:bg-gray-800">Coach Live Timer</button>
                     <button onclick="switchTab('nutrition')" id="btn-nutrition" class="tab-btn px-3 py-1.5 rounded font-semibold transition text-gray-300 hover:bg-gray-800">Nutrition</button>
@@ -1137,7 +1147,9 @@
             }
 
             const dayObj = weekObj.days[selectedDayIdx];
-            document.getElementById('widget-phase-focus').innerText = weekObj.focus ? weekObj.focus.split(' ')[0] : 'Phase Focus';
+            if (document.getElementById('widget-phase-focus')) {
+                document.getElementById('widget-phase-focus').innerText = weekObj.focus ? weekObj.focus.split(' ')[0] : 'Phase Focus';
+            }
 
             const headerCard = document.createElement('div');
             headerCard.className = "bg-gradient-to-r from-hyrox-yellow/10 to-transparent border-l-4 border-hyrox-yellow p-4 rounded-r-xl space-y-1 mb-4";
@@ -1152,49 +1164,62 @@
 
             dayObj.exercises.forEach((ex, exIdx) => {
                 const exCard = document.createElement('div');
-                exCard.className = "bg-zinc-900/80 border border-gray-800 p-4 rounded-xl space-y-3 hover:border-gray-700 transition";
+                exCard.className = "bg-[#0f172a] border border-[#1e293b] p-4 rounded-xl space-y-3 shadow-md hover:border-gray-700 transition";
+
+                const totalSets = ex.sets || 1;
+                const seriesLabel = ex.series || (exIdx === 0 ? 'A-SERIES' : exIdx === 1 ? 'B-SERIES' : exIdx === 2 ? 'C-SERIES' : (ex.category || 'MAIN'));
+                const recWeight = ex.load || ex.targetWeight || 'Standard';
 
                 let setsHtml = '';
-                const totalSets = ex.sets || 1;
                 for (let s = 1; s <= totalSets; s++) {
                     const chkId = `chk_w${currentWeek}_d${selectedDayIdx}_e${exIdx}_s${s}`;
+                    const wtInputId = `wt_w${currentWeek}_d${selectedDayIdx}_e${exIdx}_s${s}`;
                     const isChecked = savedProgress.checkboxes[chkId] ? 'checked' : '';
+                    const savedWtVal = (savedProgress.loads && savedProgress.loads[wtInputId] !== undefined) ? savedProgress.loads[wtInputId] : recWeight;
+
                     setsHtml += `
-                        <label class="cursor-pointer inline-flex items-center">
-                            <input type="checkbox" id="${chkId}" ${isChecked} onchange="saveProgramProgress()" class="set-checkbox hidden">
-                            <span class="w-8 h-8 rounded-lg border border-gray-700 bg-black flex items-center justify-center text-xs text-gray-400 transition">
-                                S${s}
-                            </span>
-                        </label>
+                        <div class="flex items-center bg-[#1e293b]/80 border border-gray-700/60 rounded-lg p-1 gap-1.5">
+                            <label class="cursor-pointer inline-flex items-center select-none">
+                                <input type="checkbox" id="${chkId}" ${isChecked} onchange="saveProgramProgress()" class="set-checkbox hidden">
+                                <span class="set-badge px-2 py-1 rounded-md bg-gray-800 text-gray-300 border border-gray-700 text-xs font-bold transition flex items-center gap-1">
+                                    S${s}<i class="fa-solid fa-check text-[10px] hidden check-icon"></i>
+                                </span>
+                            </label>
+                            <input type="text" id="${wtInputId}" value="${savedWtVal}" onchange="saveProgramProgress()" placeholder="Weight" class="set-weight-input bg-[#0f172a] border border-gray-700 rounded text-center text-xs text-white font-mono font-bold w-16 py-1 focus:outline-none focus:border-hyrox-yellow">
+                        </div>
                     `;
                 }
 
-                const loadInputId = `load_w${currentWeek}_d${selectedDayIdx}_e${exIdx}`;
-                const savedLoadVal = savedProgress.loads[loadInputId] || '';
-
                 exCard.innerHTML = `
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-800/60 pb-2">
-                        <div>
-                            <span class="text-[10px] font-bold uppercase text-hyrox-yellow px-2 py-0.5 rounded bg-hyrox-yellow/10 border border-hyrox-yellow/20">${ex.category || 'Main'}</span>
-                            <h4 class="font-extrabold text-sm text-white mt-1">${ex.name}</h4>
-                        </div>
-                        <div class="text-xs font-semibold text-gray-300">
-                            Target: <span class="text-hyrox-yellow font-bold">${ex.sets} Sets × ${ex.reps}</span>
+                    <div class="flex items-center justify-between gap-2">
+                        <span class="bg-[#1e3a8a]/70 text-blue-400 border border-blue-700/60 px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider">
+                            ${seriesLabel}
+                        </span>
+                        <div class="text-xs text-gray-400 font-medium">
+                            Target Wt: <span class="text-sky-400 font-bold">${recWeight}</span>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                        <div class="text-gray-400">
-                            Prescribed Load: <span class="text-gray-200 font-medium">${ex.load || 'Bodyweight / Standard'}</span>
+                    <div>
+                        <h4 class="font-extrabold text-base text-white tracking-tight">${ex.name}</h4>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between text-xs gap-y-1 text-gray-400 border-b border-gray-800/80 pb-3">
+                        <div>
+                            Sets: <span class="font-bold text-white">${ex.sets || 1}</span>
+                            <span class="mx-1 text-gray-600">|</span>
+                            Reps: <span class="text-sky-400 font-bold">${ex.reps || 'Standard'}</span>
+                            <span class="mx-1 text-gray-600">|</span>
+                            Tempo: <span class="text-hyrox-yellow font-bold">${ex.tempo || '3-0-1 (3s eccentric)'}</span>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <label class="text-gray-400 whitespace-nowrap">Actual Load:</label>
-                            <input type="text" id="${loadInputId}" value="${savedLoadVal}" onchange="saveProgramProgress()" placeholder="e.g. 135 lbs / Damper 5" class="w-full text-xs p-1.5 rounded bg-black border border-gray-700 text-white font-mono">
+                        <div>
+                            Rest: <span class="font-bold text-white">${ex.rest || '90 sec'}</span>
+                            <span class="mx-1 text-gray-600">|</span>
+                            RPE: <span class="text-sky-400 font-bold">${ex.rpe || '8.5'}</span>
                         </div>
                     </div>
 
                     <div class="flex items-center gap-2 pt-1 flex-wrap">
-                        <span class="text-[10px] text-gray-500 font-bold uppercase mr-1">Mark Sets:</span>
                         ${setsHtml}
                     </div>
                 `;
@@ -1210,7 +1235,7 @@
             document.querySelectorAll('.set-checkbox').forEach(chk => {
                 progressData.checkboxes[chk.id] = chk.checked;
             });
-            document.querySelectorAll('input[id^="load_w"]').forEach(input => {
+            document.querySelectorAll('.set-weight-input, input[id^="load_w"]').forEach(input => {
                 progressData.loads[input.id] = input.value;
             });
 
