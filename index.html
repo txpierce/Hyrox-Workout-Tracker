@@ -1244,7 +1244,7 @@
                     const savedWtVal = (savedProgress.loads && savedProgress.loads[wtInputId] !== undefined) ? savedProgress.loads[wtInputId] : calculatedLoad;
 
                     setsHtml += `
-                        <div class="flex items-center bg-black/60 border border-gray-800 rounded-lg p-1.5 gap-2 flex-1 min-w-[180px] sm:min-w-[210px]">
+                        <div class="flex items-center bg-black/60 border border-gray-800 rounded-lg p-1.5 gap-2 flex-none w-[200px] sm:w-[220px]">
                             <label class="cursor-pointer inline-flex items-center select-none">
                                 <input type="checkbox" id="${chkId}" ${isChecked} onchange="saveProgramProgress()" class="set-checkbox hidden">
                                 <span class="set-badge px-2.5 py-1 rounded bg-gray-800 text-gray-300 border border-gray-700 text-xs font-bold transition flex items-center gap-1">
