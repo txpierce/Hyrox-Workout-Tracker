@@ -63,12 +63,12 @@
             background-color: #FFCC00 !important;
             color: #000000 !important;
             border-color: #FFCC00 !important;
-            font-weight: 800 !important;
         }
         .set-checkbox:checked + .set-badge .check-icon {
             display: inline-block !important;
         }
-</style>
+
+    </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col justify-between">
     <!-- Top Navigation Header -->
@@ -825,25 +825,285 @@
                     const resData = await response.json();
                     if (resData.status === 'success' && resData.programData && Object.keys(resData.programData).length > 0) {
                         programData = resData.programData;
-                        localStorage.setItem('hyrox_master_workouts', JSON.stringify(programData));
-                        console.log('Loaded 12-week program directly from Google Sheets API!');
+                        localStorage.setItem('hyrox_cached_program', JSON.stringify(programData));
+                        console.log("Loaded 12-week program directly from Google Sheets API!");
                     }
                 }
             } catch (error) {
-                console.log('Using local/cached program dataset.', error);
+                console.log('Using cached or fallback program data.');
+                const cached = localStorage.getItem('hyrox_cached_program');
+                if (cached) programData = JSON.parse(cached);
             } finally {
-                if (!programData || Object.keys(programData).length === 0) {
-                    const cached = localStorage.getItem('hyrox_master_workouts');
-                    if (cached) {
-                        try { programData = JSON.parse(cached); } catch(e){}
-                    }
-                }
                 updateDayDropdownOptions();
                 renderProgramWeek();
                 updateOverallProgress();
             }
         }
 
+        function initApp() {
+            loadCustomSettings();
+            updateRaceSettings();
+            updateCountdown();
+            buildSimulatorSegments();
+            fetchProgramData();
+            calculateIndividualPace();
+            calculateMacros();
+            loadAthleteProfile();
+            setInterval(updateCountdown, 1000);
+            if(document.getElementById('sim-date')) {
+                document.getElementById('sim-date').valueAsDate = new Date();
+            }
+        }
+
+        // PROFILE MODAL FUNCTIONS
+        function openProfileModal() {
+            document.getElementById('modal-profile').classList.remove('hidden');
+        }
+
+        function closeProfileModal() {
+            document.getElementById('modal-profile').classList.add('hidden');
+        }
+
+        async function saveAthleteProfile() {
+            const name = document.getElementById('profile-name').value.trim();
+            const email = document.getElementById('profile-email').value.trim();
+            const weight = document.getElementById('profile-weight').value;
+            const backSquat1RM = document.getElementById('profile-squat').value;
+            const deadlift1RM = document.getElementById('profile-deadlift').value;
+            const benchPress1RM = document.getElementById('profile-bench').value;
+            const sledPush1RM = document.getElementById('profile-sled').value;
+
+            if (!name || !email) {
+                alert('Please enter your Name and Email address.');
+                return;
+            }
+
+            const profile = { name, email, weight, backSquat1RM, deadlift1RM, benchPress1RM, sledPush1RM };
+            localStorage.setItem('hyrox_athlete_profile', JSON.stringify(profile));
+
+            document.getElementById('header-athlete-name').innerText = name;
+            if (document.getElementById('sim-athlete')) document.getElementById('sim-athlete').value = name;
+            if (document.getElementById('macro-weight') && weight) {
+                document.getElementById('macro-weight').value = weight;
+                calculateMacros();
+            }
+
+            const statusEl = document.getElementById('profile-sync-status');
+            statusEl.classList.remove('hidden');
+            statusEl.innerText = "Syncing profile with Google Sheets...";
+
+            try {
+                const res = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'registerAthlete', ...profile })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    statusEl.innerText = "Synced to Google Sheets ✅ (User Tab Created)";
+                    setTimeout(() => { closeProfileModal(); statusEl.classList.add('hidden'); }, 1200);
+                } else {
+                    statusEl.innerText = "Saved locally. Google Sheets update queued.";
+                    setTimeout(() => { closeProfileModal(); statusEl.classList.add('hidden'); }, 1500);
+                }
+            } catch(err) {
+                statusEl.innerText = "Saved locally. (Offline mode)";
+                setTimeout(() => { closeProfileModal(); statusEl.classList.add('hidden'); }, 1500);
+            }
+        }
+
+        function loadAthleteProfile() {
+            const profile = JSON.parse(localStorage.getItem('hyrox_athlete_profile'));
+            if (profile && profile.name) {
+                document.getElementById('header-athlete-name').innerText = profile.name;
+                if (document.getElementById('profile-name')) document.getElementById('profile-name').value = profile.name || '';
+                if (document.getElementById('profile-email')) document.getElementById('profile-email').value = profile.email || '';
+                if (document.getElementById('profile-weight')) document.getElementById('profile-weight').value = profile.weight || '';
+                if (document.getElementById('profile-squat')) document.getElementById('profile-squat').value = profile.backSquat1RM || '';
+                if (document.getElementById('profile-deadlift')) document.getElementById('profile-deadlift').value = profile.deadlift1RM || '';
+                if (document.getElementById('profile-bench')) document.getElementById('profile-bench').value = profile.benchPress1RM || '';
+                if (document.getElementById('profile-sled')) document.getElementById('profile-sled').value = profile.sledPush1RM || '';
+
+                if (document.getElementById('sim-athlete')) document.getElementById('sim-athlete').value = profile.name;
+                if (document.getElementById('macro-weight') && profile.weight) {
+                    document.getElementById('macro-weight').value = profile.weight;
+                }
+            } else {
+                setTimeout(openProfileModal, 1000);
+            }
+        }
+
+        // NUTRITION MACRO ENGINE
+        function calculateMacros() {
+            const bw = parseFloat(document.getElementById('macro-weight').value) || 165;
+            const sessionType = document.getElementById('macro-session-type').value;
+            const goal = document.getElementById('macro-goal').value;
+
+            let baseMult = 15;
+            let carbPct = 0.50;
+            let proteinMult = 1.0;
+
+            if (sessionType === 'strength') {
+                baseMult = 16;
+                carbPct = 0.45;
+                proteinMult = 1.1;
+            } else if (sessionType === 'engine') {
+                baseMult = 17;
+                carbPct = 0.55;
+                proteinMult = 1.0;
+            } else if (sessionType === 'sim') {
+                baseMult = 18;
+                carbPct = 0.60;
+                proteinMult = 1.1;
+            } else if (sessionType === 'rest') {
+                baseMult = 13;
+                carbPct = 0.35;
+                proteinMult = 1.0;
+            }
+
+            let cals = Math.round(bw * baseMult);
+            if (goal === 'lean') cals += 250;
+            if (goal === 'cut') cals -= 350;
+
+            const protein = Math.round(bw * proteinMult);
+            const proteinCals = protein * 4;
+            const carbCals = cals * carbPct;
+            const carbs = Math.round(carbCals / 4);
+            const fatCals = cals - (proteinCals + carbCals);
+            const fats = Math.max(35, Math.round(fatCals / 9));
+
+            document.getElementById('macro-cals').innerText = `${cals.toLocaleString()} kcal`;
+            document.getElementById('macro-carbs').innerText = `${carbs}g`;
+            document.getElementById('macro-protein').innerText = `${protein}g`;
+            document.getElementById('macro-fats').innerText = `${fats}g`;
+        }
+
+        // SIMULATOR MODE SWITCHER
+        function switchSimMode(mode) {
+            ['full', 'broken', 'custom'].forEach(m => {
+                const view = document.getElementById(`sim-view-${m}`);
+                const tab = document.getElementById(`sim-tab-${m}`);
+                if (m === mode) {
+                    view.classList.remove('hidden');
+                    tab.classList.remove('text-gray-400', 'hover:bg-gray-800');
+                    tab.classList.add('bg-hyrox-yellow', 'text-black');
+                } else {
+                    view.classList.add('hidden');
+                    tab.classList.remove('bg-hyrox-yellow', 'text-black');
+                    tab.classList.add('text-gray-400', 'hover:bg-gray-800');
+                }
+            });
+        }
+
+        function calculateBrokenSim() {
+            const b1 = parseTimeToSeconds(document.getElementById('broken-b1-actual').value || '0:0');
+            const b2 = parseTimeToSeconds(document.getElementById('broken-b2-actual').value || '0:0');
+            const totalSecs = b1 + b2;
+            
+            document.getElementById('broken-sim-result').classList.remove('hidden');
+            document.getElementById('broken-total-display').innerText = formatSecondsToHHMMSS(totalSecs);
+        }
+
+        function calcCustomSim() {
+            const chks = document.querySelectorAll('.custom-sim-chk:checked');
+            if (chks.length === 0) {
+                alert('Please select at least 1 station.');
+                return;
+            }
+            const out = document.getElementById('custom-sim-output');
+            out.classList.remove('hidden');
+            let html = '<div class="font-bold text-hyrox-yellow uppercase pb-1 border-b border-gray-800">Custom Session Targets:</div>';
+            chks.forEach(chk => {
+                html += `<div class="flex justify-between py-1 border-b border-gray-800/40"><span>1km Run + ${chk.value}</span><span class="font-mono text-white">Target: ~9:30 mins</span></div>`;
+            });
+            out.innerHTML = html;
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('bg-hyrox-yellow', 'text-black');
+                el.classList.add('text-gray-300', 'hover:bg-gray-800');
+            });
+
+            document.getElementById('tab-' + tabId).classList.add('active');
+            const btn = document.getElementById('btn-' + tabId);
+            if (btn) {
+                btn.classList.remove('text-gray-300', 'hover:bg-gray-800');
+                btn.classList.add('bg-hyrox-yellow', 'text-black');
+            }
+        }
+
+        function loadCustomSettings() {
+            const savedRace = localStorage.getItem('hyrox_race_name');
+            const savedDate = localStorage.getItem('hyrox_race_date');
+            const savedDiv  = localStorage.getItem('hyrox_division');
+
+            if (savedRace) document.getElementById('setting-race-name').value = savedRace;
+            if (savedDate) document.getElementById('setting-race-date').value = savedDate;
+            if (savedDiv)  document.getElementById('setting-division').value  = savedDiv;
+        }
+
+        function updateRaceSettings() {
+            const raceName = document.getElementById('setting-race-name').value || "HYROX Race";
+            const raceDate = document.getElementById('setting-race-date').value;
+            const divKey   = document.getElementById('setting-division').value;
+
+            localStorage.setItem('hyrox_race_name', raceName);
+            localStorage.setItem('hyrox_race_date', raceDate);
+            localStorage.setItem('hyrox_division', divKey);
+
+            document.getElementById('display-race-title').innerText = `${raceName.toUpperCase()} (${divKey.replace('-', ' ').toUpperCase()})`;
+            document.getElementById('widget-race-countdown').innerText = raceName;
+            
+            const divData = divisionStandards[divKey] || divisionStandards['womens-double'];
+            document.getElementById('standards-title').innerText = `OFFICIAL DIVISION STANDARDS — ${divData.name.toUpperCase()}`;
+            
+            const tbody = document.getElementById('standards-table-body');
+            tbody.innerHTML = '';
+            divData.tableRows.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-gray-800/30 transition";
+                tr.innerHTML = `
+                    <td class="p-3 font-bold text-white">${row.s}</td>
+                    <td class="p-3 text-hyrox-yellow font-semibold">${row.d}</td>
+                    <td class="p-3 text-gray-300">${row.l}</td>
+                    <td class="p-3 text-gray-400 italic">${row.n}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            updateCountdown();
+        }
+
+        function updateCountdown() {
+            const dateVal = document.getElementById('setting-race-date').value;
+            if (!dateVal) return;
+
+            const targetDate = new Date(dateVal + "T00:00:00").getTime();
+            const now = new Date().getTime();
+            const diff = targetDate - now;
+
+            if (diff <= 0) {
+                document.getElementById('days-left').innerText = "00";
+                document.getElementById('hours-left').innerText = "00";
+                document.getElementById('mins-left').innerText = "00";
+                document.getElementById('secs-left').innerText = "00";
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('days-left').innerText = String(days).padStart(2, '0');
+            document.getElementById('hours-left').innerText = String(hours).padStart(2, '0');
+            document.getElementById('mins-left').innerText = String(mins).padStart(2, '0');
+            document.getElementById('secs-left').innerText = String(secs).padStart(2, '0');
+        }
+
+        
         function getValidDaysForWeek(weekObj) {
             if (!weekObj || !weekObj.days) return [];
             if (Array.isArray(weekObj.days)) {
@@ -856,8 +1116,7 @@
         }
 
         function onWeekChange() {
-            const weekSelect = document.getElementById('program-week-select');
-            if (weekSelect) currentWeek = parseInt(weekSelect.value) || 0;
+            currentWeek = parseInt(document.getElementById('program-week-select').value);
             updateDayDropdownOptions();
             renderProgramWeek();
         }
@@ -919,7 +1178,7 @@
             `;
             container.appendChild(headerCard);
 
-            const savedProgress = JSON.parse(localStorage.getItem('hyrox_program_progress')) || { checkboxes: {}, loads: {} };
+            const savedProgress = loadProgramProgress();
 
             if (!dayObj.exercises || dayObj.exercises.length === 0) {
                 container.innerHTML += `<div class="p-8 text-center text-gray-500 font-medium">No exercises scheduled for this session.</div>`;
@@ -928,12 +1187,18 @@
 
             dayObj.exercises.forEach((ex, exIdx) => {
                 const exCard = document.createElement('div');
-                exCard.className = "bg-hyrox-card border border-hyrox-border p-4 rounded-xl space-y-3 shadow-md hover:border-hyrox-yellow/40 transition";
+                exCard.className = "bg-zinc-900/90 border border-gray-800 p-4 rounded-xl space-y-3 shadow-md hover:border-hyrox-yellow/40 transition";
 
                 const totalSets = parseInt(ex.sets) || 1;
-                const targetReps = ex.reps || ex.targetReps || 'Standard';
-                const prescribedLoad = ex.load || ex.prescribedLoad || 'Bodyweight / Standard';
-                const categoryLabel = String(ex.category || 'Main').toUpperCase();
+                const targetReps = ex.reps || 'Standard';
+                const prescribedLoad = ex.load || ex.prescribedLoad || ex.targetWeight || 'Standard';
+                const categoryLabel = (ex.category || ex.series || (exIdx === 0 ? 'A-SERIES' : exIdx === 1 ? 'B-SERIES' : 'MAIN')).toUpperCase();
+
+                let extraSpecs = [];
+                if (ex.tempo) extraSpecs.push(`Tempo: <span class="text-hyrox-yellow font-bold">${ex.tempo}</span>`);
+                if (ex.rest) extraSpecs.push(`Rest: ${ex.rest}`);
+                if (ex.rpe) extraSpecs.push(`RPE: ${ex.rpe}`);
+                const extraSpecsHtml = extraSpecs.length > 0 ? ` | ${extraSpecs.join(' | ')}` : '';
 
                 let setsHtml = '';
                 for (let s = 1; s <= totalSets; s++) {
@@ -943,39 +1208,37 @@
                     const savedWtVal = (savedProgress.loads && savedProgress.loads[wtInputId] !== undefined) ? savedProgress.loads[wtInputId] : prescribedLoad;
 
                     setsHtml += `
-                        <div class="flex items-center bg-black/60 border border-hyrox-border rounded-lg p-1 gap-1.5">
+                        <div class="flex items-center bg-black/60 border border-gray-800 rounded-lg p-1 gap-1.5">
                             <label class="cursor-pointer inline-flex items-center select-none">
                                 <input type="checkbox" id="${chkId}" ${isChecked} onchange="saveProgramProgress()" class="set-checkbox hidden">
-                                <span class="set-badge px-2 py-1 rounded bg-hyrox-card text-gray-300 border border-hyrox-border text-xs font-bold transition flex items-center gap-1">
-                                    S${s}<i class="fa-solid fa-check text-[10px] hidden check-icon text-black"></i>
+                                <span class="set-badge px-2.5 py-1 rounded bg-gray-800 text-gray-300 border border-gray-700 text-xs font-bold transition flex items-center gap-1">
+                                    S${s}<i class="fa-solid fa-check text-[10px] hidden check-icon"></i>
                                 </span>
                             </label>
-                            <input type="text" id="${wtInputId}" value="${savedWtVal}" onchange="saveProgramProgress()" placeholder="Weight" class="set-weight-input bg-black border border-hyrox-border rounded text-center text-xs text-white font-mono font-bold w-24 py-1 focus:outline-none focus:border-hyrox-yellow">
+                            <input type="text" id="${wtInputId}" value="${savedWtVal}" onchange="saveProgramProgress()" placeholder="Weight" class="set-weight-input bg-zinc-900 border border-gray-700 rounded text-center text-xs text-white font-mono font-bold w-24 py-1 focus:outline-none focus:border-hyrox-yellow">
                         </div>
                     `;
                 }
 
                 exCard.innerHTML = `
-                    <div class="flex items-center justify-between gap-2 border-b border-hyrox-border/60 pb-2">
-                        <div class="flex items-center gap-2">
-                            <span class="bg-hyrox-yellow/10 text-hyrox-yellow border border-hyrox-yellow/30 px-2.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wider">
-                                ${categoryLabel}
-                            </span>
-                            <h4 class="font-extrabold text-sm text-white">${ex.name}</h4>
-                        </div>
-                        <div class="text-xs font-semibold text-gray-300">
-                            Target: <span class="text-hyrox-yellow font-bold">${totalSets} Sets × ${targetReps}</span>
+                    <div class="flex items-center justify-between gap-2 border-b border-gray-800 pb-2">
+                        <span class="bg-hyrox-yellow/10 text-hyrox-yellow border border-hyrox-yellow/30 px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider">
+                            ${categoryLabel}
+                        </span>
+                        <div class="text-xs text-gray-400 font-medium">
+                            Target Wt: <span class="text-hyrox-yellow font-bold">${prescribedLoad}</span>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                        <div class="text-gray-400">
-                            Prescribed Load: <span class="text-white font-medium">${prescribedLoad}</span>
+                    <div>
+                        <h4 class="font-black text-base text-white tracking-wide uppercase">${ex.name}</h4>
+                        <div class="text-xs text-gray-400 mt-0.5">
+                            Sets: <span class="text-white font-bold">${totalSets}</span> | Reps: <span class="text-white font-bold">${targetReps}</span>${extraSpecsHtml}
                         </div>
                     </div>
 
                     <div class="space-y-1.5 pt-1">
-                        <div class="text-[10px] font-extrabold uppercase text-gray-400 tracking-wider">Mark Sets & Log Weights:</div>
+                        <div class="text-[10px] font-extrabold uppercase text-gray-400 tracking-wider">Completed Sets & Weight:</div>
                         <div class="flex items-center gap-2 flex-wrap">
                             ${setsHtml}
                         </div>
