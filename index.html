@@ -2816,10 +2816,33 @@
                 if (hasActuals) totalActualTime = formatSecondsToHHMMSS(sumActualSecs);
             }
 
+            const weightVal = document.getElementById('dash-weight') ? document.getElementById('dash-weight').value : (profile.weight || '');
+            const hydrationVal = document.getElementById('dash-hydration') ? document.getElementById('dash-hydration').value : (localStorage.getItem('hyrox_hydration') || '');
+            const wakeTimeVal = document.getElementById('dash-wake-time') ? document.getElementById('dash-wake-time').value : (localStorage.getItem('hyrox_wake_time') || '');
+            const liftTimeVal = document.getElementById('dash-lift-time') ? document.getElementById('dash-lift-time').value : (localStorage.getItem('hyrox_lift_time') || '');
+            const mealsVal = document.getElementById('dash-meals') ? document.getElementById('dash-meals').value : (localStorage.getItem('hyrox_meals_completed') || '');
+            const strainVal = document.getElementById('dash-strain') ? document.getElementById('dash-strain').value : (localStorage.getItem('hyrox_body_strain') || '');
+            const hrvVal = document.getElementById('dash-hrv') ? document.getElementById('dash-hrv').value : (localStorage.getItem('hyrox_hrv') || '');
+            const rhrVal = document.getElementById('dash-rhr') ? document.getElementById('dash-rhr').value : (localStorage.getItem('hyrox_resting_hr') || '');
+            const sleepVal = document.getElementById('dash-sleep') ? document.getElementById('dash-sleep').value : (localStorage.getItem('hyrox_sleep_score') || '');
+            const commentsVal = document.getElementById('dash-comments') ? document.getElementById('dash-comments').value : (localStorage.getItem('hyrox_daily_comments') || '');
+
             const payload = {
                 action: 'saveSimLog',
                 name: profile.name,
                 email: profile.email,
+                weight: weightVal,
+                hydration: hydrationVal,
+                wakeTime: wakeTimeVal,
+                liftTime: liftTimeVal,
+                mealsCompleted: mealsVal,
+                bodyStrain: strainVal,
+                hrv: hrvVal,
+                sleepScore: sleepVal,
+                restingHR: rhrVal,
+                comments: commentsVal,
+                timestamp: new Date().toLocaleString(),
+                date: new Date().toLocaleDateString(),
                 mode: activeSimMode,
                 modeLabel: modeLabel,
                 blockPicked: blockPicked,
