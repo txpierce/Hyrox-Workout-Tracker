@@ -667,6 +667,13 @@
                         </tbody>
                     </table>
                 </div>
+                <!-- SAVE COACH LIVE RACE LOG ACTION FOOTER -->
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-gray-800 pt-4">
+                    <span id="coach-save-status" class="text-xs font-bold text-hyrox-yellow hidden"></span>
+                    <button onclick="saveCoachLiveRaceLog()" id="btn-save-coach-race" class="w-full sm:w-auto bg-hyrox-yellow hover:bg-yellow-400 text-black font-black px-6 py-3 rounded-xl text-xs transition uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg">
+                        <i class="fa-solid fa-cloud-arrow-up text-sm"></i> Save Race Log to Google Sheets
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -2665,6 +2672,115 @@
             document.getElementById('coach-current-segment').innerText = `Segment 1: ${segmentNamesList[0]}`;
             document.getElementById('coach-segment-progress').innerText = "0 / 16";
             renderCoachLiveTable();
+        }
+
+        async function saveCoachLiveRaceLog() {
+            const profile = JSON.parse(localStorage.getItem('hyrox_athlete_profile')) || {};
+            if (!profile.name || !profile.email) {
+                alert('Please set up your Athlete Profile first (click Setup Profile in the header).');
+                openProfileModal();
+                return;
+            }
+
+            const statusEl = document.getElementById('coach-save-status');
+            if (statusEl) {
+                statusEl.classList.remove('hidden');
+                statusEl.innerText = "Saving Coach Live Race log to Google Sheets...";
+            }
+
+            const modeLabel = "Coach Live Race Tracker";
+            const blockPicked = "All 16 Segments (Live Tracked)";
+            const events = [];
+
+            let sumGoalSecs = 0;
+            let sumActualSecs = 0;
+            let hasActuals = false;
+
+            for (let i = 0; i < 16; i++) {
+                const segName = segmentNamesList[i];
+                const tgtVal = document.getElementById(`sim-target-${i}`) ? document.getElementById(`sim-target-${i}`).value : '';
+                
+                let actVal = '';
+                if (coachRecordedSplits[i] && coachRecordedSplits[i].actual) {
+                    actVal = coachRecordedSplits[i].actual;
+                } else {
+                    const actEl = document.getElementById(`sim-actual-${i}`);
+                    if (actEl && actEl.value) actVal = actEl.value;
+                }
+
+                if (tgtVal) sumGoalSecs += parseTimeToSeconds(tgtVal);
+                if (actVal && actVal.trim() !== '') {
+                    sumActualSecs += parseTimeToSeconds(actVal);
+                    hasActuals = true;
+                }
+
+                events.push({
+                    name: segName,
+                    goalTime: tgtVal,
+                    actualTime: actVal
+                });
+            }
+
+            const totalGoalTime = formatSecondsToHHMMSS(sumGoalSecs || getGoalTotalSeconds());
+            const totalActualTime = hasActuals ? formatSecondsToHHMMSS(sumActualSecs) : (document.getElementById('coach-total-timer') ? document.getElementById('coach-total-timer').innerText : "--:--:--");
+
+            const weightVal = document.getElementById('dash-weight') ? document.getElementById('dash-weight').value : (profile.weight || '');
+            const hydrationVal = document.getElementById('dash-hydration') ? document.getElementById('dash-hydration').value : (localStorage.getItem('hyrox_hydration') || '');
+            const wakeTimeVal = document.getElementById('dash-wake-time') ? document.getElementById('dash-wake-time').value : (localStorage.getItem('hyrox_wake_time') || '');
+            const liftTimeVal = document.getElementById('dash-lift-time') ? document.getElementById('dash-lift-time').value : (localStorage.getItem('hyrox_lift_time') || '');
+            const mealsVal = document.getElementById('dash-meals') ? document.getElementById('dash-meals').value : (localStorage.getItem('hyrox_meals_completed') || '');
+            const strainVal = document.getElementById('dash-strain') ? document.getElementById('dash-strain').value : (localStorage.getItem('hyrox_body_strain') || '');
+            const hrvVal = document.getElementById('dash-hrv') ? document.getElementById('dash-hrv').value : (localStorage.getItem('hyrox_hrv') || '');
+            const rhrVal = document.getElementById('dash-rhr') ? document.getElementById('dash-rhr').value : (localStorage.getItem('hyrox_resting_hr') || '');
+            const sleepVal = document.getElementById('dash-sleep') ? document.getElementById('dash-sleep').value : (localStorage.getItem('hyrox_sleep_score') || '');
+            const commentsVal = document.getElementById('dash-comments') ? document.getElementById('dash-comments').value : (localStorage.getItem('hyrox_daily_comments') || '');
+
+            const payload = {
+                action: 'saveSimLog',
+                name: profile.name,
+                email: profile.email,
+                weight: weightVal,
+                hydration: hydrationVal,
+                wakeTime: wakeTimeVal,
+                liftTime: liftTimeVal,
+                mealsCompleted: mealsVal,
+                bodyStrain: strainVal,
+                hrv: hrvVal,
+                sleepScore: sleepVal,
+                restingHR: rhrVal,
+                comments: commentsVal,
+                timestamp: new Date().toLocaleString(),
+                date: new Date().toLocaleDateString(),
+                mode: 'coach_live',
+                modeLabel: modeLabel,
+                blockPicked: blockPicked,
+                customEventsPicked: [],
+                totalGoalTime: totalGoalTime,
+                totalActualTime: totalActualTime,
+                events: events
+            };
+
+            localStorage.setItem('hyrox_sim_log', JSON.stringify(payload));
+
+            try {
+                const res = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    if (statusEl) statusEl.innerText = "Coach Live Race Logged to Google Sheets! ✅";
+                } else {
+                    if (statusEl) statusEl.innerText = "Saved locally. (Sync queued)";
+                }
+            } catch (err) {
+                if (statusEl) statusEl.innerText = "Saved locally. (Offline mode)";
+            } finally {
+                setTimeout(() => {
+                    if (statusEl) statusEl.classList.add('hidden');
+                }, 3500);
+            }
         }
 
         // SOCIAL SHARE CARD GENERATOR
