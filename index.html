@@ -1011,6 +1011,155 @@
         let restTotalSeconds = 0;
         let restRemainingSeconds = 0;
 
+        function parseRestTimeToSeconds(restStr) {
+            if (!restStr || typeof restStr !== 'string') return 60;
+            const s = restStr.trim().toLowerCase();
+            if (!s || s === 'standard' || s === 'n/a' || s === 'none' || s === 'auto') return 60;
+            if (s.includes(':')) {
+                const parts = s.split(':');
+                return (parseInt(parts[0]) || 0) * 60 + (parseInt(parts[1]) || 0);
+            }
+            const nums = s.match(/\d+(?:\.\d+)?/g);
+            if (!nums || nums.length === 0) return 60;
+            const val = parseFloat(nums[0]);
+            if (s.includes('min') || (s.includes('m') && !s.includes('sec') && !s.includes('s'))) {
+                return Math.round(val * 60);
+            }
+            if (val <= 5 && !s.includes('s') && !s.includes('sec')) {
+                return Math.round(val * 60);
+            }
+            return Math.round(val);
+        }
+
+        function handleSetCheckboxToggle(chkEl, restStr, exName) {
+            saveProgramProgress();
+            if (chkEl && chkEl.checked) {
+                const seconds = parseRestTimeToSeconds(restStr);
+                startRestTimer(seconds, exName);
+            }
+        }
+
+        function playLoudAlarm() {
+            try {
+                const ctx = getAudioContext();
+                if (!ctx) return;
+                const notes = [
+                    { freq: 880,  time: 0.0,  duration: 0.20, type: 'square' },
+                    { freq: 1174, time: 0.22, duration: 0.20, type: 'square' },
+                    { freq: 880,  time: 0.44, duration: 0.20, type: 'square' },
+                    { freq: 1174, time: 0.66, duration: 0.20, type: 'square' },
+                    { freq: 1760, time: 0.90, duration: 0.45, type: 'sawtooth' }
+                ];
+                notes.forEach(note => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = note.type;
+                    osc.frequency.setValueAtTime(note.freq, ctx.currentTime + note.time);
+                    gain.gain.setValueAtTime(0.85, ctx.currentTime + note.time);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + note.time + note.duration);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(ctx.currentTime + note.time);
+                    osc.stop(ctx.currentTime + note.time + note.duration);
+                });
+                if (navigator.vibrate) {
+                    navigator.vibrate([300, 100, 300, 100, 500]);
+                }
+            } catch(e) {
+                console.log('Audio alert error:', e);
+            }
+        }
+
+        function startRestTimer(seconds, exName = '') {
+            getAudioContext();
+            cancelRestTimer();
+
+            restTotalSeconds = seconds || 60;
+            restRemainingSeconds = restTotalSeconds;
+
+            const dock = document.getElementById('floating-rest-dock');
+            if (dock) {
+                dock.classList.remove('hidden');
+                dock.classList.add('timer-active-glow');
+            }
+
+            const progressWrapper = document.getElementById('rest-progress-wrapper');
+            if (progressWrapper) progressWrapper.classList.remove('hidden');
+
+            const statusText = document.getElementById('rest-status-text');
+            if (statusText) {
+                statusText.innerText = exName ? `Resting ${restTotalSeconds}s — ${exName}` : `Resting (${restTotalSeconds}s)...`;
+            }
+
+            const icon = document.getElementById('rest-icon');
+            if (icon) icon.className = 'fa-solid fa-hourglass-half text-hyrox-yellow text-base animate-spin';
+
+            updateRestDisplay();
+            beep(500, 'sine', 0.1);
+
+            restInterval = setInterval(() => {
+                restRemainingSeconds--;
+                updateRestDisplay();
+
+                if (restRemainingSeconds <= 3 && restRemainingSeconds > 0) {
+                    beep(700, 'sine', 0.1);
+                }
+
+                if (restRemainingSeconds <= 0) {
+                    clearInterval(restInterval);
+                    restInterval = null;
+
+                    playLoudAlarm();
+
+                    if (statusText) statusText.innerText = 'REST COMPLETE! BACK TO WORK 💪';
+                    if (icon) icon.className = 'fa-solid fa-bell text-red-500 text-base animate-bounce';
+                    
+                    const clock = document.getElementById('rest-countdown-clock');
+                    if (clock) clock.className = 'text-xl font-black text-red-500 font-mono tracking-wider animate-pulse';
+
+                    setTimeout(() => {
+                        cancelRestTimer();
+                    }, 5000);
+                }
+            }, 1000);
+        }
+
+        function updateRestDisplay() {
+            const mins = Math.floor(Math.max(0, restRemainingSeconds) / 60);
+            const secs = Math.max(0, restRemainingSeconds) % 60;
+            const clock = document.getElementById('rest-countdown-clock');
+            if (clock) {
+                clock.innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            }
+
+            const pct = Math.max(0, (restRemainingSeconds / restTotalSeconds) * 100);
+            const bar = document.getElementById('rest-progress-bar');
+            if (bar) bar.style.width = `${pct}%`;
+        }
+
+        function cancelRestTimer() {
+            if (restInterval) clearInterval(restInterval);
+            restInterval = null;
+
+            const dock = document.getElementById('floating-rest-dock');
+            if (dock) dock.classList.remove('timer-active-glow');
+
+            const progressWrapper = document.getElementById('rest-progress-wrapper');
+            if (progressWrapper) progressWrapper.classList.add('hidden');
+
+            const statusText = document.getElementById('rest-status-text');
+            if (statusText) statusText.innerText = 'Rest Timer';
+
+            const icon = document.getElementById('rest-icon');
+            if (icon) icon.className = 'fa-solid fa-stopwatch text-hyrox-yellow text-base';
+
+            const clock = document.getElementById('rest-countdown-clock');
+            if (clock) {
+                clock.className = 'text-xl font-black text-hyrox-yellow font-mono tracking-wider';
+                clock.innerText = '00:00';
+            }
+        }
+
         // Coach Live Timer Variables
         let coachTimerInterval = null;
         let coachStartTime = 0;
@@ -2117,7 +2266,7 @@
                     setsHtml += `
                         <div class="flex items-center bg-black/60 border border-gray-800 rounded-lg p-1.5 gap-2 flex-none w-[200px] sm:w-[220px]">
                             <label class="cursor-pointer inline-flex items-center select-none">
-                                <input type="checkbox" id="${chkId}" ${isChecked} onchange="saveProgramProgress()" class="set-checkbox hidden">
+                                <input type="checkbox" id="${chkId}" ${isChecked} onchange="handleSetCheckboxToggle(this, '${ex.rest || ''}', '${(ex.name || '').replace(/'/g, "\\'")}')" class="set-checkbox hidden">
                                 <span class="set-badge px-2.5 py-1 rounded bg-gray-800 text-gray-300 border border-gray-700 text-xs font-bold transition flex items-center gap-1">
                                     S${s}<i class="fa-solid fa-check text-[10px] hidden check-icon"></i>
                                 </span>
@@ -2369,62 +2518,7 @@
             setTimeout(() => beep(1200, 'triangle', 0.4), 360);
         }
 
-        function startRestTimer(seconds) {
-            getAudioContext();
-            cancelRestTimer();
-
-            restTotalSeconds = seconds;
-            restRemainingSeconds = seconds;
-
-            document.getElementById('rest-buttons-container').classList.add('hidden');
-            document.getElementById('rest-display-container').classList.remove('hidden');
-            document.getElementById('rest-display-container').classList.add('flex');
-            document.getElementById('rest-progress-wrapper').classList.remove('hidden');
-            document.getElementById('floating-rest-dock').classList.add('timer-active-glow');
-            document.getElementById('rest-status-text').innerText = "Resting...";
-            document.getElementById('rest-icon').className = "fa-solid fa-hourglass-half text-hyrox-yellow text-lg animate-spin";
-
-            updateRestDisplay();
-            beep(500, 'sine', 0.1);
-
-            restInterval = setInterval(() => {
-                restRemainingSeconds--;
-                updateRestDisplay();
-
-                if (restRemainingSeconds <= 3 && restRemainingSeconds > 0) {
-                    beep(700, 'sine', 0.1);
-                }
-
-                if (restRemainingSeconds <= 0) {
-                    clearInterval(restInterval);
-                    playCompletionBeeps();
-                    cancelRestTimer();
-                }
-            }, 1000);
-        }
-
-        function updateRestDisplay() {
-            const mins = Math.floor(restRemainingSeconds / 60);
-            const secs = restRemainingSeconds % 60;
-            document.getElementById('rest-countdown-clock').innerText = 
-                `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-
-            const pct = (restRemainingSeconds / restTotalSeconds) * 100;
-            document.getElementById('rest-progress-bar').style.width = `${pct}%`;
-        }
-
-        function cancelRestTimer() {
-            if (restInterval) clearInterval(restInterval);
-            restInterval = null;
-
-            document.getElementById('rest-buttons-container').classList.remove('hidden');
-            document.getElementById('rest-display-container').classList.add('hidden');
-            document.getElementById('rest-display-container').classList.remove('flex');
-            document.getElementById('rest-progress-wrapper').classList.add('hidden');
-            document.getElementById('floating-rest-dock').classList.remove('timer-active-glow');
-            document.getElementById('rest-status-text').innerText = "Rest Timer";
-            document.getElementById('rest-icon').className = "fa-solid fa-stopwatch text-hyrox-yellow text-lg";
-        }
+        
 
         // RACE SIMULATOR CALCULATOR ENGINE
         function buildSimulatorSegments() {
@@ -3064,5 +3158,30 @@
 
         window.onload = initApp;
     </script>
+    <!-- Floating Quick Rest Dock -->
+    <div id="floating-rest-dock" class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-lg bg-[#1E1E1E]/95 backdrop-blur-md border border-hyrox-yellow/40 rounded-2xl p-3.5 shadow-2xl space-y-2">
+        <div class="flex items-center justify-between px-1">
+            <div class="flex items-center gap-2">
+                <i id="rest-icon" class="fa-solid fa-stopwatch text-hyrox-yellow text-base"></i>
+                <span id="rest-status-text" class="text-xs font-extrabold text-white uppercase tracking-wider">Rest Timer</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span id="rest-countdown-clock" class="text-xl font-black text-hyrox-yellow font-mono tracking-wider">00:00</span>
+                <button onclick="cancelRestTimer()" class="text-[11px] text-gray-400 hover:text-white px-2.5 py-1 rounded bg-zinc-800 border border-gray-700 font-bold transition">Cancel</button>
+            </div>
+        </div>
+
+        <div id="rest-progress-wrapper" class="w-full bg-black rounded-full h-2 overflow-hidden border border-gray-800 hidden">
+            <div id="rest-progress-bar" class="bg-hyrox-yellow h-2 rounded-full transition-all duration-300" style="width: 100%"></div>
+        </div>
+
+        <div id="rest-buttons-container" class="flex items-center gap-1.5 text-xs font-bold pt-0.5">
+            <button onclick="startRestTimer(30)" class="flex-1 bg-black/60 hover:bg-hyrox-yellow hover:text-black border border-gray-700 text-gray-200 py-1.5 rounded-lg transition text-center">30s</button>
+            <button onclick="startRestTimer(60)" class="flex-1 bg-black/60 hover:bg-hyrox-yellow hover:text-black border border-gray-700 text-gray-200 py-1.5 rounded-lg transition text-center">60s</button>
+            <button onclick="startRestTimer(90)" class="flex-1 bg-black/60 hover:bg-hyrox-yellow hover:text-black border border-gray-700 text-gray-200 py-1.5 rounded-lg transition text-center">90s</button>
+            <button onclick="startRestTimer(120)" class="flex-1 bg-black/60 hover:bg-hyrox-yellow hover:text-black border border-gray-700 text-gray-200 py-1.5 rounded-lg transition text-center">2m</button>
+            <button onclick="startRestTimer(180)" class="flex-1 bg-black/60 hover:bg-hyrox-yellow hover:text-black border border-gray-700 text-gray-200 py-1.5 rounded-lg transition text-center">3m</button>
+        </div>
+    </div>
 </body>
 </html>
